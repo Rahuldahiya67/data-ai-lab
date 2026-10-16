@@ -68,8 +68,12 @@ class ValidationResult:
 
 def _parse(series: pd.Series, spec: ColumnSpec) -> pd.Series:
     """Convert raw string values to the contract type; unparseable values become NA."""
-    if spec.type in {"int", "float"}:
+    if spec.type == "float":
         return pd.to_numeric(series, errors="coerce")
+    if spec.type == "int":
+        # Whole numbers only; "3.0" is accepted because exports often write ints that way.
+        numbers = pd.to_numeric(series, errors="coerce")
+        return numbers.where(numbers % 1 == 0)
     if spec.type == "datetime":
         return pd.to_datetime(series, format=spec.format, errors="coerce")
     return series

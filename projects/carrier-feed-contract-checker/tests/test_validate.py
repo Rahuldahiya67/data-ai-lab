@@ -132,3 +132,20 @@ def test_default_read_csv_gives_same_split_as_read_feed(contract, tmp_path):
     loose = validate_frame(pd.read_csv(path), contract)
     assert set(loose.quarantined.index) == set(strict.quarantined.index)
     assert loose.violation_counts() == strict.violation_counts()
+
+
+@pytest.mark.parametrize(
+    "value, ok",
+    [("3", True), ("-2", True), ("3.0", True), ("3.5", False), ("0.1", False), ("three", False)],
+)
+def test_int_column_accepts_only_whole_numbers(value, ok):
+    contract = parse_contract({"columns": {"parcels": {"type": "int"}}})
+    result = validate_frame(pd.DataFrame({"parcels": [value]}), contract)
+    assert (len(result.accepted) == 1) is ok
+    if not ok:
+        assert result.quarantined.loc[0, "_violations"] == "parcels.type_int"
+
+
+def test_float_column_still_accepts_decimals():
+    contract = parse_contract({"columns": {"w": {"type": "float"}}})
+    assert len(validate_frame(pd.DataFrame({"w": ["3.5"]}), contract).accepted) == 1
