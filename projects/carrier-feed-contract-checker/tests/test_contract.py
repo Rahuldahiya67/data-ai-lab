@@ -39,10 +39,23 @@ def test_minimal_contract_parses():
         (lambda r: r.update(rules=[{"name": "x", "type": "required_if", "column": "a"}]), "missing"),
         (lambda r: r.update(rules=[{"name": "x", "type": "sql"}]), "unsupported type"),
         (lambda r: r.update(feed={"max_reject_rate": 2}), "between 0 and 1"),
+        (lambda r: r["columns"]["a"].update(regex="[A-"), "invalid regex"),
+        (lambda r: r["columns"]["b"].update(min=10, max=1), "greater than max"),
+        (lambda r: r["columns"]["b"].update(max="lots"), "must be a number"),
+        (lambda r: r["columns"]["a"].update(allowed="ABC"), "non-empty list"),
+        (lambda r: r["columns"]["a"].update(allowed=[]), "non-empty list"),
+        (lambda r: r["columns"]["a"].update(format="%Y"), "only applies to datetime"),
     ],
 )
 def test_malformed_contracts_rejected(mutate, message):
     raw = base()
     mutate(raw)
     with pytest.raises(ContractError, match=message):
+        parse_contract(raw)
+
+
+def test_column_errors_name_the_column():
+    raw = base()
+    raw["columns"]["a"]["regex"] = "("
+    with pytest.raises(ContractError, match="column 'a'"):
         parse_contract(raw)

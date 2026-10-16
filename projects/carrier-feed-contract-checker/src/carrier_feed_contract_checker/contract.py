@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -63,8 +64,25 @@ def _column(name: str, raw: dict[str, Any]) -> ColumnSpec:
         raise ContractError(f"column '{name}' has unsupported type '{spec.type}'")
     if (spec.min is not None or spec.max is not None) and spec.type not in {"int", "float"}:
         raise ContractError(f"column '{name}': min/max only apply to numeric columns")
+    for bound in ("min", "max"):
+        value = getattr(spec, bound)
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))):
+            raise ContractError(f"column '{name}': {bound} must be a number, got {value!r}")
+    if spec.min is not None and spec.max is not None and spec.min > spec.max:
+        raise ContractError(f"column '{name}': min ({spec.min}) is greater than max ({spec.max})")
     if spec.allowed is not None:
+        if not isinstance(spec.allowed, list) or not spec.allowed:
+            raise ContractError(f"column '{name}': allowed must be a non-empty list")
         spec.allowed = [str(v) for v in spec.allowed]
+    if spec.regex is not None:
+        if not isinstance(spec.regex, str):
+            raise ContractError(f"column '{name}': regex must be a string")
+        try:
+            re.compile(spec.regex)
+        except re.error as exc:
+            raise ContractError(f"column '{name}' has an invalid regex: {exc}") from None
+    if spec.format is not None and spec.type != "datetime":
+        raise ContractError(f"column '{name}': format only applies to datetime columns")
     return spec
 
 
