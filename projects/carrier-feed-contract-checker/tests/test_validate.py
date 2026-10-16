@@ -105,3 +105,30 @@ def test_violation_counts_sorted_descending(contract):
     df = generate_feed(FeedSpec(rows=1500, seed=3)).drop(columns="_defect")
     counts = list(validate_frame(df, contract).violation_counts().values())
     assert counts == sorted(counts, reverse=True)
+
+
+@pytest.mark.parametrize("missing", [None, float("nan"), pd.NA])
+def test_missing_value_in_required_column_is_quarantined(contract, make_frame, missing):
+    df = make_frame({}, {})
+    df["origin_city"] = df["origin_city"].astype(object)
+    df.loc[1, "origin_city"] = missing
+    result = validate_frame(df, contract)
+    assert list(result.accepted.index) == [0]
+    assert rules_for(result, row=1) == {"origin_city.required"}
+
+
+def test_missing_optional_datetime_is_not_a_type_error(contract, make_frame):
+    df = make_frame({"status": "IN_TRANSIT"}, {"status": "DELIVERED"})
+    df["delivered_at"] = None
+    result = validate_frame(df, contract)
+    assert list(result.accepted.index) == [0]
+    assert rules_for(result, row=1) == {"delivered_needs_timestamp"}
+
+
+def test_default_read_csv_gives_same_split_as_read_feed(contract, tmp_path):
+    path = tmp_path / "feed.csv"
+    write_feed(str(path), FeedSpec(rows=1000, defect_rate=0.08, seed=5))
+    strict = validate_file(path, contract)
+    loose = validate_frame(pd.read_csv(path), contract)
+    assert set(loose.quarantined.index) == set(strict.quarantined.index)
+    assert loose.violation_counts() == strict.violation_counts()

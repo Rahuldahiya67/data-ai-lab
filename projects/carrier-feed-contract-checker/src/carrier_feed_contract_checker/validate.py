@@ -117,8 +117,15 @@ def _check_rule(df: pd.DataFrame, parsed: dict[str, pd.Series], rule: RuleSpec) 
 
 
 def validate_frame(df: pd.DataFrame, contract: Contract) -> ValidationResult:
-    """Validate a DataFrame of raw string values against ``contract``."""
-    df = df.reset_index(drop=True).astype(str)
+    """Validate a DataFrame of raw values against ``contract``.
+
+    Values are compared as strings. Missing values (NaN, None, pd.NA, NaT) are
+    turned into empty strings first, so a frame from ``pd.read_csv`` with default
+    settings, a database query or hand-built code is checked the same way as one
+    from :func:`read_feed`.
+    """
+    df = df.reset_index(drop=True)
+    df = df.astype(object).where(df.notna(), "").astype(str)
     checks: list[FeedCheck] = []
 
     missing = [c for c in contract.columns if c not in df.columns]
