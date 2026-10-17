@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from carrier_feed_contract_checker.contract import parse_contract
-from carrier_feed_contract_checker.generate import FeedSpec, generate_feed, write_feed
+from carrier_feed_contract_checker.generate import GeneratorSpec, generate_feed, write_feed
 from carrier_feed_contract_checker.validate import validate_file, validate_frame
 
 
@@ -94,7 +94,7 @@ def test_feed_fails_below_min_rows(contract, make_frame):
 def test_matches_ground_truth_on_synthetic_feed(contract, tmp_path):
     """Every injected defect is caught and no clean row is rejected."""
     path = tmp_path / "feed.csv"
-    labelled = write_feed(str(path), FeedSpec(rows=3000, defect_rate=0.08, seed=11))
+    labelled = write_feed(str(path), GeneratorSpec(rows=3000, defect_rate=0.08, seed=11))
     result = validate_file(path, contract)
     truth = set(labelled.index[labelled["_defect"] != ""])
     assert set(result.quarantined.index) == truth
@@ -102,7 +102,7 @@ def test_matches_ground_truth_on_synthetic_feed(contract, tmp_path):
 
 
 def test_violation_counts_sorted_descending(contract):
-    df = generate_feed(FeedSpec(rows=1500, seed=3)).drop(columns="_defect")
+    df = generate_feed(GeneratorSpec(rows=1500, seed=3)).drop(columns="_defect")
     counts = list(validate_frame(df, contract).violation_counts().values())
     assert counts == sorted(counts, reverse=True)
 
@@ -127,7 +127,7 @@ def test_missing_optional_datetime_is_not_a_type_error(contract, make_frame):
 
 def test_default_read_csv_gives_same_split_as_read_feed(contract, tmp_path):
     path = tmp_path / "feed.csv"
-    write_feed(str(path), FeedSpec(rows=1000, defect_rate=0.08, seed=5))
+    write_feed(str(path), GeneratorSpec(rows=1000, defect_rate=0.08, seed=5))
     strict = validate_file(path, contract)
     loose = validate_frame(pd.read_csv(path), contract)
     assert set(loose.quarantined.index) == set(strict.quarantined.index)

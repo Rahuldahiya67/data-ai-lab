@@ -14,7 +14,7 @@ from pathlib import Path
 import yaml
 
 from .contract import ContractError, load_contract
-from .generate import FeedSpec, write_feed
+from .generate import GeneratorSpec, write_feed
 from .report import build_report, render_markdown
 from .validate import validate_file
 
@@ -22,7 +22,7 @@ EXIT_PASS, EXIT_FAIL, EXIT_ERROR = 0, 1, 2
 
 
 def _generate(args: argparse.Namespace) -> int:
-    spec = FeedSpec(rows=args.rows, defect_rate=args.defect_rate, seed=args.seed)
+    spec = GeneratorSpec(rows=args.rows, defect_rate=args.defect_rate, seed=args.seed)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     df = write_feed(args.out, spec, keep_labels=args.keep_labels)
     defects = int((df["_defect"] != "").sum())

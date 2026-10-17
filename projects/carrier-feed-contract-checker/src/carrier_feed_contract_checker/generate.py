@@ -32,7 +32,7 @@ DEFECT_TYPES = [
 
 
 @dataclass
-class FeedSpec:
+class GeneratorSpec:
     """Settings for one synthetic feed."""
 
     rows: int = 1000
@@ -88,9 +88,9 @@ def _inject(rng: random.Random, row: dict, defect: str, previous_ids: list[str])
     return row
 
 
-def generate_feed(spec: FeedSpec | None = None) -> pd.DataFrame:
+def generate_feed(spec: GeneratorSpec | None = None) -> pd.DataFrame:
     """Return a synthetic feed as a DataFrame, including the ``_defect`` label."""
-    spec = spec or FeedSpec()
+    spec = spec or GeneratorSpec()
     if spec.rows < 1:
         raise ValueError("rows must be at least 1")
     if not 0.0 <= spec.defect_rate <= 1.0:
@@ -110,7 +110,7 @@ def generate_feed(spec: FeedSpec | None = None) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def write_feed(path: str, spec: FeedSpec | None = None, keep_labels: bool = False) -> pd.DataFrame:
+def write_feed(path: str, spec: GeneratorSpec | None = None, keep_labels: bool = False) -> pd.DataFrame:
     """Generate a feed and write it to ``path`` as CSV. Returns the full frame."""
     df = generate_feed(spec)
     out = df if keep_labels else df.drop(columns=["_defect"])
