@@ -9,6 +9,7 @@ Main portfolio: [rahuldahiya67.github.io](https://rahuldahiya67.github.io)
 <!-- PROJECT-INDEX:START -->
 | Project | What it shows | Stack | Completed |
 |---|---|---|---|
+| [Carrier Feed Contract Checker](projects/carrier-feed-contract-checker) | Validates carrier shipment feeds against a YAML data contract, quarantines bad rows and gates the load on reject rate | Python, pandas, PyYAML | 17 Oct 2026 |
 <!-- PROJECT-INDEX:END -->
 
 ## How every project is laid out
