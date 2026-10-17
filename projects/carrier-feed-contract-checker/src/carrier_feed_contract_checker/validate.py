@@ -79,8 +79,12 @@ def _parse(series: pd.Series, spec: ColumnSpec) -> pd.Series:
     return series
 
 
-def _check_column(raw: pd.Series, spec: ColumnSpec) -> dict[str, pd.Series]:
-    """Return {rule_name: boolean mask of failing rows} for one column."""
+def _check_column(raw: pd.Series, parsed: pd.Series, spec: ColumnSpec) -> dict[str, pd.Series]:
+    """Return {rule_name: boolean mask of failing rows} for one column.
+
+    ``parsed`` is ``raw`` already converted with :func:`_parse`; it is passed in so
+    each column is parsed once and shared with the cross-column rules.
+    """
     failures: dict[str, pd.Series] = {}
     blank = raw.str.strip() == ""
     present = ~blank
@@ -88,7 +92,6 @@ def _check_column(raw: pd.Series, spec: ColumnSpec) -> dict[str, pd.Series]:
     if spec.required:
         failures[f"{spec.name}.required"] = blank
 
-    parsed = _parse(raw, spec)
     if spec.type != "string":
         failures[f"{spec.name}.type_{spec.type}"] = present & parsed.isna()
 
@@ -156,7 +159,7 @@ def validate_frame(df: pd.DataFrame, contract: Contract) -> ValidationResult:
     parsed: dict[str, pd.Series] = {}
     for name, spec in contract.columns.items():
         parsed[name] = _parse(df[name], spec)
-        for rule_name, mask in _check_column(df[name], spec).items():
+        for rule_name, mask in _check_column(df[name], parsed[name], spec).items():
             masks[rule_name] = mask.fillna(False).astype(bool)
             rule_column[rule_name] = name
     for rule in contract.rules:

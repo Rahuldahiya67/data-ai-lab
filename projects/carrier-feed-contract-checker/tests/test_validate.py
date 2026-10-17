@@ -149,3 +149,18 @@ def test_int_column_accepts_only_whole_numbers(value, ok):
 def test_float_column_still_accepts_decimals():
     contract = parse_contract({"columns": {"w": {"type": "float"}}})
     assert len(validate_frame(pd.DataFrame({"w": ["3.5"]}), contract).accepted) == 1
+
+
+def test_each_column_is_parsed_once(contract, make_frame, monkeypatch):
+    from carrier_feed_contract_checker import validate
+
+    calls = []
+    real_parse = validate._parse
+
+    def counting_parse(series, spec):
+        calls.append(spec.name)
+        return real_parse(series, spec)
+
+    monkeypatch.setattr(validate, "_parse", counting_parse)
+    validate_frame(make_frame({}, {"weight_kg": "-1"}), contract)
+    assert sorted(calls) == sorted(contract.columns)
