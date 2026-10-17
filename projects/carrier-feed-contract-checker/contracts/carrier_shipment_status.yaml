@@ -1,0 +1,58 @@
+# Data contract for the daily shipment status feed every carrier sends.
+name: carrier_shipment_status
+version: 1
+owner: logistics-analytics
+
+columns:
+  tracking_id:
+    type: string
+    required: true
+    regex: '^[A-Z]{3}\d{8}$'
+    unique: true
+  carrier:
+    type: string
+    required: true
+    allowed: [BLUEDART, DELHIVERY, GATI, SAFEXPRESS, VRL]
+  origin_city:
+    type: string
+    required: true
+  destination_city:
+    type: string
+    required: true
+  status:
+    type: string
+    required: true
+    allowed: [PICKED_UP, IN_TRANSIT, OUT_FOR_DELIVERY, DELIVERED, RTO]
+  weight_kg:
+    type: float
+    required: true
+    min: 0.01
+    max: 5000
+  freight_charge_inr:
+    type: float
+    required: true
+    min: 0
+  picked_up_at:
+    type: datetime
+    required: true
+    format: '%Y-%m-%d %H:%M:%S'
+  delivered_at:
+    type: datetime
+    required: false
+    format: '%Y-%m-%d %H:%M:%S'
+
+rules:
+  - name: delivered_after_pickup
+    type: compare
+    left: delivered_at
+    op: '>='
+    right: picked_up_at
+  - name: delivered_needs_timestamp
+    type: required_if
+    column: delivered_at
+    when_column: status
+    equals: DELIVERED
+
+feed:
+  min_rows: 100
+  max_reject_rate: 0.10
