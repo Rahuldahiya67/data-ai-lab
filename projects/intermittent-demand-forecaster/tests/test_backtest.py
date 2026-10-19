@@ -31,6 +31,7 @@ def test_score_by_hand():
     actual = np.array([2, 0.0])
     forecast = np.array([1, 1.0])  # errors -1, +1
     s = score(actual, forecast, train)
+    assert s["rmse"] == pytest.approx(1.0)
     assert s["mase"] == pytest.approx(0.5)
     assert s["rmsse"] == pytest.approx(0.5)
     assert s["bias"] == pytest.approx(0.0)
@@ -44,7 +45,7 @@ def test_score_flat_training_gives_nan():
 def test_backtest_shape(demand):
     results = backtest(demand, holdout=20)
     assert len(results) == demand["sku"].nunique() * len(METHODS)
-    assert set(results.columns) == {"sku", "demand_class", "method", "mase", "rmsse", "bias"}
+    assert set(results.columns) == {"sku", "demand_class", "method", "rmse", "mase", "rmsse", "bias"}
 
 
 def test_select_best_one_row_per_sku_with_min_metric(demand):

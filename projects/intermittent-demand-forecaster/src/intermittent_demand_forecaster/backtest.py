@@ -5,6 +5,7 @@ forecast for week t only sees weeks before t. Errors are scaled by the
 in-sample one-step naive error of the training part, so they can be compared
 across SKUs with very different volumes.
 
+    RMSE   root mean squared error in units (used for safety stock)
     MASE   mean absolute error / mean absolute naive error (training part)
     RMSSE  root mean squared error / root mean squared naive error
     bias   mean (forecast - actual) / mean training demand
@@ -48,7 +49,7 @@ def rolling_forecasts(y: np.ndarray, method: str, holdout: int) -> np.ndarray:
 
 
 def score(actual: np.ndarray, forecast: np.ndarray, train: np.ndarray) -> dict[str, float]:
-    """Scaled error metrics. Scales of zero (flat training data) give NaN."""
+    """Error metrics. Scaled ones are NaN when the scale is zero (flat training data)."""
     err = forecast - actual
     naive_err = np.diff(train)
     mae_scale = np.abs(naive_err).mean() if len(naive_err) else 0.0
@@ -59,6 +60,7 @@ def score(actual: np.ndarray, forecast: np.ndarray, train: np.ndarray) -> dict[s
         return float(num / den) if den > 0 else float("nan")
 
     return {
+        "rmse": float(np.sqrt((err**2).mean())),
         "mase": ratio(np.abs(err).mean(), mae_scale),
         "rmsse": ratio(np.sqrt((err**2).mean()), np.sqrt(mse_scale)),
         "bias": ratio(err.mean(), level),
@@ -104,7 +106,7 @@ def backtest(
             f"weeks of history: {', '.join(too_short)}",
             stacklevel=2,
         )
-    columns = ["sku", "demand_class", "method", "mase", "rmsse", "bias"]
+    columns = ["sku", "demand_class", "method", "rmse", "mase", "rmsse", "bias"]
     return pd.DataFrame(rows, columns=columns)
 
 
