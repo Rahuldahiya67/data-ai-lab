@@ -65,3 +65,52 @@ def test_intermittent_methods_beat_naive_on_sparse_skus():
     for cls in ("intermittent", "lumpy"):
         assert table.loc[cls, "sba"] < table.loc[cls, "naive"]
         assert table.loc[cls, "tsb"] < table.loc[cls, "naive"]
+
+
+def _two_sku_frame(dead_train: list[int]) -> "pd.DataFrame":
+    import pandas as pd
+
+    weeks = pd.date_range("2024-01-01", periods=30, freq="W-MON")
+    rng = np.random.default_rng(0)
+    return pd.DataFrame(
+        {
+            "sku": ["A"] * 30 + ["B"] * 30,
+            "week": list(weeks) * 2,
+            "demand": dead_train + list(rng.integers(0, 5, 30)),
+        }
+    )
+
+
+@pytest.mark.parametrize(
+    "a_demand",
+    [
+        [0] * 25 + [1, 0, 2, 0, 0],  # no demand until the holdout (#8)
+        [3] * 25 + [1, 0, 2, 0, 0],  # constant training demand, naive scale 0
+    ],
+)
+def test_select_best_falls_back_when_no_method_can_be_scored(a_demand):
+    from intermittent_demand_forecaster.backtest import FALLBACK_METHOD
+
+    results = backtest(_two_sku_frame(a_demand), holdout=5)
+    best = select_best(results).set_index("sku")
+    assert list(best.index) == ["A", "B"]
+    assert best.loc["A", "method"] == FALLBACK_METHOD
+    assert best.loc["A", "selected_by"] == "fallback"
+    assert best.loc["B", "selected_by"] == "metric"
+
+
+def test_backtest_skips_short_skus_with_warning(demand):
+    import pandas as pd
+
+    short = pd.DataFrame(
+        {
+            "sku": ["NEW-1"] * 3,
+            "week": pd.date_range("2025-06-02", periods=3, freq="W-MON"),
+            "demand": [0, 1, 0],
+        }
+    )
+    df = pd.concat([demand.drop(columns="pattern"), short], ignore_index=True)
+    with pytest.warns(UserWarning, match="NEW-1"):
+        results = backtest(df, holdout=20)
+    assert "NEW-1" not in set(results["sku"])
+    assert results["sku"].nunique() == demand["sku"].nunique()
