@@ -25,6 +25,7 @@ import pandas as pd
 
 from .classify import classify_series
 from .methods import METHODS
+from .prepare import prepare_demand
 
 SELECTION_METRIC = "rmsse"
 # Used when no method can be scored for a SKU (no demand or constant demand in
@@ -71,7 +72,8 @@ def backtest(
 ) -> pd.DataFrame:
     """Score every method on every SKU.
 
-    ``df`` is long format with columns sku, week, demand. Returns one row per
+    ``df`` is long format with columns sku, week, demand; it goes through
+    :func:`prepare_demand` first, so weeks without rows count as zero. Returns one row per
     (sku, method) with the demand class (computed on the training part only,
     so the holdout does not leak into it) and the metrics from :func:`score`.
 
@@ -83,7 +85,7 @@ def backtest(
     methods = list(methods) if methods is not None else list(METHODS)
     rows = []
     too_short = []
-    for sku, group in df.sort_values("week").groupby("sku", sort=True):
+    for sku, group in prepare_demand(df).groupby("sku", sort=True):
         y = group["demand"].to_numpy(dtype=float)
         if len(y) < holdout + MIN_TRAIN_WEEKS:
             too_short.append(str(sku))

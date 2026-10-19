@@ -20,6 +20,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
+from .prepare import prepare_demand
+
 ADI_CUTOFF = 1.32
 CV2_CUTOFF = 0.49
 
@@ -37,7 +39,8 @@ def classify_series(demand: np.ndarray | pd.Series) -> DemandStats:
     """Compute ADI, CV2 and the demand class for one SKU's history.
 
     A history with no demand at all is classed as ``no_demand``. With a single
-    demand period CV2 is 0 (there is no variation to measure yet).
+    demand period CV2 is 0 (there is no variation to measure yet). CV2 uses
+    the population standard deviation (ddof=0) of the non-zero sizes.
     """
     y = np.asarray(demand, dtype=float)
     if y.ndim != 1:
@@ -63,9 +66,13 @@ def classify_series(demand: np.ndarray | pd.Series) -> DemandStats:
 
 
 def classify_skus(df: pd.DataFrame) -> pd.DataFrame:
-    """Classify every SKU in a long-format frame with columns sku, week, demand."""
+    """Classify every SKU in a long-format frame with columns sku, week, demand.
+
+    The frame goes through :func:`prepare_demand` first, so weeks without
+    rows count as zero demand.
+    """
     rows = []
-    for sku, group in df.sort_values("week").groupby("sku", sort=True):
+    for sku, group in prepare_demand(df).groupby("sku", sort=True):
         stats = classify_series(group["demand"].to_numpy())
         rows.append(
             {
