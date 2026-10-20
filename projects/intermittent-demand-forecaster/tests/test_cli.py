@@ -23,7 +23,9 @@ def test_generate_backtest_reorder_end_to_end(tmp_path, capsys):
     table = pd.read_csv(report)
     assert len(table) == 8
     assert (table["lead_time_weeks"] == 3).all()
-    assert "service level 90%" in capsys.readouterr().out
+    out = capsys.readouterr().out
+    assert "service level 90%" in out
+    assert "achieved_service" in out
 
 
 def test_bad_input_returns_error_code(tmp_path, capsys):

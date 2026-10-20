@@ -16,7 +16,7 @@ import pandas as pd
 
 from .backtest import backtest, select_best, summarise
 from .generate import generate_demand
-from .reorder import reorder_points
+from .reorder import reorder_points, service_check
 
 
 def _read(path: str) -> pd.DataFrame:
@@ -77,7 +77,16 @@ def cmd_reorder(args) -> int:
         safety_stock=("safety_stock", "sum"),
         reorder_point=("reorder_point", "sum"),
     )
-    print(by_class.round(1).to_string())
+    check = service_check(
+        df, best, lead_time=args.lead_time, service_level=args.service_level, holdout=args.holdout
+    )
+    pooled = check.groupby("demand_class")[["covered", "windows"]].sum()
+    by_class["achieved_service"] = pooled["covered"] / pooled["windows"]
+    print(by_class.round({"lead_time_demand": 1, "safety_stock": 1, "achieved_service": 3}).to_string())
+    print(
+        f"\nachieved_service: share of {args.lead_time}-week windows in the last {args.holdout} weeks "
+        "where demand stayed at or below the reorder point (backtest check)"
+    )
     return 0
 
 
