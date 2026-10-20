@@ -82,3 +82,61 @@ def reorder_points(
             }
         )
     return pd.DataFrame(rows, columns=REPORT_COLUMNS)
+
+
+SERVICE_CHECK_COLUMNS = ["sku", "demand_class", "method", "windows", "covered", "achieved_service"]
+
+
+def service_check(
+    df: pd.DataFrame,
+    best: pd.DataFrame,
+    lead_time: int = 4,
+    service_level: float = 0.95,
+    holdout: int = 26,
+) -> pd.DataFrame:
+    """How often the reorder point would have covered lead-time demand.
+
+    For every origin week t in the last ``holdout`` weeks that still has a
+    full lead time after it, the reorder point is rebuilt from the selected
+    method's forecast on weeks before t (same formula as
+    :func:`reorder_points`) and compared with the actual demand in weeks
+    t .. t + lead_time - 1. ``achieved_service`` is the share of those
+    windows where demand did not exceed the reorder point; compare it with
+    the target ``service_level``.
+
+    The RMSE used for safety stock comes from the same holdout, so this is an
+    optimistic check of the normal approximation, not a clean out-of-sample
+    test. SKUs with no complete window get NaN.
+    """
+    if not isinstance(lead_time, (int, np.integer)) or lead_time < 1:
+        raise ValueError("lead_time must be a whole number of weeks, at least 1")
+    if not 0.5 <= service_level < 1:
+        raise ValueError("service_level must be in [0.5, 1)")
+    if holdout < 1:
+        raise ValueError("holdout must be at least 1")
+    z = NormalDist().inv_cdf(service_level)
+
+    series = {sku: g["demand"].to_numpy() for sku, g in prepare_demand(df).groupby("sku")}
+    rows = []
+    for row in best.itertuples(index=False):
+        if row.sku not in series:
+            raise ValueError(f"no demand data for SKU {row.sku}")
+        y = series[row.sku]
+        safety = z * math.sqrt(lead_time) * row.rmse
+        first = max(len(y) - holdout, 1)
+        windows = covered = 0
+        for t in range(first, len(y) - lead_time + 1):
+            rop = math.ceil(lead_time * METHODS[row.method](y[:t]) + safety - 1e-9)
+            windows += 1
+            covered += int(y[t : t + lead_time].sum() <= rop)
+        rows.append(
+            {
+                "sku": row.sku,
+                "demand_class": row.demand_class,
+                "method": row.method,
+                "windows": windows,
+                "covered": covered,
+                "achieved_service": covered / windows if windows else float("nan"),
+            }
+        )
+    return pd.DataFrame(rows, columns=SERVICE_CHECK_COLUMNS)
