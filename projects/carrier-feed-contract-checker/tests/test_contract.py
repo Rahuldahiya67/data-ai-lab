@@ -45,6 +45,14 @@ def test_minimal_contract_parses():
         (lambda r: r["columns"]["a"].update(allowed="ABC"), "non-empty list"),
         (lambda r: r["columns"]["a"].update(allowed=[]), "non-empty list"),
         (lambda r: r["columns"]["a"].update(format="%Y"), "only applies to datetime"),
+        (lambda r: r.update(rule=[]), "unknown top-level keys"),
+        (lambda r: r.update(columns=["a", "b"]), "columns must be a mapping"),
+        (lambda r: r.update(rules={"name": "x"}), "rules must be a list"),
+        (lambda r: r.update(feed={"max_reject_rates": 0.1}), "feed has unknown keys"),
+        (lambda r: r.update(feed=[0.1]), "feed must be a mapping"),
+        (lambda r: r.update(feed={"min_rows": -5}), "non-negative integer"),
+        (lambda r: r.update(feed={"min_rows": "100"}), "non-negative integer"),
+        (lambda r: r.update(feed={"max_reject_rate": "10%"}), "must be a number"),
     ],
 )
 def test_malformed_contracts_rejected(mutate, message):
@@ -59,3 +67,12 @@ def test_column_errors_name_the_column():
     raw["columns"]["a"]["regex"] = "("
     with pytest.raises(ContractError, match="column 'a'"):
         parse_contract(raw)
+
+
+def test_feed_limits_parse_and_default():
+    raw = base()
+    raw["feed"] = {"min_rows": 50, "max_reject_rate": 0}
+    feed = parse_contract(raw).feed
+    assert feed.min_rows == 50 and feed.max_reject_rate == 0.0
+    raw["feed"] = None
+    assert parse_contract(raw).feed.max_reject_rate == 1.0

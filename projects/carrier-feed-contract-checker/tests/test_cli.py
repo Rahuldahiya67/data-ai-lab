@@ -61,3 +61,14 @@ def test_check_reports_unparseable_yaml(tmp_path, capsys):
     feed.write_text("a\nx\n")
     code = main(["check", str(feed), "--contract", str(contract), "--out-dir", str(tmp_path / "o")])
     assert code == EXIT_ERROR
+
+
+def test_misspelt_feed_limit_is_an_error_not_a_silent_pass(tmp_path, capsys):
+    feed = tmp_path / "feed.csv"
+    main(["generate", "--out", str(feed), "--rows", "200", "--defect-rate", "0.5"])
+    contract = tmp_path / "typo.yaml"
+    text = Path(CONTRACT).read_text().replace("max_reject_rate:", "max_reject_rates:")
+    contract.write_text(text)
+    code = main(["check", str(feed), "--contract", str(contract), "--out-dir", str(tmp_path / "out")])
+    assert code == EXIT_ERROR
+    assert "max_reject_rates" in capsys.readouterr().err
