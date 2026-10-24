@@ -12,6 +12,8 @@ import yaml
 COLUMN_TYPES = {"string", "int", "float", "datetime"}
 COMPARE_OPS = {"<", "<=", ">", ">=", "==", "!="}
 RULE_TYPES = {"compare", "required_if"}
+TOP_LEVEL_KEYS = {"name", "version", "owner", "description", "columns", "rules", "feed"}
+FEED_KEYS = {"min_rows", "max_reject_rate"}
 
 
 class ContractError(ValueError):
@@ -111,27 +113,50 @@ def _rule(raw: dict[str, Any], columns: dict[str, ColumnSpec]) -> RuleSpec:
     return rule
 
 
+def _feed(raw: Any) -> FeedSpec:
+    if raw is None:
+        return FeedSpec()
+    if not isinstance(raw, dict):
+        raise ContractError("feed must be a mapping")
+    unknown = set(raw) - FEED_KEYS
+    if unknown:
+        # A misspelt limit would otherwise fall back to its default and the
+        # reject-rate gate would silently stop rejecting anything.
+        raise ContractError(f"feed has unknown keys: {sorted(unknown)}; expected {sorted(FEED_KEYS)}")
+    min_rows = raw.get("min_rows", 0)
+    if isinstance(min_rows, bool) or not isinstance(min_rows, int) or min_rows < 0:
+        raise ContractError(f"feed.min_rows must be a non-negative integer, got {min_rows!r}")
+    rate = raw.get("max_reject_rate", 1.0)
+    if isinstance(rate, bool) or not isinstance(rate, (int, float)):
+        raise ContractError(f"feed.max_reject_rate must be a number, got {rate!r}")
+    if not 0.0 <= rate <= 1.0:
+        raise ContractError("feed.max_reject_rate must be between 0 and 1")
+    return FeedSpec(min_rows=min_rows, max_reject_rate=float(rate))
+
+
 def parse_contract(raw: dict[str, Any]) -> Contract:
     """Build a :class:`Contract` from an already-loaded mapping."""
     if not isinstance(raw, dict):
         raise ContractError("contract must be a mapping")
+    unknown = set(raw) - TOP_LEVEL_KEYS
+    if unknown:
+        # e.g. "rule:" instead of "rules:" would otherwise drop every rule.
+        raise ContractError(f"contract has unknown top-level keys: {sorted(unknown)}")
     if not raw.get("columns"):
         raise ContractError("contract must define at least one column")
+    if not isinstance(raw["columns"], dict):
+        raise ContractError("columns must be a mapping of column name to spec")
     columns = {name: _column(name, spec or {}) for name, spec in raw["columns"].items()}
-    rules = [_rule(r, columns) for r in raw.get("rules") or []]
-    feed_raw = raw.get("feed") or {}
-    feed = FeedSpec(
-        min_rows=int(feed_raw.get("min_rows", 0)),
-        max_reject_rate=float(feed_raw.get("max_reject_rate", 1.0)),
-    )
-    if not 0.0 <= feed.max_reject_rate <= 1.0:
-        raise ContractError("feed.max_reject_rate must be between 0 and 1")
+    raw_rules = raw.get("rules") or []
+    if not isinstance(raw_rules, list):
+        raise ContractError("rules must be a list")
+    rules = [_rule(r, columns) for r in raw_rules]
     return Contract(
         name=str(raw.get("name", "unnamed")),
         version=int(raw.get("version", 1)),
         columns=columns,
         rules=rules,
-        feed=feed,
+        feed=_feed(raw.get("feed")),
     )
 
 
