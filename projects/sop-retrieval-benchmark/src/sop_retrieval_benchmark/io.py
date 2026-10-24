@@ -110,3 +110,15 @@ def load_questions(path: str | Path, documents: list[Document] | None = None) ->
                 )
         out.append(Question(**{f: row[f] for f in QUESTION_FIELDS}))
     return out
+
+
+def write_benchmark(out_dir: str | Path, seed: int = 7) -> tuple[Path, Path]:
+    """Generate the corpus and questions and write them to ``out_dir``."""
+    from .generate import generate
+
+    docs, questions = generate(seed=seed)
+    out = Path(out_dir)
+    docs_path, q_path = out / "sop_documents.jsonl", out / "questions.jsonl"
+    write_jsonl(docs_path, (d.to_dict() for d in docs))
+    write_jsonl(q_path, (q.to_dict() for q in questions))
+    return docs_path, q_path

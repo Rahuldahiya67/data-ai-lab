@@ -77,3 +77,16 @@ def test_bad_style_and_empty_file(files, tmp_path):
 def test_missing_file(tmp_path):
     with pytest.raises(FileNotFoundError):
         load_documents(tmp_path / "nope.jsonl")
+
+
+def test_committed_sample_data_matches_generator(tmp_path):
+    from pathlib import Path
+
+    from sop_retrieval_benchmark.io import write_benchmark
+
+    data = Path(__file__).resolve().parents[1] / "data"
+    fresh_docs, fresh_q = write_benchmark(tmp_path, seed=7)
+    assert (data / "sop_documents.jsonl").read_text() == fresh_docs.read_text()
+    assert (data / "questions.jsonl").read_text() == fresh_q.read_text()
+    # and the committed files pass validation together
+    load_questions(data / "questions.jsonl", load_documents(data / "sop_documents.jsonl"))

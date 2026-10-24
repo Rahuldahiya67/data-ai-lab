@@ -95,7 +95,7 @@ TOPICS: dict[str, dict] = {
                 "Temperature range",
                 "Chilled pharmaceutical pallets at {city} ({code}) must be held between {lo} and {hi} "
                 "degrees Celsius from receipt until dispatch.",
-                "What temperature range must chilled pharmaceutical pallets be held at in {ref}?",
+                "What temperature range must chilled pharmaceutical pallets be held in at {ref}?",
                 "How cold do we keep chilled medicine pallets at {ref}?",
                 "{lo} to {hi} degrees Celsius",
                 {"lo": (2, 3), "hi": (6, 8)},
