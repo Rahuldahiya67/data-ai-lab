@@ -33,6 +33,7 @@ class QuestionResult:
     top_doc_id: str | None
     top_section: str | None
     site_confused: bool
+    depth: int  # how many hits were retrieved; recall is only defined up to here
 
 
 @dataclass(frozen=True)
@@ -65,7 +66,14 @@ def evaluate(retriever: Retriever, questions: Sequence[Question], k: int = 5) ->
         )
         results.append(
             QuestionResult(
-                q.qid, q.style, q.topic, rank, top.doc_id if top else None, top.section if top else None, confused
+                q.qid,
+                q.style,
+                q.topic,
+                rank,
+                top.doc_id if top else None,
+                top.section if top else None,
+                confused,
+                k,
             )
         )
     return results
@@ -74,6 +82,13 @@ def evaluate(retriever: Retriever, questions: Sequence[Question], k: int = 5) ->
 def summarise(results: Sequence[QuestionResult], ks: Sequence[int] = (1, 3, 5)) -> Summary:
     if not results:
         raise ValueError("no results to summarise")
+    depth = min(r.depth for r in results)
+    too_deep = [k for k in ks if k > depth]
+    if too_deep:
+        raise ValueError(
+            f"cannot report recall@{too_deep[0]}: results were retrieved with k={depth}; "
+            f"evaluate with a larger k or pass ks up to {depth}"
+        )
     n = len(results)
     recall = {k: sum(r.rank is not None and r.rank <= k for r in results) / n for k in ks}
     mrr = sum(1 / r.rank for r in results if r.rank) / n

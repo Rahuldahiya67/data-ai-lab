@@ -58,6 +58,16 @@ def test_k_limits_what_counts():
     assert evaluate(r, [_q()], k=2)[0].rank is None
 
 
+def test_summarise_refuses_recall_deeper_than_retrieval():
+    # recall@5 from a top-3 retrieval would silently equal recall@3 (#14).
+    r = FixedRetriever([_c("returns-del-01", "Return window")])
+    res = evaluate(r, [_q()], k=3)
+    assert res[0].depth == 3
+    with pytest.raises(ValueError, match="k=3"):
+        summarise(res)
+    assert summarise(res, ks=(1, 3)).recall == {1: 1.0, 3: 1.0}
+
+
 def test_group_by_style():
     r = FixedRetriever([_c("returns-del-01", "Return window")])
     res = evaluate(r, [_q("q1"), _q("q2", style="paraphrase", section="Grading")])
