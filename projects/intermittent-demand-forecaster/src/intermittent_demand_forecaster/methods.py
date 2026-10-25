@@ -29,9 +29,24 @@ Forecaster = Callable[[np.ndarray], float]
 
 
 def _as_history(history) -> np.ndarray:
+    """Validate a demand history.
+
+    Missing values and negative demand are rejected rather than forecast: with
+    them, Croston and TSB silently treat the value as "no demand" while SES and
+    the moving average return NaN or a pulled-down level, so the methods would
+    no longer be compared on the same data.
+    """
     y = np.asarray(history, dtype=float)
     if y.ndim != 1:
         raise ValueError("history must be one-dimensional")
+    bad = np.flatnonzero(~np.isfinite(y))
+    if len(bad):
+        raise ValueError(f"history has missing or infinite values at position(s) {bad[:5].tolist()}")
+    neg = np.flatnonzero(y < 0)
+    if len(neg):
+        raise ValueError(
+            f"history has negative demand at position(s) {neg[:5].tolist()}; net returns out before forecasting"
+        )
     return y
 
 
@@ -94,7 +109,7 @@ def sba(history, alpha: float = DEFAULT_ALPHA) -> float:
 def tsb(history, alpha: float = DEFAULT_ALPHA, beta: float = DEFAULT_ALPHA) -> float:
     """Teunter-Syntetos-Babai. ``alpha`` smooths size, ``beta`` smooths probability."""
     _check_alpha(alpha)
-    _check_alpha(beta)
+    _check_alpha(beta, "beta")
     y = _as_history(history)
     demand_idx = np.flatnonzero(y > 0)
     if not len(demand_idx):
@@ -110,9 +125,9 @@ def tsb(history, alpha: float = DEFAULT_ALPHA, beta: float = DEFAULT_ALPHA) -> f
     return float(d * z)
 
 
-def _check_alpha(alpha: float) -> None:
-    if not 0 < alpha <= 1:
-        raise ValueError("smoothing parameter must be in (0, 1]")
+def _check_alpha(value: float, name: str = "alpha") -> None:
+    if not 0 < value <= 1:
+        raise ValueError(f"{name} must be in (0, 1], got {value}")
 
 
 METHODS: dict[str, Forecaster] = {
