@@ -18,7 +18,7 @@ def test_demand_is_non_negative_int(demand):
 
 def test_weeks_are_consecutive_mondays(demand):
     weeks = demand.loc[demand["sku"] == "PART-0001", "week"]
-    assert (weeks.dt.dayofweek == 0).all()
+    assert (weeks.dt.day_of_week == 0).all()
     assert (weeks.diff().dropna().dt.days == 7).all()
 
 

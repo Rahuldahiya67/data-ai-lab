@@ -98,7 +98,7 @@ What this says:
 - Safety stock is large compared with lead-time demand for erratic, intermittent and lumpy parts. That is the real cost of variable demand, not a bug.
 - Achieved service is 0.948 on smooth SKUs, almost exactly the 95% target, and 0.930 to 0.939 on the other classes. The normal approximation and the √L step under-cover sparse and erratic demand slightly, and this check is already optimistic because the RMSE comes from the same holdout. For a real store, raising the target a little for those classes, or moving to an empirical quantile of lead-time demand, would be the next step.
 
-Test suite: 69 tests, including hand-computed checks for every smoothing method, a no-lookahead check on the backtest and the service check, and the edge cases found in review (missing weeks, duplicate rows, SKUs that cannot be scored).
+Test suite: 76 tests, including hand-computed checks for every smoothing method, input validation for every method, a no-lookahead check on the backtest and the service check, and the edge cases found in review (missing weeks, duplicate rows, SKUs that cannot be scored).
 
 ## Design decisions
 
