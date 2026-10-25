@@ -39,6 +39,8 @@ class BM25Retriever:
         self._tf: list[Counter[str]] = [Counter(tokenize(c.indexed_text)) for c in chunks]
         self._len = [sum(tf.values()) for tf in self._tf]
         self._avg_len = sum(self._len) / len(self._len)
+        # Length normalisation depends only on the chunk, so compute it once.
+        self._norm = [k1 * (1 - b + b * n_i / self._avg_len) for n_i in self._len]
         df: Counter[str] = Counter()
         for tf in self._tf:
             df.update(tf.keys())
@@ -58,8 +60,7 @@ class BM25Retriever:
                 continue
             for i in self._postings[term]:
                 f = self._tf[i][term]
-                norm = self.k1 * (1 - self.b + self.b * self._len[i] / self._avg_len)
-                scores[i] = scores.get(i, 0.0) + idf * f * (self.k1 + 1) / (f + norm)
+                scores[i] = scores.get(i, 0.0) + idf * f * (self.k1 + 1) / (f + self._norm[i])
         return scores
 
     def search(self, query: str, k: int = 5) -> list[Hit]:
