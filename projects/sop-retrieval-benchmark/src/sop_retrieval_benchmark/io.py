@@ -75,6 +75,7 @@ def load_documents(path: str | Path) -> list[Document]:
         if not isinstance(sections, list) or not sections:
             raise DataValidationError(f"{where}: 'sections' must be a non-empty list")
         parsed = []
+        headings: set[str] = set()
         for i, sec in enumerate(sections):
             if not isinstance(sec, dict) or not isinstance(sec.get("heading"), str) or not isinstance(
                 sec.get("text"), str
@@ -82,6 +83,10 @@ def load_documents(path: str | Path) -> list[Document]:
                 raise DataValidationError(f"{where}: section {i} needs string 'heading' and 'text'")
             if not sec["text"].strip():
                 raise DataValidationError(f"{where}: section {i} ('{sec['heading']}') has empty text")
+            if sec["heading"] in headings:
+                # Gold labels are (doc_id, heading); a repeated heading makes them ambiguous.
+                raise DataValidationError(f"{where}: section {i} repeats heading '{sec['heading']}'")
+            headings.add(sec["heading"])
             parsed.append(Section(sec["heading"], sec["text"]))
         docs.append(Document(row["doc_id"], row["title"], row["topic"], row["site_code"], parsed))
     return docs
@@ -90,7 +95,7 @@ def load_documents(path: str | Path) -> list[Document]:
 def load_questions(path: str | Path, documents: list[Document] | None = None) -> list[Question]:
     """Load questions; if documents are given, check every gold reference exists."""
     path = Path(path)
-    sections_by_doc = {d.doc_id: {s.heading for s in d.sections} for d in documents} if documents else None
+    sections_by_doc = {d.doc_id: {s.heading for s in d.sections} for d in documents} if documents is not None else None
     out: list[Question] = []
     seen: set[str] = set()
     for lineno, row in _read_jsonl(path):

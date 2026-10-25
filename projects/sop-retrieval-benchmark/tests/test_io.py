@@ -90,3 +90,33 @@ def test_committed_sample_data_matches_generator(tmp_path):
     assert (data / "questions.jsonl").read_text() == fresh_q.read_text()
     # and the committed files pass validation together
     load_questions(data / "questions.jsonl", load_documents(data / "sop_documents.jsonl"))
+
+
+def _doc(doc_id, headings):
+    return {
+        "doc_id": doc_id,
+        "title": f"{doc_id} SOP",
+        "topic": "returns",
+        "site_code": "DEL-01",
+        "sections": [{"heading": h, "text": f"{h} text."} for h in headings],
+    }
+
+
+def test_repeated_heading_in_one_document_is_rejected(tmp_path):
+    # Gold matching is by (doc_id, heading), so duplicates make labels ambiguous (#15).
+    p = tmp_path / "d.jsonl"
+    _write(p, [_doc("a", ["Scope", "Exceptions", "Exceptions"])])
+    with pytest.raises(DataValidationError, match=r"d.jsonl:1: section 2 repeats heading 'Exceptions'"):
+        load_documents(p)
+
+
+def test_same_heading_in_different_documents_is_fine(tmp_path):
+    p = tmp_path / "d.jsonl"
+    _write(p, [_doc("a", ["Scope", "Records"]), _doc("b", ["Scope", "Records"])])
+    assert len(load_documents(p)) == 2
+
+
+def test_empty_corpus_still_checks_gold_references(files, tmp_path):
+    _, qp, _, _ = files
+    with pytest.raises(DataValidationError, match="is not in the corpus"):
+        load_questions(qp, documents=[])
