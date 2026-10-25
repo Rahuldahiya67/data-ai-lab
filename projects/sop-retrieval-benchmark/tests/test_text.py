@@ -16,6 +16,13 @@ def test_plural_and_ing_forms_match():
     assert tokenize("loading") == tokenize("load")
 
 
+def test_words_ending_in_ss_keep_their_s():
+    # Singular, plural and -ing forms must reduce to the same token (#13).
+    assert len(set(tokenize("process processes processing"))) == 1
+    assert tokenize("glass") == tokenize("glasses") == ["glass"]
+    assert tokenize("access less") == ["access", "less"]
+
+
 def test_short_words_not_stemmed():
     assert tokenize("gas bus") == ["gas", "bus"]
     assert tokenize("bays") == ["bay"]

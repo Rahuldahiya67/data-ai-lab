@@ -22,6 +22,9 @@ def _stem(token: str) -> str:
     if any(ch.isdigit() for ch in token) or len(token) <= 3:
         return token
     for suffix in ("ing", "ed", "es", "s"):
+        if suffix == "s" and token.endswith("ss"):
+            # "process", "glass", "access": the final s is part of the word.
+            return token
         if token.endswith(suffix) and len(token) - len(suffix) >= 3:
             stem = token[: -len(suffix)]
             if suffix == "es" and not stem.endswith(("s", "x", "z", "ch", "sh")):
