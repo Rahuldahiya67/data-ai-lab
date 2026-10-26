@@ -21,7 +21,7 @@ def test_run_prints_table_with_groups(capsys):
     out = capsys.readouterr().out.splitlines()
     assert out[0].split()[:3] == ["retriever", "group", "n"]
     groups = [line.split()[1] for line in out[2:]]
-    assert groups == ["all", "lexical", "paraphrase"]
+    assert groups == ["all", "heldout", "lexical", "paraphrase"]
 
 
 def test_run_all_writes_json(tmp_path, capsys):
@@ -29,7 +29,7 @@ def test_run_all_writes_json(tmp_path, capsys):
     assert main(["run", "--data", str(SAMPLE), "--all", "--by", "none", "--json", str(out)]) == 0
     rows = json.loads(out.read_text())
     assert [r["retriever"] for r in rows] == ["bm25", "bm25+site", "expanded", "expanded+site"]
-    assert all(r["n"] == 210 and 0 <= r["recall@5"] <= 1 for r in rows)
+    assert all(r["n"] == 315 and 0 <= r["recall@5"] <= 1 for r in rows)
     # Expansion should help overall recall on this question set.
     assert rows[2]["recall@5"] > rows[0]["recall@5"]
 

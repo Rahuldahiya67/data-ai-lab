@@ -14,7 +14,7 @@ from .generate import Document, Question, Section
 
 DOC_FIELDS = ("doc_id", "title", "topic", "site_code", "sections")
 QUESTION_FIELDS = ("qid", "question", "gold_doc_id", "gold_section", "answer", "topic", "site_code", "style")
-QUESTION_STYLES = ("lexical", "paraphrase")
+QUESTION_STYLES = ("lexical", "paraphrase", "heldout")
 
 
 class DataValidationError(ValueError):

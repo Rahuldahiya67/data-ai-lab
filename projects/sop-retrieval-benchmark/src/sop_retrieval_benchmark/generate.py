@@ -60,6 +60,9 @@ class Question:
     # "lexical": shares key terms with the SOP text.
     # "paraphrase": uses different words for the key term (e.g. "refrigerated
     # trailer" for "reefer"), which pure keyword search tends to miss.
+    # "heldout": a second paraphrase per fact, written after the query
+    # expansion glossary was frozen. It measures whether the glossary helps on
+    # wording it was not written for.
     style: str
 
     def to_dict(self) -> dict:
@@ -298,13 +301,45 @@ TOPICS: dict[str, dict] = {
 }
 
 
+# Held-out paraphrases, keyed by (topic, section heading). These were written
+# after ``expand.LOGISTICS_GLOSSARY`` was fixed and must not be used to tune it:
+# their job is to show how much of the expansion gain survives new wording.
+HELDOUT_QUESTIONS: dict[tuple[str, str], str] = {
+    ("cold-chain", "Temperature range"): "What is the allowed storage band for drugs that need refrigeration at {ref}?",
+    ("cold-chain", "Excursion response"): "A logger shows the pallet got too warm; how long before it is blocked at {ref}?",
+    ("cold-chain", "Reefer pre-cooling"): "Before stock goes onto a cold lorry, how long must its unit run first at {ref}?",
+    ("returns", "Return window"): "How long after receiving an order can a client hand it back at {ref}?",
+    ("returns", "Grading"): "How soon must product rejected by shoppers be sorted into quality bands at {ref}?",
+    ("returns", "Refund release"): "In which area does a rejected parcel have to be logged before reimbursement is issued at {ref}?",
+    ("hazmat", "Flammable liquid limits"): "What is the maximum volume of solvent stock allowed in one storage slot at {ref}?",
+    ("hazmat", "Spill kit inspection"): "What is the check cycle for the chemical absorbent kits at {ref}?",
+    ("hazmat", "Segregation distance"): "What separation is required between combustible liquids and peroxides at {ref}?",
+    ("damage-claims", "Filing deadline"): "What is the time limit to report transit damage to the freight company at {ref}?",
+    ("damage-claims", "Photo evidence"): "How many images are required as proof for a damaged delivery at {ref}?",
+    ("damage-claims", "Approval threshold"): "Over what amount does accounts have to approve a claim at {ref}?",
+    ("dock-scheduling", "Booking lead time"): "How much notice does a supplier lorry need to give to get a bay at {ref}?",
+    ("dock-scheduling", "Late arrivals"): "How many minutes behind schedule can a lorry turn up and keep its appointment at {ref}?",
+    ("dock-scheduling", "Detention charges"): "How long can a driver wait at the bay before we are billed for it at {ref}?",
+    ("cycle-counting", "Count frequency"): "How often are our top-selling products counted at {ref}?",
+    ("cycle-counting", "Variance tolerance"): "What gap between counted and recorded quantity forces another count at {ref}?",
+    ("cycle-counting", "Recount owner"): "Which group carries out the second count when a discrepancy is found at {ref}?",
+    ("cross-dock", "Dwell time"): "What is the maximum time pass-through shipments may stay in the building at {ref}?",
+    ("cross-dock", "Heavy pallets"): "Above what load do pallets require a sit-down lift truck at {ref}?",
+    ("cross-dock", "Staging lanes"): "In which lanes do we park pass-through pallets waiting for dispatch at {ref}?",
+}
+
+
 def _site_ref(site: Site, rng: random.Random) -> str:
     """How a question refers to a site; users mix codes and city names."""
     return rng.choice((site.code, site.city, f"the {site.city} warehouse", f"site {site.code}"))
 
 
 def generate(seed: int = 7, sites: tuple[Site, ...] = SITES) -> tuple[list[Document], list[Question]]:
-    """Build the corpus and one lexical plus one paraphrased question per fact."""
+    """Build the corpus and three questions per fact: lexical, paraphrase and heldout.
+
+    Held-out questions are drawn after the others with their own random stream,
+    so adding them did not change any lexical or paraphrase question.
+    """
     if not sites:
         raise ValueError("at least one site is required")
     codes = [s.code for s in sites]
@@ -314,6 +349,7 @@ def generate(seed: int = 7, sites: tuple[Site, ...] = SITES) -> tuple[list[Docum
     rng = random.Random(seed)
     docs: list[Document] = []
     questions: list[Question] = []
+    facts: list[tuple[str, str, Site, str, str]] = []  # topic, heading, site, doc_id, answer
 
     for topic_key, topic in TOPICS.items():
         for site in sites:
@@ -332,6 +368,7 @@ def generate(seed: int = 7, sites: tuple[Site, ...] = SITES) -> tuple[list[Docum
                 fields = {"city": site.city, "code": site.code, **values}
                 doc.sections.append(Section(fact.heading, fact.sentence.format(**fields)))
                 answer = fact.answer.format(**fields)
+                facts.append((topic_key, fact.heading, site, doc_id, answer))
                 for style, template in (("lexical", fact.lexical_q), ("paraphrase", fact.paraphrase_q)):
                     questions.append(
                         Question(
@@ -347,4 +384,20 @@ def generate(seed: int = 7, sites: tuple[Site, ...] = SITES) -> tuple[list[Docum
                     )
             doc.sections.append(Section("Records", _FILLER["records"]))
             docs.append(doc)
+
+    heldout_rng = random.Random(f"heldout-{seed}")
+    for topic_key, heading, site, doc_id, answer in facts:
+        template = HELDOUT_QUESTIONS[(topic_key, heading)]
+        questions.append(
+            Question(
+                qid=f"q{len(questions) + 1:04d}",
+                question=template.format(ref=_site_ref(site, heldout_rng)),
+                gold_doc_id=doc_id,
+                gold_section=heading,
+                answer=answer,
+                topic=topic_key,
+                site_code=site.code,
+                style="heldout",
+            )
+        )
     return docs, questions
