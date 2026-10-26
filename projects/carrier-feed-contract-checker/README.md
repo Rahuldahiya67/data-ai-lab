@@ -79,7 +79,7 @@ That perfect score says the rules cover the defects the generator injects; it do
 
 - **Contract as YAML, not code.** The file is something an analyst and a carrier can read and agree on. Adding a column or tightening a rule is a reviewed change to one file.
 - **Quarantine rows, not the whole file, unless the file is broadly bad.** One wrong row should not hold up 499 good ones, but a feed where a fifth of the rows are broken usually means something upstream changed, and loading the "good" part would hide that.
-- **Strings first.** Reading everything as text and parsing per the contract means `"12.5kg"` fails as a bad float rather than being dropped or guessed at, and an `int` column rejects `3.5` while still accepting `3.0`, which many exports write.
+- **Strings first.** Reading everything as text and parsing per the contract means `"12.5kg"` fails as a bad float rather than being dropped or guessed at, and an `int` column rejects `3.5` while still accepting `3.0`, which many exports write. Values that parse to infinity (`inf`, `Infinity`, `1e400`) also fail the type check, so a column with only a `min`, such as `freight_charge_inr`, cannot load an infinite charge.
 - **Keep the first of a duplicate.** For `unique` columns the first row with a value is accepted and later repeats are quarantined, matching how a loader would treat a resend.
 - **Extra columns are reported, not rejected.** Carriers add columns without warning; the check notes them in the report and ignores them.
 - **Plain pandas.** Feeds are thousands to a few hundred thousand rows a day; validating a 200,000-row synthetic feed took about 0.8 seconds in the run above (reading and checking, not writing outputs). The only dependencies are pandas and PyYAML.
