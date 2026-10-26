@@ -6,6 +6,7 @@ Examples::
     sop-bench run --data data
     sop-bench run --data data --retriever expanded --site-filter --by topic
     sop-bench run --data data --all --json results.json
+    sop-bench run --data data --no-title   # chunks without the document title
 """
 
 from __future__ import annotations
@@ -70,10 +71,12 @@ def format_table(rows: list[dict]) -> str:
     return "\n".join([line(cols), line("-" * widths[c] for c in cols), *(line(r.values()) for r in rows)])
 
 
-def run_benchmark(data_dir: Path, configs: list[tuple[str, bool]], by: str, max_words: int) -> list[dict]:
+def run_benchmark(
+    data_dir: Path, configs: list[tuple[str, bool]], by: str, max_words: int, include_title: bool = True
+) -> list[dict]:
     docs = load_documents(data_dir / "sop_documents.jsonl")
     questions = load_questions(data_dir / "questions.jsonl", docs)
-    chunks = chunk_documents(docs, max_words=max_words)
+    chunks = chunk_documents(docs, max_words=max_words, include_title=include_title)
     sites = _sites_from_documents(docs)
     rows = []
     for name, site_filter in configs:
@@ -100,6 +103,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     r.add_argument("--all", action="store_true", help="compare every retriever with and without the site filter")
     r.add_argument("--by", choices=("style", "topic", "none"), default="style")
     r.add_argument("--max-words", type=int, default=120, help="chunk size in words")
+    r.add_argument(
+        "--no-title",
+        action="store_true",
+        help="index chunks without the document title (shows how much the site name in the title matters)",
+    )
     r.add_argument("--json", type=Path, help="also write the rows to this JSON file")
 
     args = p.parse_args(argv)
@@ -110,7 +118,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     configs = [(n, f) for n in RETRIEVERS for f in (False, True)] if args.all else [(args.retriever, args.site_filter)]
     try:
-        rows = run_benchmark(args.data, configs, args.by, args.max_words)
+        rows = run_benchmark(args.data, configs, args.by, args.max_words, include_title=not args.no_title)
     except (FileNotFoundError, DataValidationError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

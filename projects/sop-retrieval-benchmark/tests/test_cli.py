@@ -50,3 +50,16 @@ def test_build_retriever_rejects_unknown_name():
 
     with pytest.raises(ValueError, match="unknown retriever"):
         build_retriever(chunk_documents(docs), "dense", False)
+
+
+def test_no_title_removes_the_site_name_from_chunks_and_causes_site_confusion(tmp_path, capsys):
+    with_title, without_title = tmp_path / "a.json", tmp_path / "b.json"
+    assert main(["run", "--data", str(SAMPLE), "--by", "none", "--json", str(with_title)]) == 0
+    assert main(["run", "--data", str(SAMPLE), "--by", "none", "--no-title", "--json", str(without_title)]) == 0
+    a = json.loads(with_title.read_text())[0]
+    b = json.loads(without_title.read_text())[0]
+    # Without the title, sections from different sites read almost the same,
+    # so the top hit is often the right rule from another site.
+    assert a["site_confusion"] == 0
+    assert b["site_confusion"] > 0.1
+    assert b["recall@1"] < a["recall@1"]
