@@ -13,7 +13,10 @@ never removes one.
 Caveat for reading results: ``LOGISTICS_GLOSSARY`` was written for this corpus,
 by someone who had seen the question set. Its gain on the paraphrased questions
 is therefore an upper bound on what a glossary buys, not a generalisation
-result.
+result. The held-out questions (style ``heldout``, written after this glossary
+was frozen) are the fair check: on them expansion gains nothing and costs
+recall, because one-word entries such as "truck" and "cold" also fire in
+"lift truck" and "cold lorry" and pull the query towards the wrong section.
 """
 
 from __future__ import annotations
