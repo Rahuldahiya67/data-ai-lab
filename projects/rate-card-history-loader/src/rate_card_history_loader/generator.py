@@ -186,3 +186,11 @@ def write_stream(stream: GeneratedStream, out_dir: Path) -> list[Path]:
 
 
 __all__ = ["GeneratedStream", "generate_history", "deliver", "generate_stream", "write_stream"]
+
+
+if __name__ == "__main__":
+    import sys
+
+    target = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("data/cdc_batches")
+    written = write_stream(generate_stream(), target)
+    print(f"wrote {len(written)} batches to {target}")
