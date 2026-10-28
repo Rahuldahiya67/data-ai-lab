@@ -110,3 +110,26 @@ def test_service_check_rises_with_target(demand):
     high = service_check(demand, best, service_level=0.98, holdout=20)
     assert list(low.columns) == SERVICE_CHECK_COLUMNS
     assert (high["covered"] >= low["covered"]).all()
+
+
+@pytest.mark.parametrize(
+    "kwargs, message",
+    [
+        ({"lead_time": True}, "lead_time must be a whole number"),
+        ({"lead_time": 0}, "lead_time must be at least 1"),
+        ({"service_level": float("nan")}, r"service_level must be in \[0.5, 1\)"),
+        ({"service_level": "0.95"}, "service_level must be a number"),
+        ({"holdout": 2.5}, "holdout must be a whole number"),
+        ({"holdout": 0}, "holdout must be at least 1"),
+    ],
+)
+def test_service_check_names_the_bad_parameter(demand, kwargs, message):
+    best = select_best(backtest(demand, holdout=20))
+    with pytest.raises(ValueError, match=message):
+        service_check(demand, best, **kwargs)
+
+
+def test_numpy_integer_lead_time_is_accepted(demand):
+    best = select_best(backtest(demand, holdout=20))
+    out = reorder_points(demand, best, lead_time=np.int64(3))
+    assert (out["lead_time_weeks"] == 3).all()
