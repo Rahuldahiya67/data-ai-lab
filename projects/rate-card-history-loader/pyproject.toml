@@ -9,6 +9,9 @@ description = "Loads a CDC stream of carrier rate-card changes into a Slowly Cha
 requires-python = ">=3.10"
 dependencies = ["duckdb>=1.0"]
 
+[project.scripts]
+rate-card-history = "rate_card_history_loader.cli:main"
+
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
 
