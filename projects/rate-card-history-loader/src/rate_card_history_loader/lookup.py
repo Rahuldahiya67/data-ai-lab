@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -21,8 +22,10 @@ class RateVersion:
 
     def charge(self, weight_kg: float) -> float:
         """Freight charge for a shipment: rate times weight, at least the minimum charge."""
-        if weight_kg <= 0:
-            raise ValueError(f"weight_kg must be positive, got {weight_kg}")
+        if isinstance(weight_kg, bool) or not isinstance(weight_kg, (int, float)):
+            raise ValueError(f"weight_kg must be a number, got {weight_kg!r}")
+        if not math.isfinite(weight_kg) or weight_kg <= 0:
+            raise ValueError(f"weight_kg must be a positive finite number, got {weight_kg}")
         return round(max(weight_kg * self.rate_per_kg, self.min_charge), 2)
 
 

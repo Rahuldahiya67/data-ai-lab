@@ -36,9 +36,15 @@ def test_rate_at_returns_none_after_withdrawal(loader):
     assert rate_at(loader.con, "L001-DEL-BOM", T0 + timedelta(minutes=10)) is None
 
 
-def test_charge_applies_minimum_and_rejects_bad_weight():
+def test_charge_applies_minimum():
     version = RateVersion("L1", "Gati Express", 10.0, 300.0, "INR", T0, T0, 1)
     assert version.charge(12) == 300.0
     assert version.charge(45.5) == 455.0
-    with pytest.raises(ValueError):
-        version.charge(0)
+
+
+
+@pytest.mark.parametrize("weight", [0, -5, float("nan"), float("inf"), "12", True])
+def test_charge_rejects_invalid_weights(weight):
+    version = RateVersion("L1", "Gati Express", 10.0, 300.0, "INR", T0, T0, 1)
+    with pytest.raises(ValueError, match="weight_kg must be"):
+        version.charge(weight)
