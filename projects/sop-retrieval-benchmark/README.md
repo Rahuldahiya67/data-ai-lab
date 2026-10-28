@@ -28,9 +28,9 @@ flowchart LR
 
    Questions refer to sites by code or city in four different ways.
 2. **Load** (`io.py`). JSON Lines with schema checks. Errors give the file and line; duplicate IDs, duplicate section headings and questions pointing at a missing section are rejected.
-3. **Chunk** (`chunk.py`). One chunk per section (split above 120 words with a 20-word overlap). Each chunk starts with the document title and section heading, for example `Customer Returns Processing SOP - Delhi (DEL-01). Return window.`
+3. **Chunk** (`chunk.py`). One chunk per section (split above 120 words with a 20-word overlap; `--max-words` and `--overlap` change both, and without `--overlap` the overlap is capped at half a chunk). Each chunk starts with the document title and section heading, for example `Customer Returns Processing SOP - Delhi (DEL-01). Return window.`
 4. **Retrieve**.
-   - `bm25.py`: BM25 (k1 = 1.2, b = 0.75) in plain Python with a small suffix stemmer.
+   - `bm25.py`: BM25 (k1 = 1.5, b = 0.75) in plain Python with a small suffix stemmer.
    - `expand.py`: appends SOP terms for everyday phrases from a logistics glossary ("transporter" -> "carrier"). The original words are kept.
    - `sites.py`: detects the site a question names (code or city, longest match first) and drops other sites' chunks after ranking. Questions that name no site, or several, are not filtered.
 5. **Evaluate** (`evaluate.py`). A hit counts as correct only if it is the gold document and the gold section.
@@ -50,6 +50,7 @@ sop-bench generate --out data                 # rewrites the committed sample da
 sop-bench run --data data --all --by style    # all four retrievers, per question style
 sop-bench run --data data --all --by none --no-title
 sop-bench run --data data --retriever expanded --site-filter --by topic --json results.json
+sop-bench run --data data --by none --max-words 40 --overlap 5   # smaller chunks
 ```
 
 ## Results
@@ -100,4 +101,4 @@ All documents, sites, numbers and questions are synthetic, produced by `generate
 
 ## Tests
 
-71 tests (`pytest -q`): tokenizer and stemmer, generator (including the pinned original questions and held-out coverage), loader validation, chunking, BM25 scoring, metrics and their edge cases, site detection and filtering, query expansion, and the CLI end to end on the committed data.
+74 tests (`pytest -q`): tokenizer and stemmer, generator (including the pinned original questions and held-out coverage), loader validation, chunking, BM25 scoring, metrics and their edge cases, site detection and filtering, query expansion, and the CLI end to end on the committed data (including chunk size and overlap options).
