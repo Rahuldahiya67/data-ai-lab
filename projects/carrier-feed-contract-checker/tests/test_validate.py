@@ -164,3 +164,19 @@ def test_each_column_is_parsed_once(contract, make_frame, monkeypatch):
     monkeypatch.setattr(validate, "_parse", counting_parse)
     validate_frame(make_frame({}, {"weight_kg": "-1"}), contract)
     assert sorted(calls) == sorted(contract.columns)
+
+
+@pytest.mark.parametrize("value", ["inf", "-inf", "Infinity", "1e400"])
+def test_non_finite_number_is_a_type_error_even_without_a_max(contract, make_frame, value):
+    # freight_charge_inr has only a min, so before this check an infinite
+    # charge passed every rule and was loaded.
+    result = validate_frame(make_frame({}, {"freight_charge_inr": value}), contract)
+    assert list(result.accepted.index) == [0]
+    assert rules_for(result, row=1) == {"freight_charge_inr.type_float"}
+
+
+def test_non_finite_number_is_rejected_for_int_columns():
+    contract = parse_contract({"columns": {"x": {"type": "int", "min": 0}}, "feed": {"min_rows": 1}})
+    result = validate_frame(pd.DataFrame({"x": ["3", "inf", "3.0", "1e400"]}), contract)
+    assert list(result.accepted["x"]) == ["3", "3.0"]
+    assert set(result.quarantined["_violations"]) == {"x.type_int"}
