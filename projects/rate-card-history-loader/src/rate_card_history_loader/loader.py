@@ -12,6 +12,7 @@ lane produces the right chain of versions in one pass.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from datetime import datetime
@@ -41,6 +42,11 @@ CREATE TABLE IF NOT EXISTS dim_rate_card (
 CREATE TABLE IF NOT EXISTS load_state (
     id             INTEGER PRIMARY KEY,
     watermark_lsn  BIGINT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS applied_events (
+    lsn           BIGINT PRIMARY KEY,
+    payload_hash  VARCHAR NOT NULL,
+    batch_id      VARCHAR NOT NULL
 );
 CREATE TABLE IF NOT EXISTS load_log (
     batch_id                 VARCHAR,
@@ -157,9 +163,12 @@ class RateCardLoader:
     def load_batch(self, records: list[dict], batch_id: str) -> BatchReport:
         """Validate and apply one delivery batch atomically.
 
-        Events at or below the watermark were applied by an earlier batch (a
-        redelivery or a replay) and are skipped, which makes loading the same
-        batch twice a no-op.
+        Every event that passes validation is recorded in ``applied_events``
+        with a hash of its payload. An event at or below the watermark is
+        skipped when it matches an applied event exactly (a redelivery or a
+        replay), which makes loading the same batch twice a no-op. If its LSN
+        was never applied (a late event) or was applied with a different
+        payload, it is quarantined so the gap is visible instead of silent.
         """
         result = validate_batch(records)
         watermark = self.watermark
@@ -167,14 +176,21 @@ class RateCardLoader:
         conflicts = sum(1 for _, reason in result.rejected if "conflicting payloads" in reason)
         parsed = len(records) - (len(result.rejected) - conflicts)
         duplicates = parsed - conflicts - len(result.valid)
-        below_watermark = len(result.valid) - len(fresh)
+        stale = [e for e in result.valid if e.lsn <= watermark]
+        below_watermark, stale_rejects = self._check_below_watermark(stale, watermark)
         fresh, out_of_order = self._check_commit_order(fresh)
+        ledger = list(fresh)
         fresh, superseded = _keep_last_per_instant(fresh)
-        rejected = result.rejected + out_of_order
+        rejected = result.rejected + stale_rejects + out_of_order
 
         self.con.execute("BEGIN TRANSACTION")
         try:
             self._quarantine(batch_id, rejected)
+            if ledger:
+                self.con.executemany(
+                    "INSERT INTO applied_events VALUES (?, ?, ?)",
+                    [[e.lsn, payload_hash(e), batch_id] for e in ledger],
+                )
             self.con.execute(STAGE)
             if fresh:
                 self.con.executemany(
@@ -221,6 +237,50 @@ class RateCardLoader:
             self.con.execute("ROLLBACK")
             raise
         return report
+
+    def _check_below_watermark(
+        self, events: list[ChangeEvent], watermark: int
+    ) -> tuple[int, list[tuple[dict, str]]]:
+        """Split events at or below the watermark into redeliveries and rejects.
+
+        Returns the number of exact redeliveries and the rejects with reasons.
+        """
+        if not events:
+            return 0, []
+        lsns = [e.lsn for e in events]
+        applied = dict(
+            self.con.execute(
+                "SELECT lsn, payload_hash FROM applied_events WHERE list_contains(?, lsn)", [lsns]
+            ).fetchall()
+        )
+        quarantined = {
+            lsn
+            for (lsn,) in self.con.execute(
+                "SELECT DISTINCT lsn FROM quarantine WHERE list_contains(?, lsn)", [lsns]
+            ).fetchall()
+        }
+        redelivered, rejected = 0, []
+        for event in events:
+            known = applied.get(event.lsn)
+            if known == payload_hash(event):
+                redelivered += 1
+            elif known is not None:
+                rejected.append(
+                    (event_record(event), f"lsn {event.lsn} was already applied with a different payload")
+                )
+            elif event.lsn in quarantined:
+                rejected.append(
+                    (event_record(event), f"lsn {event.lsn} was quarantined in an earlier batch")
+                )
+            else:
+                rejected.append(
+                    (
+                        event_record(event),
+                        f"late event: lsn {event.lsn} is below the watermark {watermark} "
+                        "and was never applied",
+                    )
+                )
+        return redelivered, rejected
 
     def _check_commit_order(
         self, events: list[ChangeEvent]
@@ -274,6 +334,11 @@ class RateCardLoader:
             lsn = lsn if isinstance(lsn, int) and not isinstance(lsn, bool) else None
             rows.append([batch_id, lsn, reason, json.dumps(record, sort_keys=True, default=str)])
         self.con.executemany("INSERT INTO quarantine VALUES (?, ?, ?, ?)", rows)
+
+
+def payload_hash(event: ChangeEvent) -> str:
+    """Stable hash of an event's full content, used to recognise redeliveries."""
+    return hashlib.md5(event.to_json().encode("utf-8")).hexdigest()
 
 
 def _keep_last_per_instant(events: list[ChangeEvent]) -> tuple[list[ChangeEvent], int]:

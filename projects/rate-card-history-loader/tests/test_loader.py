@@ -134,3 +134,35 @@ def test_change_at_the_same_instant_as_open_version_replaces_it(loader):
     assert report.versions_replaced == 1 and report.versions_closed == 0
     zero_length = loader.con.execute("SELECT count(*) FROM dim_rate_card WHERE valid_to <= valid_from")
     assert zero_length.fetchone()[0] == 0
+
+
+def test_late_event_below_the_watermark_is_quarantined_not_dropped(loader):
+    loader.load_batch([ev(1, op="c"), ev(3, minutes=20, rate=11.0)], "b1")
+    report = loader.load_batch([ev(2, minutes=10, rate=15.0)], "b2")
+    assert report.below_watermark == 0 and report.rejected == 1
+    (reason,) = loader.con.execute("SELECT reason FROM quarantine WHERE lsn = 2").fetchone()
+    assert reason == "late event: lsn 2 is below the watermark 3 and was never applied"
+    assert versions(loader) == [(10.0, T0, ts(20)), (11.0, ts(20), OPEN_END)]
+
+
+def test_redelivery_with_a_different_payload_in_a_later_batch_is_quarantined(loader):
+    loader.load_batch([ev(1, op="c"), ev(2, minutes=10, rate=11.0)], "b1")
+    report = loader.load_batch([ev(2, minutes=10, rate=11.5)], "b2")
+    assert report.rejected == 1 and report.below_watermark == 0
+    (reason,) = loader.con.execute("SELECT reason FROM quarantine WHERE batch_id = 'b2'").fetchone()
+    assert reason == "lsn 2 was already applied with a different payload"
+
+
+def test_no_op_and_superseded_events_count_as_applied_on_redelivery(loader):
+    batch = [ev(1, op="c"), ev(2, rate=11.0), ev(3, minutes=10)]
+    loader.load_batch(batch, "b1")
+    report = loader.load_batch(batch, "b1-replay")
+    assert report.below_watermark == 3 and report.rejected == 0
+
+
+def test_redelivery_of_a_quarantined_event_is_quarantined_again(loader):
+    loader.load_batch([ev(1, op="c", minutes=60), ev(2, minutes=30, rate=12.0), ev(3, minutes=90)], "b1")
+    report = loader.load_batch([ev(2, minutes=30, rate=12.0)], "b2")
+    assert report.rejected == 1
+    reasons = [r for (r,) in loader.con.execute("SELECT reason FROM quarantine ORDER BY batch_id").fetchall()]
+    assert reasons[1] == "lsn 2 was quarantined in an earlier batch"

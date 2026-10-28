@@ -85,3 +85,12 @@ def test_injected_bad_events_end_up_in_quarantine(loaded):
     assert sum(r.rejected for r in reports) == len(reasons) > 0
     assert any("op must be one of" in r for r in reasons)
     assert any("rate_per_kg must be > 0" in r for r in reasons)
+
+
+def test_full_stream_quarantines_only_the_injected_bad_events(loaded):
+    _, con, reports = loaded
+    # The replayed batch delivers its malformed events again, so count distinct LSNs.
+    assert con.execute("SELECT count(DISTINCT lsn) FROM quarantine").fetchone()[0] == 4
+    reasons = [r for (r,) in con.execute("SELECT reason FROM quarantine").fetchall()]
+    assert not any("late event" in r or "already applied" in r for r in reasons)
+    assert sum(r.below_watermark for r in reports) > 0
