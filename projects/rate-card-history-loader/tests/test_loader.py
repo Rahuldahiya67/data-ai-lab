@@ -95,3 +95,42 @@ def test_lanes_are_independent(loader):
     )
     assert versions(loader, "L002-BLR-MAA") == [(7.0, T0, OPEN_END)]
     assert len(versions(loader)) == 2
+
+
+def test_change_committed_before_the_open_version_is_quarantined(loader):
+    loader.load_batch([ev(1, op="c", minutes=60)], "b1")
+    report = loader.load_batch([ev(2, minutes=30, rate=12.0), ev(3, op="c", lane="L002-BLR-MAA")], "b2")
+    assert versions(loader) == [(10.0, ts(60), OPEN_END)]
+    assert versions(loader, "L002-BLR-MAA") == [(10.0, T0, OPEN_END)]
+    assert report.rejected == 1
+    (reason,) = loader.con.execute("SELECT reason FROM quarantine WHERE lsn = 2").fetchone()
+    assert "earlier than the lane's previous change" in reason
+
+
+def test_change_committed_before_a_withdrawal_is_quarantined(loader):
+    loader.load_batch([ev(1, op="c"), ev(2, op="d", minutes=60)], "b1")
+    report = loader.load_batch([ev(3, op="c", minutes=30, rate=12.0)], "b2")
+    assert report.rejected == 1
+    assert versions(loader) == [(10.0, T0, ts(60))]
+
+
+def test_out_of_order_commit_inside_one_batch_is_quarantined(loader):
+    batch = [ev(1, op="c"), ev(2, minutes=30, rate=11.0), ev(3, minutes=20, rate=12.0), ev(4, minutes=40, rate=13.0)]
+    report = loader.load_batch(batch, "b1")
+    assert versions(loader) == [(10.0, T0, ts(30)), (11.0, ts(30), ts(40)), (13.0, ts(40), OPEN_END)]
+    assert report.rejected == 1
+
+
+def test_changes_at_the_same_instant_keep_only_the_last(loader):
+    report = loader.load_batch([ev(1, op="c"), ev(2, rate=11.0), ev(3, minutes=10, rate=12.0)], "b1")
+    assert versions(loader) == [(11.0, T0, ts(10)), (12.0, ts(10), OPEN_END)]
+    assert report.no_op == 1 and report.rejected == 0
+
+
+def test_change_at_the_same_instant_as_open_version_replaces_it(loader):
+    loader.load_batch([ev(1, op="c"), ev(2, minutes=10, rate=11.0)], "b1")
+    report = loader.load_batch([ev(3, minutes=10, rate=12.0)], "b2")
+    assert versions(loader) == [(10.0, T0, ts(10)), (12.0, ts(10), OPEN_END)]
+    assert report.versions_replaced == 1 and report.versions_closed == 0
+    zero_length = loader.con.execute("SELECT count(*) FROM dim_rate_card WHERE valid_to <= valid_from")
+    assert zero_length.fetchone()[0] == 0

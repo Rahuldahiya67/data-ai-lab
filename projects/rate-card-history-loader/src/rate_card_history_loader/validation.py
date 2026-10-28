@@ -122,12 +122,12 @@ def validate_batch(records: list[dict]) -> ValidationResult:
             result.rejected.append((record, f"lsn {event.lsn} delivered with conflicting payloads"))
     for lsn in conflicted:
         first = by_lsn.pop(lsn)
-        result.rejected.append((_event_record(first), f"lsn {lsn} delivered with conflicting payloads"))
+        result.rejected.append((event_record(first), f"lsn {lsn} delivered with conflicting payloads"))
     result.valid = sorted(by_lsn.values(), key=lambda e: e.lsn)
     return result
 
 
-def _event_record(event: ChangeEvent) -> dict:
+def event_record(event: ChangeEvent) -> dict:
     record = {name: getattr(event, name) for name in ("lsn", "op", "lane_id", *ATTRIBUTES)}
     record["commit_ts"] = event.commit_ts.isoformat()
     return record

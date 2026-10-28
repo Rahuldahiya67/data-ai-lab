@@ -19,7 +19,7 @@ from datetime import datetime
 import duckdb
 
 from .events import ChangeEvent
-from .validation import validate_batch
+from .validation import event_record, validate_batch
 
 OPEN_END = datetime(9999, 12, 31)
 
@@ -95,6 +95,15 @@ WHERE (op = 'd' AND prev_hash IS NOT NULL)
    OR (op <> 'd' AND row_hash IS DISTINCT FROM prev_hash)
 """
 
+# A change committed at the same instant as the lane's open version replaces it:
+# no point in time ever saw the earlier values, so keeping them would leave a
+# zero-length version in the history.
+REPLACE_SAME_INSTANT = """
+DELETE FROM dim_rate_card AS d
+USING (SELECT lane_id, min(commit_ts) AS first_ts FROM stg_effective GROUP BY lane_id) f
+WHERE d.lane_id = f.lane_id AND d.is_current AND d.valid_from = f.first_ts
+"""
+
 CLOSE_CURRENT = """
 UPDATE dim_rate_card AS d
 SET valid_to = f.first_ts, is_current = false
@@ -128,6 +137,7 @@ class BatchReport:
     versions_opened: int
     versions_closed: int
     watermark_after: int
+    versions_replaced: int = 0
 
 
 class RateCardLoader:
@@ -157,10 +167,14 @@ class RateCardLoader:
         conflicts = sum(1 for _, reason in result.rejected if "conflicting payloads" in reason)
         parsed = len(records) - (len(result.rejected) - conflicts)
         duplicates = parsed - conflicts - len(result.valid)
+        below_watermark = len(result.valid) - len(fresh)
+        fresh, out_of_order = self._check_commit_order(fresh)
+        fresh, superseded = _keep_last_per_instant(fresh)
+        rejected = result.rejected + out_of_order
 
         self.con.execute("BEGIN TRANSACTION")
         try:
-            self._quarantine(batch_id, result.rejected)
+            self._quarantine(batch_id, rejected)
             self.con.execute(STAGE)
             if fresh:
                 self.con.executemany(
@@ -169,25 +183,21 @@ class RateCardLoader:
                 )
             self.con.execute(EFFECTIVE)
             effective = self.con.execute("SELECT count(*) FROM stg_effective").fetchone()[0]
-            closed = self.con.execute(
-                "SELECT count(*) FROM dim_rate_card d JOIN (SELECT DISTINCT lane_id FROM stg_effective) f "
-                "USING (lane_id) WHERE d.is_current"
-            ).fetchone()[0]
-            self.con.execute(CLOSE_CURRENT)
-            before = self._version_count()
-            self.con.execute(INSERT_VERSIONS, [OPEN_END])
-            opened = self._version_count() - before
+            replaced = _rowcount(self.con.execute(REPLACE_SAME_INSTANT))
+            closed = _rowcount(self.con.execute(CLOSE_CURRENT))
+            opened = _rowcount(self.con.execute(INSERT_VERSIONS, [OPEN_END]))
             # Versions opened and superseded inside this batch were also closed.
             closed += opened - self._lanes_current_from_batch()
-            new_watermark = max([watermark] + [e.lsn for e in fresh])
+            new_watermark = max([watermark] + [e.lsn for e in result.valid])
             self.con.execute("UPDATE load_state SET watermark_lsn = ? WHERE id = 1", [new_watermark])
             report = BatchReport(
                 batch_id=batch_id,
                 received=len(records),
-                rejected=len(result.rejected),
+                rejected=len(rejected),
                 duplicates=duplicates,
-                below_watermark=len(result.valid) - len(fresh),
-                no_op=len(fresh) - effective,
+                below_watermark=below_watermark,
+                no_op=len(fresh) - effective + superseded,
+                versions_replaced=replaced,
                 versions_opened=opened,
                 versions_closed=closed,
                 watermark_after=new_watermark,
@@ -212,8 +222,42 @@ class RateCardLoader:
             raise
         return report
 
-    def _version_count(self) -> int:
-        return self.con.execute("SELECT count(*) FROM dim_rate_card").fetchone()[0]
+    def _check_commit_order(
+        self, events: list[ChangeEvent]
+    ) -> tuple[list[ChangeEvent], list[tuple[dict, str]]]:
+        """Reject events committed before the previous change to their lane.
+
+        LSN order is the source's order of changes, so a later LSN with an
+        earlier commit time means the clock or the feed is wrong. Applying it
+        would close the open version before it started. The previous change is
+        the latest version boundary in the dimension or, inside this batch, the
+        last accepted event for the lane.
+        """
+        lanes = sorted({e.lane_id for e in events})
+        last_ts: dict[str, datetime] = {}
+        if lanes:
+            last_ts = dict(
+                self.con.execute(
+                    "SELECT lane_id, max(CASE WHEN is_current THEN valid_from ELSE valid_to END) "
+                    "FROM dim_rate_card WHERE list_contains(?, lane_id) GROUP BY lane_id",
+                    [lanes],
+                ).fetchall()
+            )
+        accepted, rejected = [], []
+        for event in events:  # already sorted by LSN
+            previous = last_ts.get(event.lane_id)
+            if previous is not None and event.commit_ts < previous:
+                rejected.append(
+                    (
+                        event_record(event),
+                        f"commit_ts {event.commit_ts.isoformat()} is earlier than the lane's "
+                        f"previous change at {previous.isoformat()}",
+                    )
+                )
+                continue
+            accepted.append(event)
+            last_ts[event.lane_id] = event.commit_ts
+        return accepted, rejected
 
     def _lanes_current_from_batch(self) -> int:
         return self.con.execute(
@@ -230,6 +274,24 @@ class RateCardLoader:
             lsn = lsn if isinstance(lsn, int) and not isinstance(lsn, bool) else None
             rows.append([batch_id, lsn, reason, json.dumps(record, sort_keys=True, default=str)])
         self.con.executemany("INSERT INTO quarantine VALUES (?, ?, ?, ?)", rows)
+
+
+def _keep_last_per_instant(events: list[ChangeEvent]) -> tuple[list[ChangeEvent], int]:
+    """Keep only the highest LSN among a lane's changes committed at the same instant.
+
+    The source can change a row twice in one transaction; both changes share a
+    commit time and only the final state was ever visible.
+    """
+    last: dict[tuple[str, datetime], ChangeEvent] = {}
+    for event in events:
+        last[(event.lane_id, event.commit_ts)] = event  # events are sorted by LSN
+    kept = sorted(last.values(), key=lambda e: e.lsn)
+    return kept, len(events) - len(kept)
+
+
+def _rowcount(cursor: duckdb.DuckDBPyConnection) -> int:
+    row = cursor.fetchone()
+    return row[0] if row else 0
 
 
 def _row(event: ChangeEvent) -> list:
