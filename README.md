@@ -11,6 +11,7 @@ Main portfolio: [rahuldahiya67.github.io](https://rahuldahiya67.github.io)
 |---|---|---|---|
 | [Carrier Feed Contract Checker](projects/carrier-feed-contract-checker) | Validates carrier shipment feeds against a YAML data contract, quarantines bad rows and gates the load on reject rate | Python, pandas, PyYAML | 17 Oct 2026 |
 | [Intermittent Demand Forecaster](projects/intermittent-demand-forecaster) | Classifies spare-parts demand, backtests Croston, SBA and TSB against standard methods, picks one per SKU and sets reorder points with a service-level check | Python, pandas, NumPy | 20 Oct 2026 |
+| [SOP Retrieval Benchmark](projects/sop-retrieval-benchmark) | Measures whether search over site-specific warehouse SOPs returns the right clause for the right site; tests query expansion on held-out wording, a site filter and title headers | Python (BM25 from scratch) | 26 Oct 2026 |
 <!-- PROJECT-INDEX:END -->
 
 ## How every project is laid out
