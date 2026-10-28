@@ -70,3 +70,19 @@ def test_rejects_bad_alpha(alpha):
         ses([1, 2], alpha=alpha)
     with pytest.raises(ValueError):
         croston([1, 2], alpha=alpha)
+
+
+@pytest.mark.parametrize("method", sorted(METHODS))
+def test_rejects_missing_and_negative_history(method):
+    # Before, croston([0, 5, -3, 4]) returned a number and ses([1, nan, 2]) returned nan.
+    with pytest.raises(ValueError, match=r"missing or infinite values at position\(s\) \[1\]"):
+        METHODS[method]([1.0, np.nan, 2.0])
+    with pytest.raises(ValueError, match=r"negative demand at position\(s\) \[2\]"):
+        METHODS[method]([0.0, 5.0, -3.0, 4.0])
+
+
+def test_bad_smoothing_value_is_named():
+    with pytest.raises(ValueError, match=r"beta must be in \(0, 1\], got 2"):
+        tsb([1, 2], beta=2)
+    with pytest.raises(ValueError, match=r"alpha must be in \(0, 1\], got 0"):
+        croston([1, 2], alpha=0)
