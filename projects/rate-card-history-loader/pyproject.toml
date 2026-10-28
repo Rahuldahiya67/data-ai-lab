@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rate-card-history-loader"
+version = "0.1.0"
+description = "Loads a CDC stream of carrier rate-card changes into a Slowly Changing Dimension Type 2 table in DuckDB and answers point-in-time rate lookups."
+requires-python = ">=3.10"
+dependencies = ["duckdb>=1.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
