@@ -166,3 +166,12 @@ def test_redelivery_of_a_quarantined_event_is_quarantined_again(loader):
     assert report.rejected == 1
     reasons = [r for (r,) in loader.con.execute("SELECT reason FROM quarantine ORDER BY batch_id").fetchall()]
     assert reasons[1] == "lsn 2 was quarantined in an earlier batch"
+
+
+def test_load_log_time_is_utc(loader):
+    from datetime import datetime, timezone
+
+    before = datetime.now(timezone.utc).replace(tzinfo=None)
+    loader.load_batch([ev(1, op="c")], "b1")
+    (loaded_at,) = loader.con.execute("SELECT loaded_at FROM load_log").fetchone()
+    assert abs((loaded_at - before).total_seconds()) < 60

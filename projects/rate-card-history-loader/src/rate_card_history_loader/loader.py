@@ -15,7 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 
 import duckdb
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS load_log (
     versions_opened          INTEGER,
     versions_closed          INTEGER,
     watermark_after          BIGINT,
-    loaded_at                TIMESTAMP
+    loaded_at                TIMESTAMP  -- UTC
 );
 CREATE TABLE IF NOT EXISTS quarantine (
     batch_id  VARCHAR,
@@ -173,9 +173,6 @@ class RateCardLoader:
         result = validate_batch(records)
         watermark = self.watermark
         fresh = [e for e in result.valid if e.lsn > watermark]
-        conflicts = sum(1 for _, reason in result.rejected if "conflicting payloads" in reason)
-        parsed = len(records) - (len(result.rejected) - conflicts)
-        duplicates = parsed - conflicts - len(result.valid)
         stale = [e for e in result.valid if e.lsn <= watermark]
         below_watermark, stale_rejects = self._check_below_watermark(stale, watermark)
         fresh, out_of_order = self._check_commit_order(fresh)
@@ -210,7 +207,7 @@ class RateCardLoader:
                 batch_id=batch_id,
                 received=len(records),
                 rejected=len(rejected),
-                duplicates=duplicates,
+                duplicates=result.duplicates,
                 below_watermark=below_watermark,
                 no_op=len(fresh) - effective + superseded,
                 versions_replaced=replaced,
@@ -219,7 +216,7 @@ class RateCardLoader:
                 watermark_after=new_watermark,
             )
             self.con.execute(
-                "INSERT INTO load_log VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now()::TIMESTAMP)",
+                "INSERT INTO load_log VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [
                     report.batch_id,
                     report.received,
@@ -230,6 +227,7 @@ class RateCardLoader:
                     report.versions_opened,
                     report.versions_closed,
                     report.watermark_after,
+                    datetime.now(timezone.utc).replace(tzinfo=None),
                 ],
             )
             self.con.execute("COMMIT")

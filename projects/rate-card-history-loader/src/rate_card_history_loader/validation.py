@@ -21,6 +21,7 @@ CURRENCY_RE = re.compile(r"^[A-Z]{3}$")
 class ValidationResult:
     valid: list[ChangeEvent] = field(default_factory=list)
     rejected: list[tuple[dict, str]] = field(default_factory=list)
+    duplicates: int = 0  # exact redeliveries collapsed inside the batch
 
 
 class InvalidEvent(ValueError):
@@ -117,7 +118,9 @@ def validate_batch(records: list[dict]) -> ValidationResult:
         seen = by_lsn.get(event.lsn)
         if seen is None:
             by_lsn[event.lsn] = event
-        elif seen != event:
+        elif seen == event:
+            result.duplicates += 1
+        else:
             conflicted.add(event.lsn)
             result.rejected.append((record, f"lsn {event.lsn} delivered with conflicting payloads"))
     for lsn in conflicted:

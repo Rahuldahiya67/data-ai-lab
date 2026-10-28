@@ -66,3 +66,9 @@ def test_conflicting_payloads_for_one_lsn_reject_every_copy():
     assert [e.lsn for e in result.valid] == [5]
     assert len(result.rejected) == 2
     assert all("conflicting payloads" in reason for _, reason in result.rejected)
+
+
+def test_duplicate_count_includes_copies_of_a_conflicting_lsn():
+    result = validate_batch([ev(4, rate=10.0), ev(4, rate=10.0), ev(4, rate=11.0), ev(5), ev(5)])
+    assert result.duplicates == 2
+    assert [e.lsn for e in result.valid] == [5]
