@@ -48,3 +48,32 @@ def test_validation():
         BM25Retriever([_chunk("a", "x")], b=1.5)
     with pytest.raises(ValueError):
         BM25Retriever([_chunk("a", "x")]).search("x", k=0)
+
+
+@pytest.mark.parametrize("k1", [-0.1, float("nan"), float("inf"), True, "1.5"])
+def test_rejects_bad_k1(k1):
+    with pytest.raises(ValueError, match="k1"):
+        BM25Retriever([_chunk("a", "x")], k1=k1)
+
+
+@pytest.mark.parametrize("b", [-0.1, 1.5, float("nan"), False, "0.75"])
+def test_rejects_bad_b(b):
+    with pytest.raises(ValueError, match="b must be"):
+        BM25Retriever([_chunk("a", "x")], b=b)
+
+
+@pytest.mark.parametrize("k", [0, -1, 2.5, True, "3"])
+def test_rejects_bad_k(k):
+    with pytest.raises(ValueError, match="k must be a positive integer"):
+        BM25Retriever([_chunk("a", "dock slot")]).search("dock", k=k)
+
+
+def test_corpus_with_no_indexable_words_is_rejected_clearly():
+    # Previously a ZeroDivisionError from the average chunk length.
+    with pytest.raises(ValueError, match="no chunk has any indexable words"):
+        BM25Retriever([_chunk("a", "!!!"), _chunk("b", "--")])
+
+
+def test_k1_zero_and_integer_parameters_still_work():
+    r = BM25Retriever([_chunk("a", "dock slot"), _chunk("b", "spill kit")], k1=0, b=1)
+    assert r.search("dock")[0].chunk.chunk_id == "a"

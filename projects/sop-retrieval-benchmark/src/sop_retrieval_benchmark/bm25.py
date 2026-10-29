@@ -15,6 +15,11 @@ from .chunk import Chunk
 from .text import tokenize
 
 
+def _is_number(value) -> bool:
+    """True for int and float, but not bool (True would silently mean 1)."""
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
 @dataclass(frozen=True)
 class Hit:
     chunk: Chunk
@@ -25,10 +30,10 @@ class BM25Retriever:
     def __init__(self, chunks: list[Chunk], k1: float = 1.5, b: float = 0.75):
         if not chunks:
             raise ValueError("cannot build an index over zero chunks")
-        if k1 < 0:
-            raise ValueError(f"k1 must be >= 0, got {k1}")
-        if not 0 <= b <= 1:
-            raise ValueError(f"b must be in [0, 1], got {b}")
+        if not _is_number(k1) or not 0 <= k1 < math.inf:
+            raise ValueError(f"k1 must be a finite number >= 0, got {k1!r}")
+        if not _is_number(b) or not 0 <= b <= 1:
+            raise ValueError(f"b must be a number in [0, 1], got {b!r}")
         ids = [c.chunk_id for c in chunks]
         if len(set(ids)) != len(ids):
             raise ValueError("chunk IDs must be unique")
@@ -38,6 +43,8 @@ class BM25Retriever:
         self.b = b
         self._tf: list[Counter[str]] = [Counter(tokenize(c.indexed_text)) for c in chunks]
         self._len = [sum(tf.values()) for tf in self._tf]
+        if not any(self._len):
+            raise ValueError("no chunk has any indexable words; check the chunk text")
         self._avg_len = sum(self._len) / len(self._len)
         # Length normalisation depends only on the chunk, so compute it once.
         self._norm = [k1 * (1 - b + b * n_i / self._avg_len) for n_i in self._len]
@@ -64,8 +71,8 @@ class BM25Retriever:
         return scores
 
     def search(self, query: str, k: int = 5) -> list[Hit]:
-        if k < 1:
-            raise ValueError(f"k must be at least 1, got {k}")
+        if isinstance(k, bool) or not isinstance(k, int) or k < 1:
+            raise ValueError(f"k must be a positive integer, got {k!r}")
         scores = self.score(query)
         # Ties are broken by chunk order so results are deterministic.
         ranked = sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))[:k]
