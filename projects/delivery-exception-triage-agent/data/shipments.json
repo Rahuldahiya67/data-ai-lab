@@ -1,0 +1,9210 @@
+[
+ {
+  "shipment_id": "SHP-00001",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 3039.1,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T18:46:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T00:46:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-25T06:46:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00002",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 3052.04,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T05:12:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T11:12:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:12:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00003",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 3033.52,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T15:27:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T21:27:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-23T03:27:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00004",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4640.17,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:39:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:39:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:39:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:39:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:39:00",
+    "location": "Surat",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00005",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 4906.82,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T01:21:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T07:21:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:21:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00006",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 3567.89,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T11:41:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T17:41:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:41:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00007",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3668.15,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T04:09:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T10:09:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:09:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:09:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:09:00",
+    "location": "Indore",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00008",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 2137.46,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T09:48:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T15:48:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T11:48:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00009",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 4455.71,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T00:55:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T06:55:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T23:55:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00010",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 984.68,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T13:31:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T19:31:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T23:31:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T07:31:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T11:31:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00011",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 786.62,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:13:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:13:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:13:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00012",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 776.88,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:00:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:00:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T01:00:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00013",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 842.16,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:48:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:48:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T15:48:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T23:48:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T03:48:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00014",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4769.63,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T12:15:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T18:15:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:15:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00015",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 1971.77,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T07:10:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T13:10:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:10:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00016",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 2616.07,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:08:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:08:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T11:08:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00017",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 780.14,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:47:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:47:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T21:47:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00018",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 3976.82,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T10:34:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T16:34:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T19:34:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T03:34:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T07:34:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00019",
+  "carrier": "QuickHaul",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4967.63,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T03:34:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T09:34:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T15:34:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00020",
+  "carrier": "QuickHaul",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 366.94,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T08:39:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T14:39:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:39:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00021",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 2655.46,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T09:43:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T15:43:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:43:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00022",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 1013.63,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:27:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:27:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T06:27:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00023",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 590.25,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T01:56:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T07:56:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T09:56:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T17:56:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T21:56:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00024",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 31600.0,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T01:17:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T07:17:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T11:17:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T19:17:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T23:17:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00025",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4725.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T01:20:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T07:20:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T09:20:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T17:20:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T21:20:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00026",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 1785.11,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T08:56:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T14:56:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:56:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00027",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4847.46,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T13:34:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T19:34:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T21:34:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00028",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 2280.0,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T04:13:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T10:13:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T22:13:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T06:13:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T10:13:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00029",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4815.64,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T01:11:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T07:11:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:11:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T21:11:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T00:11:00",
+    "location": "Bhopal",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00030",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 1002.03,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T04:48:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T10:48:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:48:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00031",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 716.26,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T03:25:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T09:25:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T06:25:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00032",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4855.3,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T16:16:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T22:16:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T14:16:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00033",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1930.9,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:28:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:28:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T02:28:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T10:28:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T14:28:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00034",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1746.58,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T01:34:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T07:34:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:34:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T21:34:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T00:34:00",
+    "location": "Surat",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00035",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 632.4,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T17:05:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T23:05:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:05:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T18:05:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:05:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00036",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2395.38,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:51:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:51:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:51:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:51:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:51:00",
+    "location": "Nagpur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00037",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 2093.65,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T09:53:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T15:53:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T06:53:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T14:53:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T18:53:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00038",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 27038.82,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T06:33:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T12:33:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:33:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T13:33:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T17:33:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00039",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 3703.53,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:34:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:34:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:34:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:34:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:34:00",
+    "location": "Bhopal",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00040",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 925.54,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T16:33:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T22:33:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:33:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:33:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T07:33:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00041",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 629.52,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:57:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:57:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T16:57:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T00:57:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T04:57:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00042",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 3354.68,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T03:30:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T09:30:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:30:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00043",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 3793.12,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T02:21:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T08:21:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:21:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00044",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2489.72,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T06:03:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T12:03:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T02:03:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00045",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4850.11,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:11:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:11:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T00:11:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00047",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 1047.61,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:43:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:43:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T14:43:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T22:43:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T02:43:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00048",
+  "carrier": "QuickHaul",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3828.45,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-25T07:21:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T13:21:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T21:21:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T04:21:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T07:21:00",
+    "location": "Chandigarh",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00049",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 4649.45,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T11:21:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:21:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T23:21:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00051",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 3190.1,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:10:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:10:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:10:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:10:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:10:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00052",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 1501.99,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:09:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:09:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:09:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:09:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:09:00",
+    "location": "Surat",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00053",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2652.84,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T12:15:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T18:15:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:15:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T17:15:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:15:00",
+    "location": "Dehradun",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00054",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 726.36,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:40:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:40:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T06:40:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T14:40:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T18:40:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00055",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 2763.59,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T00:28:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T06:28:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:28:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00056",
+  "carrier": "TransIndo",
+  "origin_hub": "Noida",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2107.44,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T13:26:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T19:26:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:26:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:26:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:26:00",
+    "location": "Agra",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00057",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1467.79,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T04:20:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T10:20:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T06:20:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T14:20:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T18:20:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00058",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 2976.1,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T14:59:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T20:59:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:59:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:59:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:59:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00059",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1526.14,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T06:53:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:53:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T00:53:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T07:53:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T10:53:00",
+    "location": "Chandigarh",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00060",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 1461.17,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:02:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:02:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T10:02:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00061",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1365.89,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:07:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:07:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T02:07:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T10:07:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T14:07:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00062",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 1765.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T11:30:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T17:30:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T03:30:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00063",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4578.86,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T08:12:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T14:12:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:12:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:12:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T02:12:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00064",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2413.32,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:59:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:59:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:59:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T13:59:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T17:59:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00066",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 1615.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T17:09:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T23:09:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-23T05:09:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00067",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 2525.28,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T05:31:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T11:31:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T04:31:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00068",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 37202.77,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T13:47:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T19:47:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:47:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:47:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:47:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00069",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 3808.26,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:17:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:17:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T00:17:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00070",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4129.56,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T05:25:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:25:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:25:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:25:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:25:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00071",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 11906.72,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:33:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:33:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:33:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:33:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:33:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00072",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4942.77,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T14:16:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T20:16:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:16:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00073",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4252.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:00:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:00:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:00:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00074",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 7269.08,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T11:50:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:50:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:50:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:50:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:50:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00075",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 2531.38,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T17:23:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T23:23:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:23:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:23:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:23:00",
+    "location": "Nagpur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00076",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4370.8,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:44:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:44:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:44:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00077",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 507.58,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T09:43:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T15:43:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T08:43:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00078",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 1767.32,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T02:40:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T08:40:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T07:40:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00079",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 1069.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T22:54:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T04:54:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:54:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00080",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4361.96,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T10:56:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:56:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:56:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T23:56:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T02:56:00",
+    "location": "Bhopal",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00081",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4449.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:28:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:28:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:28:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00082",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1935.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T07:24:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T13:24:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T09:24:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T17:24:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T21:24:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00083",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4549.84,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T14:06:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T20:06:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T02:06:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00084",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2178.8,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T08:22:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T14:22:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:22:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:22:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:22:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00085",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4290.35,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:21:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:21:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:21:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00086",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3208.79,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-25T14:57:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T20:57:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:57:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:57:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:57:00",
+    "location": "Nagpur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00087",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 33080.07,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T10:11:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T16:11:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T21:11:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T05:11:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T09:11:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00088",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 3834.68,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T09:17:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T15:17:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:17:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00089",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 3169.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T09:14:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T15:14:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T02:14:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00090",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 2678.23,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T05:27:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:27:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:27:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T08:27:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T12:27:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00091",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 3910.85,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T14:08:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T20:08:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T21:08:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00092",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4955.34,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T05:40:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:40:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:40:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:40:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:40:00",
+    "location": "Surat",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00093",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 308.42,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T01:43:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T07:43:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:43:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00094",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 3369.61,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T00:40:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T06:40:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:40:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:40:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:40:00",
+    "location": "Dehradun",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00095",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3232.47,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:44:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:44:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:44:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T05:44:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T08:44:00",
+    "location": "Indore",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00096",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 3976.13,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:55:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:55:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T11:55:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00097",
+  "carrier": "QuickHaul",
+  "origin_hub": "Pune",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 589.18,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T15:11:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T21:11:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T23:11:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T07:11:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T11:11:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00099",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 3979.98,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T01:53:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T07:53:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T11:53:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T19:53:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T23:53:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00100",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 16743.73,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T14:01:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T20:01:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:01:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T06:01:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T10:01:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00101",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 371.57,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:18:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:18:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T03:18:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00102",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4565.57,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:24:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:24:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T00:24:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00103",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4458.37,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:33:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:33:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:33:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T17:33:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:33:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00104",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4893.82,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T11:11:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:11:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T13:11:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00105",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 12201.11,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T20:54:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T02:54:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:54:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:54:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:54:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00106",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 2291.7,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T07:59:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T13:59:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:59:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:59:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:59:00",
+    "location": "Agra",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00107",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 29663.38,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T04:58:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T10:58:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T21:58:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T05:58:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T09:58:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00108",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1249.57,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:34:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:34:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:34:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:34:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T07:34:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00109",
+  "carrier": "TransIndo",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1079.22,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T07:21:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T13:21:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:21:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T18:21:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T21:21:00",
+    "location": "Indore",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00110",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 1268.75,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:48:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:48:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T22:48:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00111",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 3033.43,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T03:56:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T09:56:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:56:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:56:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:56:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00112",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 11705.89,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T11:37:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:37:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:37:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:37:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:37:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00113",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1410.2,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T10:26:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T16:26:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:26:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T13:26:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T17:26:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00114",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 1697.8,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T04:29:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T10:29:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:29:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:29:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T00:29:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00115",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 1345.53,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T00:12:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T06:12:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T02:12:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T10:12:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T14:12:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00116",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 15956.19,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T22:03:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T04:03:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T12:03:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T20:03:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T00:03:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00117",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 392.39,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:47:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:47:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T23:47:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00118",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 1480.75,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T09:39:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T15:39:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T21:39:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00119",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4025.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T23:16:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T05:16:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:16:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00120",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 1589.48,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-25T07:56:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T13:56:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:56:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T05:56:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T08:56:00",
+    "location": "Chandigarh",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00121",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 2182.25,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T03:11:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T09:11:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:11:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T21:11:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T00:11:00",
+    "location": "Chandigarh",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00123",
+  "carrier": "QuickHaul",
+  "origin_hub": "Pune",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 29647.31,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T20:39:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T02:39:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T03:39:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T11:39:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T15:39:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00124",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 1718.56,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:54:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:54:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:54:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:54:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:54:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00125",
+  "carrier": "TransIndo",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4191.13,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T10:26:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T16:26:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:26:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:26:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T00:26:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00126",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 777.11,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T04:00:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T10:00:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:00:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00127",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4488.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T01:53:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T07:53:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-21T13:53:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00128",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2269.48,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T12:01:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T18:01:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:01:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00129",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4251.61,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:48:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:48:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T05:48:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T13:48:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T17:48:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00130",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 3165.47,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:51:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:51:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T17:51:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00131",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4349.94,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T14:51:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T20:51:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T03:51:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T11:51:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T15:51:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00132",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 2197.53,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:01:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:01:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T15:01:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00133",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 30293.96,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T03:54:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T09:54:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:54:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:54:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T07:54:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00134",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 3160.82,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:13:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:13:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T14:13:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00135",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 3884.57,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:20:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:20:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:20:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T23:20:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:20:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00136",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 1168.45,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:44:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:44:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T00:44:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00137",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3569.85,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T06:59:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T12:59:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:59:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:59:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:59:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00138",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 3329.18,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T07:39:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T13:39:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:39:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T23:39:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T02:39:00",
+    "location": "Surat",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00139",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 383.55,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T08:56:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T14:56:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:56:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00140",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 2920.2,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T06:34:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T12:34:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:34:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00141",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 1761.99,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T11:45:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T17:45:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:45:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00142",
+  "carrier": "QuickHaul",
+  "origin_hub": "Pune",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4783.3,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T13:32:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T19:32:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T01:32:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00143",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 26204.2,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T13:01:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T19:01:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T01:01:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T09:01:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T13:01:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00144",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 2068.14,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T01:35:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T07:35:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T16:35:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T00:35:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T04:35:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00145",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4884.24,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T11:36:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:36:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T18:36:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00146",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 570.54,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T05:01:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:01:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:01:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00147",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4090.9,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T00:47:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T06:47:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:47:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:47:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:47:00",
+    "location": "Nagpur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00148",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 1149.26,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T13:23:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T19:23:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:23:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:23:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:23:00",
+    "location": "Agra",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00149",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2046.84,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:35:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:35:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:35:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:35:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T05:35:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00150",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 2965.76,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:31:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:31:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-23T21:31:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00151",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 24508.75,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:14:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:14:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:14:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:14:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:14:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00152",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2953.04,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T11:28:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T17:28:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:28:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T04:28:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T08:28:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00153",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4723.49,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T11:04:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T17:04:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:04:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:04:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:04:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00154",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 327.15,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T03:32:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T09:32:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:32:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T01:32:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:32:00",
+    "location": "Chandigarh",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00155",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 2562.17,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:21:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:21:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:21:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00156",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4689.69,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T14:20:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T20:20:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:20:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:20:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:20:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00158",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 4392.4,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:34:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:34:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T21:34:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00159",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 1794.91,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T12:34:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T18:34:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T04:34:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00160",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4957.8,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T08:34:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:34:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:34:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:34:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T05:34:00",
+    "location": "Indore",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00161",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2686.62,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:44:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:44:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:44:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:44:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:44:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00163",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3734.99,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T07:39:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T13:39:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:39:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:39:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T02:39:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00164",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3743.76,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:50:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:50:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T23:50:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T07:50:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T11:50:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00165",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4398.46,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:01:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:01:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:01:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T13:01:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T17:01:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00166",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1976.58,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:12:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:12:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:12:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T18:12:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T21:12:00",
+    "location": "Nagpur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00167",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4081.16,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:23:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:23:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:23:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:23:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:23:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00168",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 753.42,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:32:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:32:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T07:32:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00169",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 1583.16,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T16:24:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T22:24:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:24:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00170",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 991.94,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:46:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:46:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:46:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00171",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 2007.3,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T23:15:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T05:15:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T05:15:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T13:15:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T17:15:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00172",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4691.37,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T02:28:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T08:28:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T18:28:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T02:28:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T06:28:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00173",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 955.21,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T11:35:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T17:35:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:35:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:35:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:35:00",
+    "location": "Surat",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00174",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 772.37,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T04:21:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T10:21:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:21:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:21:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:21:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00175",
+  "carrier": "BlueLine",
+  "origin_hub": "Lucknow",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 3093.16,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T15:10:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T21:10:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:10:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00176",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4603.26,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:17:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:17:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:17:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:17:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:17:00",
+    "location": "Chandigarh",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00177",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 4491.5,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T14:34:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T20:34:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T02:34:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00178",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 2163.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T00:16:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T06:16:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T02:16:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00179",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 402.39,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T13:58:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T19:58:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T01:58:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00180",
+  "carrier": "QuickHaul",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 3771.59,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:09:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:09:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T01:09:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00181",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4392.88,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T07:25:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T13:25:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T20:25:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T04:25:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T08:25:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00182",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3555.42,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T09:07:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:07:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:07:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:07:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:07:00",
+    "location": "Indore",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00183",
+  "carrier": "QuickHaul",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 1710.11,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T02:29:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T08:29:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:29:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:29:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:29:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00184",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 4488.89,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:27:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:27:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T10:27:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00185",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 491.35,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T06:22:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T12:22:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:22:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:22:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:22:00",
+    "location": "Surat",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00186",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 2187.71,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:48:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:48:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:48:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00187",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 27957.75,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T11:35:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T17:35:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:35:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T18:35:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:35:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00188",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4497.76,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:17:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:17:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:17:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:17:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:17:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00189",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 3546.28,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T06:58:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T12:58:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T07:58:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:58:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:58:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00190",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4509.15,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T22:34:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T04:34:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:34:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:34:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:34:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00191",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4754.83,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T14:18:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T20:18:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T10:18:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00192",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 1096.25,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T09:57:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T15:57:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:57:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:57:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:57:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00193",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 3891.06,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T05:15:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:15:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T12:15:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:15:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:15:00",
+    "location": "Jaipur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00194",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 3132.0,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T04:14:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T10:14:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T06:14:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00195",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 4025.96,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T11:12:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T17:12:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:12:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T23:12:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:12:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00196",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4395.98,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:03:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:03:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:03:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00197",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 1919.05,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T10:45:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:45:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T01:45:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T08:45:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T11:45:00",
+    "location": "Surat",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00198",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2383.55,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:24:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:24:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T01:24:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00199",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4334.43,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T06:24:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:24:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:24:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T20:24:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:24:00",
+    "location": "Nagpur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00200",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 2711.23,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T20:52:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T02:52:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-23T08:52:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00201",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 1185.08,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T09:59:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T15:59:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T08:59:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00202",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 17457.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T12:30:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T18:30:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:30:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T08:30:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T12:30:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00203",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4057.14,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T07:30:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T13:30:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T04:30:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T12:30:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T16:30:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00204",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 841.59,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T12:20:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T18:20:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T11:20:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T19:20:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T23:20:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00205",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 484.4,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T04:21:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T10:21:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:21:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T21:21:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:21:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00206",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3949.42,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:00:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:00:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T01:00:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T09:00:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T13:00:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00207",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 4598.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T00:34:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T06:34:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T08:34:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00208",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4671.98,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:03:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:03:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:03:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:03:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:03:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00209",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4775.81,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T09:39:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T15:39:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T02:39:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T10:39:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T14:39:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00210",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 15870.04,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T12:00:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T18:00:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:00:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:00:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T02:00:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00211",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4698.46,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-22T15:54:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T21:54:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:54:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T03:54:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:54:00",
+    "location": "Agra",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00212",
+  "carrier": "BlueLine",
+  "origin_hub": "Mumbai",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2208.66,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:22:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:22:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T06:22:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00213",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 4825.56,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T09:07:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T15:07:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T04:07:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00214",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 3812.27,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T16:01:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T22:01:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T04:01:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00215",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 3329.18,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T16:52:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T22:52:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:52:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T18:52:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T22:52:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00216",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 11459.81,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T13:50:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T19:50:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T03:50:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T11:50:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T15:50:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00217",
+  "carrier": "TransIndo",
+  "origin_hub": "Lucknow",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-23",
+  "status": "in_transit",
+  "declared_value_inr": 2964.29,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T17:01:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T23:01:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-25T05:01:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00218",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 34773.58,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T12:08:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T18:08:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:08:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T02:08:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T06:08:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00219",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 7196.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T14:34:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T20:34:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T22:34:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T06:34:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T10:34:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00220",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 2947.86,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:56:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:56:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T14:56:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T22:56:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T02:56:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00221",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3394.65,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T07:59:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T13:59:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:59:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:59:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:59:00",
+    "location": "Chandigarh",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00222",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 3404.27,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T17:22:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T23:22:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T05:22:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00223",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 4852.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T14:04:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T20:04:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T03:04:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00224",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2453.33,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:39:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:39:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T06:39:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T14:39:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-26T18:39:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00227",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 866.53,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:22:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:22:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:22:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00228",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 3889.01,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T23:45:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T05:45:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T09:45:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00229",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 37387.57,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T06:59:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T12:59:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T13:59:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T21:59:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:59:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00230",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 818.96,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T09:04:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T15:04:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T03:04:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00231",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 364.86,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T01:49:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T07:49:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:49:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:49:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T20:49:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00232",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3556.72,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:19:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:19:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T19:19:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T03:19:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T07:19:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00233",
+  "carrier": "TransIndo",
+  "origin_hub": "Noida",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3718.05,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T09:24:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T15:24:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:24:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T15:24:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T18:24:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00234",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 2459.22,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T12:08:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T18:08:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T00:08:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00235",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 460.32,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T00:55:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T06:55:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T00:55:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00236",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 34862.26,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T03:57:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T09:57:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T23:57:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T07:57:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T11:57:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00237",
+  "carrier": "QuickHaul",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2562.89,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T00:15:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T06:15:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:15:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:15:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:15:00",
+    "location": "Jaipur",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00238",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 2973.02,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:06:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:06:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T23:06:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00239",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 17494.83,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T23:03:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T05:03:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T19:03:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T03:03:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T07:03:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00241",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4496.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T08:11:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T14:11:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T02:11:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00242",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 4136.92,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T04:39:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T10:39:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:39:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00243",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2585.72,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:26:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:26:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:26:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T08:26:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T12:26:00",
+    "location": "Bhopal",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00244",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 27893.58,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T04:11:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T10:11:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:11:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T08:11:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T12:11:00",
+    "location": "Nagpur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00245",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4125.88,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T10:34:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T16:34:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:34:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00246",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 3342.34,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T21:51:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T03:51:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T04:51:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T11:51:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T14:51:00",
+    "location": "Indore",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00248",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 2853.38,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T15:43:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T21:43:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:43:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:43:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:43:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00249",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Noida",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 3957.09,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T03:59:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T09:59:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T13:59:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-26T21:59:00",
+    "location": "Dehradun",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T01:59:00",
+    "location": "Dehradun",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00251",
+  "carrier": "QuickHaul",
+  "origin_hub": "Mumbai",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 397.6,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T10:11:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T16:11:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T23:11:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00252",
+  "carrier": "QuickHaul",
+  "origin_hub": "Lucknow",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-23",
+  "status": "in_transit",
+  "declared_value_inr": 4016.9,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T05:30:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:30:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-23T17:30:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00253",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-23",
+  "status": "in_transit",
+  "declared_value_inr": 3509.03,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T16:45:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T22:45:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T04:45:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00254",
+  "carrier": "TransIndo",
+  "origin_hub": "Delhi",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4975.67,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T12:54:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T18:54:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T17:54:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00256",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 4022.92,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T14:27:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T20:27:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T15:27:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00257",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 4429.29,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T16:11:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T22:11:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T08:11:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00258",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 4861.31,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T04:32:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T10:32:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T09:32:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00259",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 4010.74,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:39:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:39:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T04:39:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00260",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 1795.85,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:25:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:25:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T22:25:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T06:25:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T10:25:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00261",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3171.27,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T22:27:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T04:27:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T03:27:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T11:27:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T15:27:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00262",
+  "carrier": "BlueLine",
+  "origin_hub": "Delhi",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 3337.25,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T22:29:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T04:29:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:29:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00263",
+  "carrier": "QuickHaul",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 3647.21,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:00:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:00:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:00:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00264",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 1934.55,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T02:32:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T08:32:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T16:32:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T00:32:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T04:32:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00265",
+  "carrier": "TransIndo",
+  "origin_hub": "Jaipur",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 1110.06,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T01:46:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T07:46:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T19:46:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00266",
+  "carrier": "BlueLine",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 2227.12,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:50:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:50:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T04:50:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T12:50:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T16:50:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00267",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 4985.72,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T09:19:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T15:19:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:19:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T23:19:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:19:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00268",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Dehradun",
+  "promised_date": "2026-10-25",
+  "status": "in_transit",
+  "declared_value_inr": 3403.24,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T03:45:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T09:45:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T10:45:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00269",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 3675.45,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T13:01:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T19:01:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T05:01:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00270",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 4804.33,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T08:34:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T14:34:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T00:34:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T08:34:00",
+    "location": "Chandigarh",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T12:34:00",
+    "location": "Chandigarh",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00271",
+  "carrier": "TransIndo",
+  "origin_hub": "Mumbai",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 2111.18,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T10:38:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T16:38:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T07:38:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00272",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 3853.38,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T11:23:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T17:23:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T20:23:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T04:23:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T08:23:00",
+    "location": "Agra",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00274",
+  "carrier": "QuickHaul",
+  "origin_hub": "Noida",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 2845.83,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T08:03:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T14:03:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:03:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:03:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:03:00",
+    "location": "Jaipur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00275",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 4286.32,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T15:16:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T21:16:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T20:16:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00276",
+  "carrier": "TransIndo",
+  "origin_hub": "Pune",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 959.03,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T23:37:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T05:37:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T02:37:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00277",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 1771.29,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T03:08:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-21T09:08:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-21T15:08:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00278",
+  "carrier": "QuickHaul",
+  "origin_hub": "Delhi",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4069.27,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T06:49:00",
+    "location": "Delhi",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T12:49:00",
+    "location": "Delhi",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T15:49:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T22:49:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T01:49:00",
+    "location": "Indore",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00280",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Surat",
+  "promised_date": "2026-10-27",
+  "status": "delivered",
+  "declared_value_inr": 29869.75,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T08:22:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T14:22:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T23:22:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T07:22:00",
+    "location": "Surat",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T11:22:00",
+    "location": "Surat",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00281",
+  "carrier": "QuickHaul",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4333.18,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T11:01:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T17:01:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T04:01:00",
+    "location": "Gurugram",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T11:01:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T14:01:00",
+    "location": "Agra",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00282",
+  "carrier": "BlueLine",
+  "origin_hub": "Noida",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1291.82,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-23T02:14:00",
+    "location": "Noida",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T08:14:00",
+    "location": "Noida",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T22:14:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T05:14:00",
+    "location": "Nagpur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T08:14:00",
+    "location": "Nagpur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00283",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "delivery_failed",
+  "declared_value_inr": 4217.74,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-24T00:56:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T06:56:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:56:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:56:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:56:00",
+    "location": "Jaipur",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00284",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Pune",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2934.7,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T03:02:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T09:02:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:02:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00285",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 3311.68,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T10:25:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T16:25:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T17:25:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00286",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4193.93,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-25T11:09:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T17:09:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:09:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:09:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:09:00",
+    "location": "Bhopal",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00287",
+  "carrier": "QuickHaul",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 3109.55,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T05:44:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T11:44:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-24T02:44:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00288",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-28",
+  "status": "delivered",
+  "declared_value_inr": 1918.2,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T08:06:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T14:06:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-26T22:06:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T06:06:00",
+    "location": "Jaipur",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T10:06:00",
+    "location": "Jaipur",
+    "code": "DELIVERED"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00289",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 4210.52,
+  "address_valid": false,
+  "scans": [
+   {
+    "at": "2026-10-25T02:57:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:57:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T09:57:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-27T16:57:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-27T19:57:00",
+    "location": "Bhopal",
+    "code": "ADDRESS_ISSUE"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00290",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Mumbai",
+  "destination_city": "Nagpur",
+  "promised_date": "2026-10-29",
+  "status": "in_transit",
+  "declared_value_inr": 2712.81,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T17:24:00",
+    "location": "Mumbai",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T23:24:00",
+    "location": "Mumbai",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T02:24:00",
+    "location": "Ahmedabad",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00291",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Bhopal",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 3414.91,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-23T13:13:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-23T19:13:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:13:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:13:00",
+    "location": "Bhopal",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T03:13:00",
+    "location": "Bhopal",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00292",
+  "carrier": "BlueLine",
+  "origin_hub": "Jaipur",
+  "destination_city": "Chandigarh",
+  "promised_date": "2026-10-27",
+  "status": "in_transit",
+  "declared_value_inr": 2819.14,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T11:24:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T17:24:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T17:24:00",
+    "location": "Lucknow",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00293",
+  "carrier": "TransIndo",
+  "origin_hub": "Ahmedabad",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-28",
+  "status": "delivery_failed",
+  "declared_value_inr": 1256.25,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:10:00",
+    "location": "Ahmedabad",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:10:00",
+    "location": "Ahmedabad",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:10:00",
+    "location": "Mumbai",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T01:10:00",
+    "location": "Agra",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:10:00",
+    "location": "Agra",
+    "code": "CUSTOMER_ABSENT"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00294",
+  "carrier": "BlueLine",
+  "origin_hub": "Pune",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 1105.0,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-25T02:06:00",
+    "location": "Pune",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-25T08:06:00",
+    "location": "Pune",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-28T12:06:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00295",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-31",
+  "status": "in_transit",
+  "declared_value_inr": 3942.27,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T05:01:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T11:01:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T14:01:00",
+    "location": "Pune",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00296",
+  "carrier": "TransIndo",
+  "origin_hub": "Gurugram",
+  "destination_city": "Jaipur",
+  "promised_date": "2026-10-30",
+  "status": "in_transit",
+  "declared_value_inr": 1907.74,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-24T10:20:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-24T16:20:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T18:20:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00298",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Jaipur",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-26",
+  "status": "in_transit",
+  "declared_value_inr": 4887.1,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T07:16:00",
+    "location": "Jaipur",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T13:16:00",
+    "location": "Jaipur",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T19:16:00",
+    "location": "Delhi",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00299",
+  "carrier": "BlueLine",
+  "origin_hub": "Gurugram",
+  "destination_city": "Agra",
+  "promised_date": "2026-10-24",
+  "status": "in_transit",
+  "declared_value_inr": 2233.36,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-21T21:09:00",
+    "location": "Gurugram",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T03:09:00",
+    "location": "Gurugram",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-22T09:09:00",
+    "location": "Noida",
+    "code": "HUB_IN"
+   }
+  ]
+ },
+ {
+  "shipment_id": "SHP-00300",
+  "carrier": "Kestrel Express",
+  "origin_hub": "Lucknow",
+  "destination_city": "Indore",
+  "promised_date": "2026-10-26",
+  "status": "delivered",
+  "declared_value_inr": 18504.48,
+  "address_valid": true,
+  "scans": [
+   {
+    "at": "2026-10-22T05:06:00",
+    "location": "Lucknow",
+    "code": "PICKED_UP"
+   },
+   {
+    "at": "2026-10-22T11:06:00",
+    "location": "Lucknow",
+    "code": "HUB_OUT"
+   },
+   {
+    "at": "2026-10-27T16:06:00",
+    "location": "Jaipur",
+    "code": "HUB_IN"
+   },
+   {
+    "at": "2026-10-28T00:06:00",
+    "location": "Indore",
+    "code": "OUT_FOR_DELIVERY"
+   },
+   {
+    "at": "2026-10-28T04:06:00",
+    "location": "Indore",
+    "code": "DELIVERED"
+   }
+  ]
+ }
+]
