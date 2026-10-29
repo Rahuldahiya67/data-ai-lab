@@ -227,3 +227,28 @@ def generate(
             shipments[shipment.shipment_id] = shipment
         tickets.append(labelled)
     return shipments, tickets
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Write a sample dataset: ``triage-generate --out data --tickets 300 --seed 7``."""
+    import argparse
+    from pathlib import Path
+
+    from .dataset import write_dataset
+
+    parser = argparse.ArgumentParser(description="Generate synthetic shipments and labelled tickets.")
+    parser.add_argument("--out", type=Path, default=Path("data"))
+    parser.add_argument("--tickets", type=int, default=300)
+    parser.add_argument("--seed", type=int, default=7)
+    args = parser.parse_args(argv)
+    try:
+        shipments, tickets = generate(n_tickets=args.tickets, seed=args.seed)
+    except ValueError as exc:
+        parser.error(str(exc))
+    write_dataset(shipments, tickets, args.out)
+    print(f"wrote {len(shipments)} shipments and {len(tickets)} tickets to {args.out}")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())

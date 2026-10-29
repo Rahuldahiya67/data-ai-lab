@@ -9,6 +9,9 @@ description = "A tool-calling triage agent for delivery exception tickets, with 
 requires-python = ">=3.10"
 dependencies = []
 
+[project.scripts]
+triage-generate = "delivery_exception_triage_agent.generator:main"
+
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
 

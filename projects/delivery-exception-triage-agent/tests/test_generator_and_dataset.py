@@ -115,3 +115,19 @@ def test_load_tickets_rejects_duplicate_ids(tmp_path):
     write_dataset({}, tickets + tickets[:1], tmp_path)
     with pytest.raises(DatasetError, match="duplicate ticket_id"):
         load_tickets(tmp_path / "tickets.jsonl")
+
+
+def test_generator_cli_writes_loadable_files(tmp_path, capsys):
+    from delivery_exception_triage_agent.generator import main
+
+    assert main(["--out", str(tmp_path), "--tickets", "25", "--seed", "1"]) == 0
+    assert "25 tickets" in capsys.readouterr().out
+    assert len(load_tickets(tmp_path / "tickets.jsonl")) == 25
+    assert load_shipments(tmp_path / "shipments.json")
+
+
+def test_generator_cli_rejects_zero_tickets(tmp_path):
+    from delivery_exception_triage_agent.generator import main
+
+    with pytest.raises(SystemExit):
+        main(["--out", str(tmp_path), "--tickets", "0"])
