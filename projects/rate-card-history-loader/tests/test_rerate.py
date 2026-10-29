@@ -107,3 +107,30 @@ def test_report_finds_every_planted_billing_error_in_the_synthetic_data(tmp_path
         assert line.status in expected[truth["expected_issue"]], truth
     assert report.summary()["invalid"] == 0
     con.close()
+
+
+def test_totals_are_kept_per_currency(loader):
+    usd_lane = "L002-DEL-BLR"
+    usd = ev(4, op="c", lane=usd_lane, rate=1.0, min_charge=5.0)
+    usd["currency"] = "USD"
+    loader.load_batch([ev(1, op="c"), usd], "b1")
+    report = rerate(
+        loader.con,
+        [
+            inv("A", 10, 50, 600.0),  # INR: expected 500, overbilled by 100
+            inv("B", 10, 50, 60.0, currency="USD", lane=usd_lane),  # USD: expected 50, overbilled by 10
+            inv("C", 10, 50, 40.0, currency="USD", lane=usd_lane),  # USD: underbilled by 10
+        ],
+    )
+    assert report.totals_by_currency() == {
+        "INR": {"overbilled": 100.0, "underbilled": 0.0, "no_rate_billed": 0.0},
+        "USD": {"overbilled": 10.0, "underbilled": 10.0, "no_rate_billed": 0.0},
+    }
+    assert report.summary()["totals_by_currency"]["USD"]["overbilled"] == 10.0
+    with pytest.raises(ValueError, match="mixes currencies"):
+        report.overbilled_total
+
+
+def test_single_currency_totals_are_zero_for_an_empty_report(priced):
+    report = rerate(priced, [])
+    assert report.overbilled_total == 0.0 and report.totals_by_currency() == {}

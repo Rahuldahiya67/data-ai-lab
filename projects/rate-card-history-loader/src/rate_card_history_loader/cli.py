@@ -109,9 +109,10 @@ def cmd_rerate(args: argparse.Namespace) -> int:
     print(f"invoices: {len(invoices)} valid, {s['invalid']} invalid")
     for status in ("ok", "overbilled", "underbilled", "no_rate", "currency_mismatch"):
         print(f"  {status:<18}{s[status]:>5}")
-    print(f"overbilled total:  {s['overbilled_total']:.2f}")
-    print(f"underbilled total: {s['underbilled_total']:.2f}")
-    print(f"billed with no contracted rate: {s['no_rate_billed_total']:.2f}")
+    for currency, totals in s["totals_by_currency"].items():
+        print(f"{currency} overbilled total:  {totals['overbilled']:.2f}")
+        print(f"{currency} underbilled total: {totals['underbilled']:.2f}")
+        print(f"{currency} billed with no contracted rate: {totals['no_rate_billed']:.2f}")
     for line_no, reason in report.invalid[:10]:
         print(f"  invalid line {line_no}: {reason}")
     if args.out:

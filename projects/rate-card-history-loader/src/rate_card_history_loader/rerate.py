@@ -52,24 +52,59 @@ class RerateReport:
     def count(self, status: str) -> int:
         return sum(1 for line in self.lines if line.status == status)
 
+    def totals_by_currency(self) -> dict[str, dict[str, float]]:
+        """Money totals per currency.
+
+        Amounts in different currencies cannot be added, so every total is kept
+        per currency: overbilled and underbilled amounts in the currency of the
+        matched rate, amounts billed with no contracted rate in the invoice's
+        own currency. Currency mismatches carry no total because the billed and
+        expected amounts are in different currencies.
+        """
+        totals: dict[str, dict[str, float]] = {}
+
+        def add(currency: str, key: str, amount: float) -> None:
+            bucket = totals.setdefault(
+                currency, {"overbilled": 0.0, "underbilled": 0.0, "no_rate_billed": 0.0}
+            )
+            bucket[key] += amount
+
+        for line in self.lines:
+            if line.status == "overbilled":
+                add(line.invoice.currency, "overbilled", line.difference)
+            elif line.status == "underbilled":
+                add(line.invoice.currency, "underbilled", -line.difference)
+            elif line.status == "no_rate":
+                add(line.invoice.currency, "no_rate_billed", line.invoice.billed_amount)
+        return {
+            currency: {key: round(value, 2) for key, value in bucket.items()}
+            for currency, bucket in sorted(totals.items())
+        }
+
+    def _single_currency_total(self, key: str) -> float:
+        totals = self.totals_by_currency()
+        if len(totals) > 1:
+            raise ValueError(
+                f"report mixes currencies ({', '.join(totals)}); use totals_by_currency()"
+            )
+        return next(iter(totals.values()))[key] if totals else 0.0
+
     @property
     def overbilled_total(self) -> float:
-        return round(sum(l.difference for l in self.lines if l.status == "overbilled"), 2)
+        return self._single_currency_total("overbilled")
 
     @property
     def underbilled_total(self) -> float:
-        return round(-sum(l.difference for l in self.lines if l.status == "underbilled"), 2)
+        return self._single_currency_total("underbilled")
 
     @property
     def no_rate_billed_total(self) -> float:
-        return round(sum(l.invoice.billed_amount for l in self.lines if l.status == "no_rate"), 2)
+        return self._single_currency_total("no_rate_billed")
 
     def summary(self) -> dict:
-        out = {status: self.count(status) for status in STATUSES}
+        out: dict = {status: self.count(status) for status in STATUSES}
         out["invalid"] = len(self.invalid)
-        out["overbilled_total"] = self.overbilled_total
-        out["underbilled_total"] = self.underbilled_total
-        out["no_rate_billed_total"] = self.no_rate_billed_total
+        out["totals_by_currency"] = self.totals_by_currency()
         return out
 
 
