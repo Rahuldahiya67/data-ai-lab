@@ -25,6 +25,10 @@ def build_report(
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
     """Summarise ``result`` as a plain dict that can be written as JSON."""
+    if isinstance(sample_size, bool) or not isinstance(sample_size, int) or sample_size < 0:
+        # A negative value would reach DataFrame.head(), which then returns
+        # every row except the last ones instead of a sample.
+        raise ValueError(f"sample_size must be a whole number >= 0, got {sample_size!r}")
     generated_at = generated_at or datetime.now(timezone.utc)
     rule_columns: dict[str, str] = {}
     for v in result.violations:
