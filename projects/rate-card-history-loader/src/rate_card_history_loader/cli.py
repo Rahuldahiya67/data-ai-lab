@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -24,8 +25,40 @@ from .lookup import lane_history, rate_at
 from .rerate import read_invoices, rerate, write_report
 
 
+class CliError(Exception):
+    """A problem with the user's input, reported as one line instead of a traceback."""
+
+
 def _connect(db: str) -> duckdb.DuckDBPyConnection:
     return duckdb.connect(db)
+
+
+def _open_loaded(db: str) -> duckdb.DuckDBPyConnection:
+    """Open an existing, loaded database read-only for the query commands.
+
+    Opening a missing path with duckdb.connect would silently create an empty
+    database file, and the first query would then fail with a catalog error.
+    """
+    if not Path(db).is_file():
+        raise CliError(f"database {db} not found; run 'rate-card-history load' first")
+    con = duckdb.connect(db, read_only=True)
+    has_table = con.execute(
+        "SELECT count(*) FROM information_schema.tables WHERE table_name = 'dim_rate_card'"
+    ).fetchone()[0]
+    if not has_table:
+        con.close()
+        raise CliError(f"database {db} has no dim_rate_card table; run 'rate-card-history load' first")
+    return con
+
+
+def _tolerance(value: str) -> float:
+    try:
+        tolerance = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"not a number: {value!r}") from exc
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise argparse.ArgumentTypeError(f"tolerance must be a finite number >= 0, got {value}")
+    return tolerance
 
 
 def cmd_generate(args: argparse.Namespace) -> int:
@@ -73,7 +106,7 @@ def _parse_when(value: str) -> datetime:
 
 
 def cmd_rate_at(args: argparse.Namespace) -> int:
-    con = _connect(args.db)
+    con = _open_loaded(args.db)
     version = rate_at(con, args.lane_id, args.at)
     con.close()
     if version is None:
@@ -88,7 +121,7 @@ def cmd_rate_at(args: argparse.Namespace) -> int:
 
 
 def cmd_history(args: argparse.Namespace) -> int:
-    con = _connect(args.db)
+    con = _open_loaded(args.db)
     versions = lane_history(con, args.lane_id)
     con.close()
     if not versions:
@@ -101,8 +134,11 @@ def cmd_history(args: argparse.Namespace) -> int:
 
 
 def cmd_rerate(args: argparse.Namespace) -> int:
-    invoices, invalid = read_invoices(Path(args.invoices))
-    con = _connect(args.db)
+    path = Path(args.invoices)
+    if not path.is_file():
+        raise CliError(f"invoice file {path} not found")
+    invoices, invalid = read_invoices(path)
+    con = _open_loaded(args.db)
     report = rerate(con, invoices, tolerance=args.tolerance, invalid=invalid)
     con.close()
     s = report.summary()
@@ -149,7 +185,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("rerate", help="re-rate an invoice CSV against the rate valid on each ship date")
     p.add_argument("invoices")
     p.add_argument("--db", required=True)
-    p.add_argument("--tolerance", type=float, default=0.01)
+    p.add_argument("--tolerance", type=_tolerance, default=0.01)
     p.add_argument("--out")
     p.set_defaults(func=cmd_rerate)
     return parser
@@ -157,7 +193,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    return args.func(args)
+    try:
+        return args.func(args)
+    except CliError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":

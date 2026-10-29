@@ -182,8 +182,8 @@ def rerate(
     invalid: list[tuple[int, str]] | None = None,
 ) -> RerateReport:
     """Price every invoice at the rate valid on its ship date and compare."""
-    if tolerance < 0:
-        raise ValueError(f"tolerance must be >= 0, got {tolerance}")
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise ValueError(f"tolerance must be a finite number >= 0, got {tolerance}")
     con.execute("CREATE OR REPLACE TEMP TABLE stg_invoices (idx INTEGER, lane_id VARCHAR, ship_ts TIMESTAMP)")
     if invoices:
         con.executemany(

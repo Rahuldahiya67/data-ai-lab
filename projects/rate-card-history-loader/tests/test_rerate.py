@@ -54,8 +54,9 @@ def test_ship_time_on_a_rate_change_uses_the_new_rate(priced):
 def test_tolerance_absorbs_rounding_differences(priced):
     report = rerate(priced, [inv("A", 10, 50, 500.004), inv("B", 10, 50, 500.5)], tolerance=0.01)
     assert [line.status for line in report.lines] == ["ok", "overbilled"]
-    with pytest.raises(ValueError):
-        rerate(priced, [], tolerance=-1)
+    for bad in (-1, float("nan"), float("inf")):
+        with pytest.raises(ValueError):
+            rerate(priced, [], tolerance=bad)
 
 
 def test_empty_invoice_list_gives_an_empty_report(priced):
