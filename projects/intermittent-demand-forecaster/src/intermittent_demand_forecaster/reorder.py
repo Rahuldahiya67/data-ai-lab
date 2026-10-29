@@ -23,8 +23,19 @@ from statistics import NormalDist
 import numpy as np
 import pandas as pd
 
+from .backtest import check_whole_number
 from .methods import METHODS
 from .prepare import prepare_demand
+
+def _check_policy(lead_time, service_level) -> tuple[int, float]:
+    """Validate the stocking policy and return (lead time, z for the service level)."""
+    lead_time = check_whole_number("lead_time", lead_time)
+    if isinstance(service_level, bool) or not isinstance(service_level, (int, float, np.floating)):
+        raise ValueError(f"service_level must be a number, got {service_level!r}")
+    if not 0.5 <= service_level < 1:  # also rejects NaN
+        raise ValueError(f"service_level must be in [0.5, 1), got {service_level}")
+    return lead_time, NormalDist().inv_cdf(service_level)
+
 
 REPORT_COLUMNS = [
     "sku",
@@ -52,11 +63,7 @@ def reorder_points(
     ``best`` is the output of :func:`select_best`. Returns one row per SKU in
     ``best``, columns :data:`REPORT_COLUMNS`.
     """
-    if not isinstance(lead_time, (int, np.integer)) or lead_time < 1:
-        raise ValueError("lead_time must be a whole number of weeks, at least 1")
-    if not 0.5 <= service_level < 1:
-        raise ValueError("service_level must be in [0.5, 1)")
-    z = NormalDist().inv_cdf(service_level)
+    lead_time, z = _check_policy(lead_time, service_level)
 
     series = {sku: g["demand"].to_numpy() for sku, g in prepare_demand(df).groupby("sku")}
     rows = []
@@ -108,13 +115,8 @@ def service_check(
     optimistic check of the normal approximation, not a clean out-of-sample
     test. SKUs with no complete window get NaN.
     """
-    if not isinstance(lead_time, (int, np.integer)) or lead_time < 1:
-        raise ValueError("lead_time must be a whole number of weeks, at least 1")
-    if not 0.5 <= service_level < 1:
-        raise ValueError("service_level must be in [0.5, 1)")
-    if holdout < 1:
-        raise ValueError("holdout must be at least 1")
-    z = NormalDist().inv_cdf(service_level)
+    lead_time, z = _check_policy(lead_time, service_level)
+    holdout = check_whole_number("holdout", holdout)
 
     series = {sku: g["demand"].to_numpy() for sku, g in prepare_demand(df).groupby("sku")}
     rows = []

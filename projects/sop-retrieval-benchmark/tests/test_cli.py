@@ -63,3 +63,27 @@ def test_no_title_removes_the_site_name_from_chunks_and_causes_site_confusion(tm
     assert a["site_confusion"] == 0
     assert b["site_confusion"] > 0.1
     assert b["recall@1"] < a["recall@1"]
+
+
+def test_small_max_words_works_without_an_explicit_overlap(capsys):
+    # Before the overlap was capped, any --max-words of 20 or less failed with
+    # an error about an overlap option the CLI did not expose.
+    assert main(["run", "--data", str(SAMPLE), "--by", "none", "--max-words", "15"]) == 0
+    assert capsys.readouterr().out.splitlines()[2].split()[0] == "bm25"
+
+
+def test_default_overlap_keeps_twenty_words_for_normal_chunks():
+    from sop_retrieval_benchmark.cli import default_overlap
+
+    assert default_overlap(120) == 20
+    assert default_overlap(30) == 15
+    assert default_overlap(1) == 0
+
+
+def test_explicit_overlap_is_passed_through_and_validated(tmp_path, capsys):
+    a, b = tmp_path / "a.json", tmp_path / "b.json"
+    assert main(["run", "--data", str(SAMPLE), "--by", "none", "--json", str(a)]) == 0
+    assert main(["run", "--data", str(SAMPLE), "--by", "none", "--overlap", "20", "--json", str(b)]) == 0
+    assert json.loads(a.read_text()) == json.loads(b.read_text())
+    assert main(["run", "--data", str(SAMPLE), "--max-words", "10", "--overlap", "10"]) == 2
+    assert "overlap must be in [0, max_words)" in capsys.readouterr().err

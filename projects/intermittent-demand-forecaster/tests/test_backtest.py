@@ -115,3 +115,12 @@ def test_backtest_skips_short_skus_with_warning(demand):
         results = backtest(df, holdout=20)
     assert "NEW-1" not in set(results["sku"])
     assert results["sku"].nunique() == demand["sku"].nunique()
+
+
+@pytest.mark.parametrize("holdout", [2.5, True, "26"])
+def test_backtest_rejects_non_integer_holdout(holdout):
+    import pandas as pd
+
+    df = pd.DataFrame({"sku": ["A"] * 10, "week": pd.date_range("2026-01-05", periods=10, freq="W-MON"), "demand": 1})
+    with pytest.raises(ValueError, match="holdout must be a whole number"):
+        backtest(df, holdout=holdout)
