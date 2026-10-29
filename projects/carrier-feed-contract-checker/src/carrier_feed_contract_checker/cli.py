@@ -58,6 +58,16 @@ def _check(args: argparse.Namespace) -> int:
     return EXIT_PASS if result.passed else EXIT_FAIL
 
 
+def _non_negative_int(value: str) -> int:
+    try:
+        number = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"not a whole number: {value!r}") from exc
+    if number < 0:
+        raise argparse.ArgumentTypeError(f"must be >= 0, got {number}")
+    return number
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="carrier-feed-check",
@@ -77,7 +87,7 @@ def build_parser() -> argparse.ArgumentParser:
     chk.add_argument("feed", help="CSV feed to check")
     chk.add_argument("--contract", required=True, help="YAML contract file")
     chk.add_argument("--out-dir", default="out", help="directory for outputs (default: out)")
-    chk.add_argument("--sample", type=int, default=10, help="quarantined rows to show in the report")
+    chk.add_argument("--sample", type=_non_negative_int, default=10, help="quarantined rows to show in the report")
     chk.set_defaults(func=_check)
     return parser
 

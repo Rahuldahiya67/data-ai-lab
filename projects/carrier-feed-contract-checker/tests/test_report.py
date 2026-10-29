@@ -2,8 +2,9 @@ import json
 from datetime import datetime, timezone
 
 import pandas as pd
+import pytest
 
-from carrier_feed_contract_checker.report import build_report, csv_line, render_markdown
+from carrier_feed_contract_checker.report import _cell, build_report, csv_line, render_markdown
 from carrier_feed_contract_checker.validate import validate_frame
 
 FIXED_TIME = datetime(2026, 10, 16, 9, 0, tzinfo=timezone.utc)
@@ -49,3 +50,29 @@ def test_markdown_for_clean_feed(contract, make_frame):
     md = render_markdown(build_report(result, contract, "f", generated_at=FIXED_TIME))
     assert "No row-level violations." in md
     assert "Sample quarantined rows" not in md
+
+
+def test_sample_size_zero_gives_no_samples(contract, make_frame):
+    df = make_frame(*[{"carrier": "FEDEX"}] * 3)
+    report = build_report(validate_frame(df, contract), contract, "f", sample_size=0)
+    assert report["sample_quarantined_rows"] == []
+
+
+@pytest.mark.parametrize("bad", [-1, 2.5, True])
+def test_sample_size_must_be_a_non_negative_whole_number(contract, make_frame, bad):
+    result = validate_frame(make_frame({"carrier": "FEDEX"}), contract)
+    with pytest.raises(ValueError, match="sample_size"):
+        build_report(result, contract, "f", sample_size=bad)
+
+
+def test_markdown_escapes_pipes_in_cells(contract, make_frame):
+    df = make_frame({}).assign(**{"notes|internal": "x"})
+    md = render_markdown(build_report(validate_frame(df, contract), contract, "f", generated_at=FIXED_TIME))
+    (row,) = [line for line in md.splitlines() if line.startswith("| schema.no_extra_columns")]
+    assert "notes\\|internal" in row
+    assert row.count(" | ") == 2  # still exactly three cells
+
+
+def test_cell_keeps_a_value_on_one_table_row():
+    assert _cell("a|b\nc\r\nd") == "a\\|b c  d"
+    assert _cell("C:\\feeds") == "C:\\\\feeds"  # a literal backslash stays visible

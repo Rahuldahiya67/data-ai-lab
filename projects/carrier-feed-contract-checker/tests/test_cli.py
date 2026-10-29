@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from carrier_feed_contract_checker.cli import EXIT_ERROR, EXIT_FAIL, EXIT_PASS, main
 
@@ -72,3 +73,9 @@ def test_misspelt_feed_limit_is_an_error_not_a_silent_pass(tmp_path, capsys):
     code = main(["check", str(feed), "--contract", str(contract), "--out-dir", str(tmp_path / "out")])
     assert code == EXIT_ERROR
     assert "max_reject_rates" in capsys.readouterr().err
+
+
+def test_check_rejects_a_negative_sample_size(tmp_path):
+    with pytest.raises(SystemExit) as exc:
+        main(["check", str(tmp_path / "f.csv"), "--contract", CONTRACT, "--sample", "-1"])
+    assert exc.value.code == 2
