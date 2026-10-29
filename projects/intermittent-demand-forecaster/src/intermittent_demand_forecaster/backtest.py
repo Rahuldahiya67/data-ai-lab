@@ -37,6 +37,19 @@ FALLBACK_METHOD = "tsb"
 MIN_TRAIN_WEEKS = 2
 
 
+def check_whole_number(name: str, value, minimum: int = 1) -> int:
+    """Return ``value`` as an int if it is a whole number >= ``minimum``.
+
+    Booleans are rejected even though Python treats them as integers:
+    ``lead_time=True`` is a caller mistake, not a one-week lead time.
+    """
+    if isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, np.integer)):
+        raise ValueError(f"{name} must be a whole number, got {value!r}")
+    if value < minimum:
+        raise ValueError(f"{name} must be at least {minimum}, got {value}")
+    return int(value)
+
+
 def rolling_forecasts(y: np.ndarray, method: str, holdout: int) -> np.ndarray:
     """One-step-ahead forecasts for the last ``holdout`` periods of ``y``."""
     if method not in METHODS:
@@ -82,8 +95,7 @@ def backtest(
     SKUs with fewer than ``holdout + MIN_TRAIN_WEEKS`` weeks cannot be scored;
     they are left out and named in a warning.
     """
-    if holdout < 1:
-        raise ValueError("holdout must be at least 1")
+    holdout = check_whole_number("holdout", holdout)
     methods = list(methods) if methods is not None else list(METHODS)
     rows = []
     too_short = []
