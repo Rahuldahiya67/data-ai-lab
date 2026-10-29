@@ -65,6 +65,15 @@ def build_report(
     }
 
 
+def _cell(value: Any) -> str:
+    """Make a value safe inside a Markdown table cell.
+
+    Feed check details quote column names straight from the carrier's header,
+    so a ``|`` or a line break there would otherwise split or end the table row.
+    """
+    return str(value).replace("\\", "\\\\").replace("|", "\\|").replace("\r", " ").replace("\n", " ")
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     """Render a report dict as a short Markdown page for the carrier or the ops team."""
     rows = report["rows"]
@@ -83,13 +92,13 @@ def render_markdown(report: dict[str, Any]) -> str:
         "|---|---|---|",
     ]
     for c in report["feed_checks"]:
-        lines.append(f"| {c['name']} | {'pass' if c['passed'] else 'FAIL'} | {c['detail']} |")
+        lines.append(f"| {_cell(c['name'])} | {'pass' if c['passed'] else 'FAIL'} | {_cell(c['detail'])} |")
 
     lines += ["", "## Violations by rule", ""]
     if report["violations_by_rule"]:
         lines += ["| Rule | Column | Rows |", "|---|---|---:|"]
         for v in report["violations_by_rule"]:
-            lines.append(f"| {v['rule']} | {v['column']} | {v['count']} |")
+            lines.append(f"| {_cell(v['rule'])} | {_cell(v['column'])} | {v['count']} |")
     else:
         lines.append("No row-level violations.")
 
@@ -104,5 +113,5 @@ def render_markdown(report: dict[str, Any]) -> str:
             "|---:|---|",
         ]
         for s in report["sample_quarantined_rows"]:
-            lines.append(f"| {s['csv_line']} | {', '.join(s['violations'])} |")
+            lines.append(f"| {s['csv_line']} | {_cell(', '.join(s['violations']))} |")
     return "\n".join(lines) + "\n"
