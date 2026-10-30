@@ -1,4 +1,5 @@
 import csv
+import re
 from datetime import timedelta
 
 import duckdb
@@ -7,7 +8,7 @@ import pytest
 from rate_card_history_loader.generator import generate_stream
 from rate_card_history_loader.invoices import generate_invoices, write_invoices
 from rate_card_history_loader.loader import RateCardLoader
-from rate_card_history_loader.rerate import Invoice, read_invoices, rerate, write_report
+from rate_card_history_loader.rerate import Invoice, InvalidInvoiceFile, read_invoices, rerate, write_report
 
 from conftest import T0, ev
 
@@ -82,6 +83,34 @@ def test_read_invoices_reports_bad_rows_with_line_numbers(tmp_path):
     assert "ship_ts is not ISO-8601" in invalid[0][1]
     assert "weight_kg must be a positive finite number" in invalid[1][1]
     assert "duplicate invoice_id A" in invalid[3][1]
+
+
+@pytest.mark.parametrize(
+    "content, message",
+    [
+        ("", "no header row"),
+        ("invoice_id,lane_id,ship_ts,weight,billed_amount,currency\nA,L1,2026-07-01T10:00:00,50,500,INR\n",
+         "missing column(s) weight_kg"),
+        ("invoice_id;lane_id;ship_ts;weight_kg;billed_amount;currency\nA;L1;2026-07-01T10:00:00;50;500;INR\n",
+         "missing column(s) invoice_id, lane_id"),
+    ],
+)
+def test_read_invoices_rejects_a_file_with_a_bad_header(tmp_path, content, message):
+    path = tmp_path / "invoices.csv"
+    path.write_text(content)
+    with pytest.raises(InvalidInvoiceFile, match=re.escape(message)):
+        read_invoices(path)
+
+
+def test_read_invoices_accepts_a_bom_and_padded_header_names(tmp_path):
+    path = tmp_path / "invoices.csv"
+    path.write_text(
+        "\ufeffinvoice_id, lane_id ,ship_ts,weight_kg,billed_amount,currency\n"
+        "A,L1,2026-07-01T10:00:00,50,500,INR\n",
+        encoding="utf-8",
+    )
+    invoices, invalid = read_invoices(path)
+    assert [i.invoice_id for i in invoices] == ["A"] and invalid == []
 
 
 def test_report_csv_lists_only_lines_that_need_attention(priced, tmp_path):

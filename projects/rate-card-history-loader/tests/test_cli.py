@@ -88,3 +88,13 @@ def test_rerate_reports_a_missing_invoice_file(workspace, tmp_path, capsys):
 def test_rerate_rejects_bad_tolerance(tmp_path, value):
     with pytest.raises(SystemExit):
         main(["rerate", "x.csv", "--db", str(tmp_path / "x.duckdb"), "--tolerance", value])
+
+
+def test_rerate_reports_an_invoice_file_with_missing_columns(workspace, tmp_path, capsys):
+    data, db = workspace
+    main(["load", str(data / "cdc_batches"), "--db", db])
+    bad = tmp_path / "bad.csv"
+    bad.write_text("invoice_id,lane_id,ship_ts,weight,billed_amount,currency\n")
+    capsys.readouterr()
+    assert main(["rerate", str(bad), "--db", db]) == 2
+    assert "missing column(s) weight_kg" in capsys.readouterr().err

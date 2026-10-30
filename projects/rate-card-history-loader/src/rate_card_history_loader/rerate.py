@@ -108,8 +108,15 @@ class RerateReport:
         return out
 
 
+REQUIRED_COLUMNS = ("invoice_id", "lane_id", "ship_ts", "weight_kg", "billed_amount", "currency")
+
+
 class InvalidInvoice(ValueError):
-    pass
+    """One invoice row is invalid; the row is reported and the rest are still read."""
+
+
+class InvalidInvoiceFile(ValueError):
+    """The invoice file as a whole cannot be read (no header, or required columns missing)."""
 
 
 def _number(row: dict, name: str) -> float:
@@ -147,11 +154,26 @@ def parse_invoice(row: dict) -> Invoice:
 
 
 def read_invoices(path: Path) -> tuple[list[Invoice], list[tuple[int, str]]]:
-    """Read an invoice CSV. Bad rows are returned with their line number, not raised."""
+    """Read an invoice CSV. Bad rows are returned with their line number, not raised.
+
+    A file without a header row, or one missing a required column, raises
+    ``InvalidInvoiceFile`` instead: otherwise every row would be reported as
+    invalid for a reason that hides the real problem (a renamed column, or a
+    file saved with a different delimiter).
+    """
     invoices, invalid = [], []
     seen: set[str] = set()
-    with path.open(encoding="utf-8", newline="") as fh:
+    with path.open(encoding="utf-8-sig", newline="") as fh:
         reader = csv.DictReader(fh)
+        header = [name.strip() for name in (reader.fieldnames or [])]
+        if not header:
+            raise InvalidInvoiceFile(f"{path}: no header row")
+        missing = [c for c in REQUIRED_COLUMNS if c not in header]
+        if missing:
+            raise InvalidInvoiceFile(
+                f"{path}: missing column(s) {', '.join(missing)}; found {', '.join(header)}"
+            )
+        reader.fieldnames = header
         for line_no, row in enumerate(reader, start=2):
             try:
                 invoice = parse_invoice(row)
