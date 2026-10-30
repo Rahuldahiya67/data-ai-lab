@@ -53,7 +53,7 @@ intermittent-demand backtest --input data/sample_demand.csv --out out/backtest.c
 intermittent-demand reorder --input data/sample_demand.csv --lead-time 4 --service-level 0.95 --out out/reorder.csv
 ```
 
-Input is any CSV with the columns `sku`, `week` and `demand` (extra columns are ignored). `--holdout` sets the number of weeks scored (default 26). The CLI returns exit code 2 with a message on bad input such as negative demand or missing columns.
+Input is any CSV with the columns `sku`, `week` and `demand` (extra columns are ignored). `--holdout` sets the number of weeks scored (default 26). The CLI returns exit code 2 with a message on bad input: missing columns or values, demand that is negative, infinite or not a number, or a week that is not a date. The message names up to three offending values and their rows.
 
 ## Results
 
@@ -98,7 +98,7 @@ What this says:
 - Safety stock is large compared with lead-time demand for erratic, intermittent and lumpy parts. That is the real cost of variable demand, not a bug.
 - Achieved service is 0.948 on smooth SKUs, almost exactly the 95% target, and 0.930 to 0.939 on the other classes. The normal approximation and the √L step under-cover sparse and erratic demand slightly, and this check is already optimistic because the RMSE comes from the same holdout. For a real store, raising the target a little for those classes, or moving to an empirical quantile of lead-time demand, would be the next step.
 
-Test suite: 76 tests, including hand-computed checks for every smoothing method, input validation for every method, a no-lookahead check on the backtest and the service check, and the edge cases found in review (missing weeks, duplicate rows, SKUs that cannot be scored).
+Test suite: 91 tests, including hand-computed checks for every smoothing method, input validation for every method and for the input file, a no-lookahead check on the backtest and the service check, and the edge cases found in review (missing weeks, duplicate rows, SKUs that cannot be scored).
 
 ## Design decisions
 

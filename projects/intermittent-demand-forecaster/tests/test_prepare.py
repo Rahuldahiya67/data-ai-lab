@@ -58,8 +58,19 @@ def test_series_run_to_the_last_week_in_the_data():
         (pd.DataFrame({"sku": ["A"], "demand": [1]}), "missing column"),
         (pd.DataFrame({"sku": ["A"], "week": ["2024-01-01"], "demand": [None]}), "missing values"),
         (pd.DataFrame({"sku": ["A"], "week": ["2024-01-01"], "demand": [-2]}), "non-negative"),
+        # Infinite demand used to pass and turn every forecast and reorder point into inf.
+        (pd.DataFrame({"sku": ["A"], "week": ["2024-01-01"], "demand": [float("inf")]}), "finite"),
+        (pd.DataFrame({"sku": ["A", "A"], "week": ["2024-01-01", "2024-01-08"], "demand": [1, "inf"]}), r"finite, got inf \(row 1\)"),
+        (pd.DataFrame({"sku": ["A", "A"], "week": ["2024-01-01", "2024-01-08"], "demand": [1, "12 pcs"]}), r"numeric, got '12 pcs' \(row 1\)"),
+        (pd.DataFrame({"sku": ["A", "A"], "week": ["2024-01-01", "wk 2"], "demand": [1, 2]}), r"week must be a date, could not parse 'wk 2' \(row 1\)"),
     ],
 )
 def test_bad_input_is_rejected(raw, message):
     with pytest.raises(ValueError, match=message):
+        prepare_demand(raw)
+
+
+def test_error_message_lists_at_most_three_bad_values():
+    raw = pd.DataFrame({"sku": ["A"] * 5, "week": ["2024-01-01"] * 5, "demand": ["a", "b", "c", "d", "e"]})
+    with pytest.raises(ValueError, match=r"'c' \(row 2\) and 2 more$"):
         prepare_demand(raw)
