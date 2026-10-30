@@ -101,4 +101,4 @@ All documents, sites, numbers and questions are synthetic, produced by `generate
 
 ## Tests
 
-74 tests (`pytest -q`): tokenizer and stemmer, generator (including the pinned original questions and held-out coverage), loader validation, chunking, BM25 scoring, metrics and their edge cases, site detection and filtering, query expansion, and the CLI end to end on the committed data (including chunk size and overlap options).
+91 tests (`pytest -q`): tokenizer and stemmer, generator (including the pinned original questions and held-out coverage), loader validation, chunking, BM25 scoring and parameter validation, metrics and their edge cases, site detection and filtering, query expansion, and the CLI end to end on the committed data (including chunk size and overlap options).
