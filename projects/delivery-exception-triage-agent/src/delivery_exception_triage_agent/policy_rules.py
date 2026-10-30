@@ -20,4 +20,5 @@ ESCALATION_REASONS = (
     "policy_block",
     "unclear_request",
     "step_budget_exhausted",
+    "planner_error",
 )

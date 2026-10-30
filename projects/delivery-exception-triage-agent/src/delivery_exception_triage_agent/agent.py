@@ -1,8 +1,10 @@
 """The agent loop: ask the planner for a call, run it, feed the result back.
 
-The loop stops when an action tool runs. Two safety nets keep every ticket
+The loop stops when an action tool runs. Three safety nets keep every ticket
 resolved: a blocked action is turned into an escalation carrying the violation,
-and a run that hits the step budget is escalated as ``step_budget_exhausted``.
+a planner that raises (malformed model output, a timeout) is escalated as
+``planner_error``, and a run that hits the step budget is escalated as
+``step_budget_exhausted``.
 """
 
 from __future__ import annotations
@@ -25,6 +27,7 @@ class TriageResult:
     steps: list[Step] = field(default_factory=list)
     tool_errors: int = 0
     blocked_actions: list[list[str]] = field(default_factory=list)
+    planner_error: str | None = None
 
     @property
     def tools_called(self) -> tuple[str, ...]:
@@ -53,7 +56,13 @@ def triage(
     result = TriageResult(ticket.ticket_id, Resolution("escalate", reason="step_budget_exhausted"))
 
     for _ in range(max_steps):
-        call = planner.next_call(ticket, list(result.steps))
+        try:
+            call = planner.next_call(ticket, list(result.steps))
+            if not isinstance(call, ToolCall):
+                raise TypeError(f"planner returned {type(call).__name__}, expected ToolCall")
+        except Exception as exc:  # one bad ticket must not stop a batch
+            result.planner_error = f"{type(exc).__name__}: {exc}"
+            return _escalate(result, box, ticket, "planner_error")
         try:
             obs = box.execute(call)
         except ToolError as exc:
@@ -70,12 +79,14 @@ def triage(
         violations = obs["violations"]
         result.blocked_actions.append(violations)
         reason = next((v for v in violations if v in ESCALATION_REASONS), "policy_block")
-        fallback = ToolCall("escalate", {"ticket_id": ticket.ticket_id, "reason": reason})
-        result.steps.append(Step(fallback, observation=box.execute(fallback)))
-        result.resolution = Resolution("escalate", reason=reason)
-        return result
+        return _escalate(result, box, ticket, reason)
 
-    # Out of steps: escalate, and keep the escalation in the trace so it agrees with the ledger.
-    fallback = ToolCall("escalate", {"ticket_id": ticket.ticket_id, "reason": "step_budget_exhausted"})
+    return _escalate(result, box, ticket, "step_budget_exhausted")
+
+
+def _escalate(result: TriageResult, box: Toolbox, ticket: Ticket, reason: str) -> TriageResult:
+    """Run a fallback escalation and keep it in the trace so the trace agrees with the ledger."""
+    fallback = ToolCall("escalate", {"ticket_id": ticket.ticket_id, "reason": reason})
     result.steps.append(Step(fallback, observation=box.execute(fallback)))
+    result.resolution = Resolution("escalate", reason=reason)
     return result
