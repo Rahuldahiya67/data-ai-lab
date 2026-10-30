@@ -124,6 +124,14 @@ def test_reship_allowed_once_stuck_and_only_once(in_transit_shipment, ticket):
     assert second.execute(call("create_reship", shipment_id="SHP-00001"))["violations"] == ["already_compensated"]
 
 
+def test_reship_without_any_scans_is_blocked(in_transit_shipment, ticket):
+    unscanned = replace(in_transit_shipment, scans=())
+    box = Toolbox({"SHP-00001": unscanned}, ticket)
+    obs = box.execute(call("create_reship", shipment_id="SHP-00001"))
+    assert obs["violations"] == ["reship_without_scan_history"]
+    assert box.ledger.actions == []
+
+
 def _delivered(shipment, value):
     return replace(shipment, status="delivered", declared_value_inr=value)
 

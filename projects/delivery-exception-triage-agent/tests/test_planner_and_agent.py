@@ -115,3 +115,11 @@ def test_rule_based_planner_on_generated_tickets():
               "failed_customer_absent", "unknown_shipment"):
         assert correct[s] == total[s], s
     assert sum(correct.values()) / len(tickets) > 0.85
+
+
+def test_reship_on_an_unscanned_shipment_ends_as_a_policy_escalation(in_transit_shipment, ticket):
+    unscanned = replace(in_transit_shipment, scans=())
+    planner = ScriptedPlanner([ToolCall("create_reship", {"shipment_id": "SHP-00001"})])
+    result = triage(ticket, {"SHP-00001": unscanned}, planner)
+    assert result.blocked_actions == [["reship_without_scan_history"]]
+    assert result.resolution.action == "escalate" and result.resolution.reason == "policy_block"

@@ -48,7 +48,10 @@ def check_action(name: str, args: dict[str, Any], shipment: Shipment | None, too
         hours = _hours_since_last_scan(shipment, toolbox)
         if shipment.status != "in_transit":
             v.append("reship_requires_in_transit_shipment")
-        elif hours is not None and hours <= STUCK_AFTER_HOURS:
+        elif hours is None:
+            # Never scanned means never picked up: not lost in transit, so a person decides.
+            v.append("reship_without_scan_history")
+        elif hours <= STUCK_AFTER_HOURS:
             v.append("reship_before_stuck_threshold")
     elif name == "schedule_redelivery":
         if shipment.status != "delivery_failed":
