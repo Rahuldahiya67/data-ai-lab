@@ -143,6 +143,14 @@ class Toolbox:
         if ticket_id != self.ticket.ticket_id:
             raise ToolError(f"{call_name}: ticket_id {ticket_id!r} is not the ticket being handled")
 
+    def _check_own_shipment(self, call_name: str, shipment_id: str) -> None:
+        # Read tools may look up any shipment; actions may only touch the ticket's own.
+        if shipment_id != self.ticket.shipment_id:
+            raise ToolError(
+                f"{call_name}: shipment_id {shipment_id!r} does not belong to ticket {self.ticket.ticket_id} "
+                f"(expected {self.ticket.shipment_id!r})"
+            )
+
     # -- entry point -------------------------------------------------------
     def execute(self, call: ToolCall) -> dict[str, Any]:
         args = validate_call(call)
@@ -153,6 +161,7 @@ class Toolbox:
             self._check_ticket(call.name, args["ticket_id"])
         shipment = None
         if "shipment_id" in args:
+            self._check_own_shipment(call.name, args["shipment_id"])
             shipment = self._shipment(call.name, args["shipment_id"])
         else:
             shipment = self.shipments.get(self.ticket.shipment_id)

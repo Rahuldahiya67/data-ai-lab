@@ -76,6 +76,28 @@ def test_action_on_another_ticket_is_rejected(box):
         box.execute(call("close_ticket", ticket_id="TKT-00002"))
 
 
+@pytest.mark.parametrize(
+    "action",
+    [
+        call("issue_refund", shipment_id="SHP-00002", amount_inr=500, reason="damaged"),
+        call("create_reship", shipment_id="SHP-00002"),
+        call("schedule_redelivery", shipment_id="SHP-00002", date="2026-10-29"),
+    ],
+)
+def test_action_on_another_customers_shipment_is_rejected(in_transit_shipment, ticket, action):
+    other = replace(in_transit_shipment, shipment_id="SHP-00002", status="delivered")
+    box = Toolbox({"SHP-00001": in_transit_shipment, "SHP-00002": other}, ticket)
+    with pytest.raises(ToolError, match="does not belong to ticket TKT-00001"):
+        box.execute(action)
+    assert box.ledger.actions == []
+
+
+def test_read_tools_may_look_up_any_shipment(in_transit_shipment, ticket):
+    other = replace(in_transit_shipment, shipment_id="SHP-00002")
+    box = Toolbox({"SHP-00001": in_transit_shipment, "SHP-00002": other}, ticket)
+    assert box.execute(call("get_shipment", shipment_id="SHP-00002"))["found"]
+
+
 def test_eta_update_runs_and_is_recorded(box):
     obs = box.execute(call("send_eta_update", ticket_id="TKT-00001", eta_date="2026-10-29"))
     assert obs == {"executed": True, "action": "send_eta_update"}
