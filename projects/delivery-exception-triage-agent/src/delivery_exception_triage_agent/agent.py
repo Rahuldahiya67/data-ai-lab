@@ -75,5 +75,7 @@ def triage(
         result.resolution = Resolution("escalate", reason=reason)
         return result
 
-    box.execute(ToolCall("escalate", {"ticket_id": ticket.ticket_id, "reason": "step_budget_exhausted"}))
+    # Out of steps: escalate, and keep the escalation in the trace so it agrees with the ledger.
+    fallback = ToolCall("escalate", {"ticket_id": ticket.ticket_id, "reason": "step_budget_exhausted"})
+    result.steps.append(Step(fallback, observation=box.execute(fallback)))
     return result

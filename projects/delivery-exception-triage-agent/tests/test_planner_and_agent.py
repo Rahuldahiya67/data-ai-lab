@@ -82,9 +82,20 @@ def test_step_budget_escalates_a_planner_that_loops(in_transit_shipment, ticket)
     planner = ScriptedPlanner([ToolCall("get_shipment", {"shipment_id": "SHP-00001"})])
     ledger = ActionLedger()
     result = triage(ticket, {"SHP-00001": in_transit_shipment}, planner, ledger, max_steps=4)
-    assert len(result.steps) == 4
+    # Four planner steps plus the fallback escalation, which must appear in the trace.
+    assert len(result.steps) == 5
+    assert result.tools_called == ("get_shipment",) * 4 + ("escalate",)
+    assert result.steps[-1].observation == {"executed": True, "action": "escalate"}
     assert result.resolution.reason == "step_budget_exhausted"
     assert [a.args["reason"] for a in ledger.actions] == ["step_budget_exhausted"]
+
+
+def test_trace_ends_with_the_ledgered_action_for_every_generated_ticket():
+    shipments, tickets = generate(n_tickets=60, seed=3)
+    ledger = ActionLedger()
+    for t in tickets:
+        r = triage(t.ticket, shipments, RuleBasedPlanner(), ledger)
+        assert r.tools_called[-1] == ledger.actions[-1].name == r.resolution.action
 
 
 def test_rule_based_planner_on_generated_tickets():
