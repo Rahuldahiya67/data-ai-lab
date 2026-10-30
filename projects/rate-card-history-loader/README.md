@@ -115,7 +115,7 @@ INR billed with no contracted rate: 44082.84
 
 The invoice generator plants two kinds of error: billing at the rate valid on the invoice date instead of the ship date (`stale_rate`, which shows up as over- or underbilling depending on the direction of the rate change), and billing a lane that had been withdrawn (`no_contract`). The report finds every planted error and flags nothing else; `test_report_finds_every_planted_billing_error_in_the_synthetic_data` checks this against the generator's ground truth, which the report itself never reads.
 
-Tests: 83 passed. The end-to-end tests load the full shuffled, duplicated and replayed stream and compare the dimension with the true history: current rates match the true final state, more than 1,000 point-in-time lookups match, no lane has overlapping or zero-length versions, and the replay is a no-op.
+Tests: 88 passed. The end-to-end tests load the full shuffled, duplicated and replayed stream and compare the dimension with the true history: current rates match the true final state, more than 1,000 point-in-time lookups match, no lane has overlapping or zero-length versions, and the replay is a no-op.
 
 ## Design decisions
 
@@ -123,6 +123,7 @@ Tests: 83 passed. The end-to-end tests load the full shuffled, duplicated and re
 - **Quarantine instead of failing the batch.** One bad event from the source should not block every valid rate change behind it. Every reject is stored with its batch, LSN, reason and the raw record.
 - **Valid-from inclusive, valid-to exclusive.** A shipment at the exact moment of a rate change gets the new rate, and every moment belongs to exactly one version.
 - **No-op updates do not open versions.** The row hash covers only the tracked attributes, so touching a row without changing it does not split the history.
+- **Bad invoice rows are reported, a bad invoice file is refused.** A row with a bad value is listed with its line number and the rest of the file is still re-rated. A file without a header, or missing a required column, stops the run with the missing column names, since every row would otherwise be rejected for a misleading reason.
 - **Totals per currency.** Overbilled and underbilled amounts are never added across currencies; the single-number totals refuse to answer when a report mixes them.
 - **DuckDB in-process.** The whole pipeline runs offline on a laptop; the SQL is plain enough to move to a warehouse.
 

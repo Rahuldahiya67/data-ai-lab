@@ -22,7 +22,7 @@ from .generator import generate_stream, write_stream
 from .invoices import generate_invoices, write_invoices
 from .loader import RateCardLoader
 from .lookup import lane_history, rate_at
-from .rerate import read_invoices, rerate, write_report
+from .rerate import InvalidInvoiceFile, read_invoices, rerate, write_report
 
 
 class CliError(Exception):
@@ -137,7 +137,10 @@ def cmd_rerate(args: argparse.Namespace) -> int:
     path = Path(args.invoices)
     if not path.is_file():
         raise CliError(f"invoice file {path} not found")
-    invoices, invalid = read_invoices(path)
+    try:
+        invoices, invalid = read_invoices(path)
+    except InvalidInvoiceFile as exc:
+        raise CliError(str(exc)) from None
     con = _open_loaded(args.db)
     report = rerate(con, invoices, tolerance=args.tolerance, invalid=invalid)
     con.close()
