@@ -6,7 +6,7 @@ import pytest
 from delivery_exception_triage_agent.agent import triage
 from delivery_exception_triage_agent.generator import generate
 from delivery_exception_triage_agent.models import Ticket, ToolCall
-from delivery_exception_triage_agent.planner import RuleBasedPlanner, detect_intent
+from delivery_exception_triage_agent.planner import RuleBasedPlanner, _within_one_edit, detect_intent
 from delivery_exception_triage_agent.tools import ActionLedger
 
 
@@ -18,10 +18,41 @@ from delivery_exception_triage_agent.tools import ActionLedger
         ("I didn't get my parcel even though the app says delivered", "not_received"),
         ("Got it, thanks for the quick delivery.", "thanks"),
         ("Where is my parcel?", "status"),
+        # Damage words beyond the original five.
+        ("Received SHP-00013 smashed, totally unusable.", "damaged"),
+        ("Package was delivered with water damage.", "damaged"),
+        # One-letter typos in the key words (the generator swaps adjacent letters).
+        ("Recieved SHP-00108 smashed, totally unusable.", "damaged"),
+        ("Tracking says delivered but I never erceived it.", "not_received"),
+        ("Nobody here recevied SHP-00220. Who signed for it?", "not_received"),
+        ("Got SHP-00215, htanks for the quick delivery.", "thanks"),
+        # Negated damage is not a damage claim.
+        ("No damage, just late. When will it come?", "status"),
+        ("The box is not damaged but it has not arrived", "status"),
+        # Whole words only: "thanksgiving" is not a thank-you, "broker" is not "broken".
+        ("Will it arrive before thanksgiving?", "status"),
+        ("My broker is asking where the parcel is.", "status"),
     ],
 )
 def test_detect_intent(message, intent):
     assert detect_intent(message) == intent
+
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        ("received", "received", True),
+        ("recieved", "received", True),  # adjacent swap
+        ("recived", "received", True),  # deletion
+        ("receivedd", "received", True),  # insertion
+        ("reseived", "received", False),  # substitution is not corrected
+        ("rceieved", "received", False),  # two edits
+        ("broker", "broken", False),
+        ("thanksgiving", "thanks", False),
+    ],
+)
+def test_within_one_edit(a, b, expected):
+    assert _within_one_edit(a, b) is expected
 
 
 @pytest.fixture
