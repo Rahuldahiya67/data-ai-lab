@@ -2,10 +2,10 @@
   "planner": "rule-based",
   "summary": {
     "tickets": 300,
-    "action_accuracy": 0.9767,
-    "resolution_accuracy": 0.9533,
-    "tool_precision": 0.9919,
-    "tool_recall": 0.9896,
+    "action_accuracy": 1.0,
+    "resolution_accuracy": 1.0,
+    "tool_precision": 1.0,
+    "tool_recall": 1.0,
     "tool_errors": 0,
     "policy_blocks": 0,
     "planner_errors": 0,
@@ -33,19 +33,19 @@
       "tickets": 42
     },
     "damaged_low_value": {
-      "correct": 27,
+      "correct": 33,
       "tickets": 33
     },
     "delivered_thanks": {
-      "correct": 8,
+      "correct": 9,
       "tickets": 9
     },
     "damaged_high_value": {
-      "correct": 22,
+      "correct": 27,
       "tickets": 27
     },
     "delivered_not_received": {
-      "correct": 31,
+      "correct": 33,
       "tickets": 33
     },
     "unknown_shipment": {
@@ -57,12 +57,7 @@
     {
       "expected": "close_ticket",
       "actual": "close_ticket",
-      "count": 8
-    },
-    {
-      "expected": "close_ticket",
-      "actual": "escalate",
-      "count": 1
+      "count": 9
     },
     {
       "expected": "create_reship",
@@ -76,13 +71,8 @@
     },
     {
       "expected": "issue_refund",
-      "actual": "escalate",
-      "count": 6
-    },
-    {
-      "expected": "issue_refund",
       "actual": "issue_refund",
-      "count": 27
+      "count": 33
     },
     {
       "expected": "request_address",
@@ -100,202 +90,5 @@
       "count": 102
     }
   ],
-  "mistakes": [
-    {
-      "ticket_id": "TKT-00013",
-      "scenario": "damaged_low_value",
-      "message": "Received SHP-00013 smashed, totally unusable.",
-      "expected": "issue_refund (842.16 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00099",
-      "scenario": "damaged_low_value",
-      "message": "Received SHP-00099 smashed, totally unusable.",
-      "expected": "issue_refund (3,979.98 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00108",
-      "scenario": "damaged_low_value",
-      "message": "Recieved SHP-00108 smashed, totally unusable.",
-      "expected": "issue_refund (1,249.57 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00115",
-      "scenario": "delivered_not_received",
-      "message": "Tracking says SHP-00115 was delivered but I never erceived it.",
-      "expected": "escalate (delivery_dispute)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00133",
-      "scenario": "damaged_high_value",
-      "message": "Received SHP-00133 smashed, totally unusable.",
-      "expected": "escalate (refund_above_limit)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00151",
-      "scenario": "damaged_high_value",
-      "message": "Received SHP-00151 smashed, totally unusable.",
-      "expected": "escalate (refund_above_limit)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00202",
-      "scenario": "damaged_high_value",
-      "message": "Received SHP-00202 smashed, totally unusable.",
-      "expected": "escalate (refund_above_limit)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00215",
-      "scenario": "delivered_thanks",
-      "message": "Got SHP-00215, htanks for the quick delivery.",
-      "expected": "close_ticket",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00218",
-      "scenario": "damaged_high_value",
-      "message": "Received SHP-00218 smashed, totally unusable.",
-      "expected": "escalate (refund_above_limit)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00220",
-      "scenario": "delivered_not_received",
-      "message": "Nobody here recevied SHP-00220. Who signed for it?",
-      "expected": "escalate (delivery_dispute)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00239",
-      "scenario": "damaged_high_value",
-      "message": "Received SHP-00239 smashed, totally unusable.",
-      "expected": "escalate (refund_above_limit)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00249",
-      "scenario": "damaged_low_value",
-      "message": "Received SHP-00249 smashed, totally unusable.",
-      "expected": "issue_refund (3,957.09 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00260",
-      "scenario": "damaged_low_value",
-      "message": "Received SHP-00260 smashed, totally unusable.",
-      "expected": "issue_refund (1,795.85 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    },
-    {
-      "ticket_id": "TKT-00267",
-      "scenario": "damaged_low_value",
-      "message": "Received SHP-00267 smashed, totally unusable.",
-      "expected": "issue_refund (4,985.72 INR)",
-      "actual": "escalate (unclear_request)",
-      "tools_called": [
-        "get_shipment",
-        "escalate"
-      ],
-      "tool_errors": 0,
-      "blocked": false,
-      "planner_error": null
-    }
-  ]
+  "mistakes": []
 }
