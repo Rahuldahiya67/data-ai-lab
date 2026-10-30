@@ -11,6 +11,8 @@ dependencies = []
 
 [project.scripts]
 triage-generate = "delivery_exception_triage_agent.generator:main"
+triage-eval = "delivery_exception_triage_agent.cli:eval_main"
+triage-run = "delivery_exception_triage_agent.cli:run_main"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
