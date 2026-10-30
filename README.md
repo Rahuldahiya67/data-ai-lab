@@ -13,6 +13,7 @@ Main portfolio: [rahuldahiya67.github.io](https://rahuldahiya67.github.io)
 | [Intermittent Demand Forecaster](projects/intermittent-demand-forecaster) | Classifies spare-parts demand, backtests Croston, SBA and TSB against standard methods, picks one per SKU and sets reorder points with a service-level check | Python, pandas, NumPy | 20 Oct 2026 |
 | [SOP Retrieval Benchmark](projects/sop-retrieval-benchmark) | Measures whether search over site-specific warehouse SOPs returns the right clause for the right site; tests query expansion on held-out wording, a site filter and title headers | Python (BM25 from scratch) | 26 Oct 2026 |
 | [Rate Card History Loader](projects/rate-card-history-loader) | Loads an at-least-once CDC stream of carrier rate changes into an SCD Type 2 table with a watermark, ledger and quarantine, then re-rates invoices at the rate valid on the ship date | Python, DuckDB | 29 Oct 2026 |
+| [Delivery Exception Triage Agent](projects/delivery-exception-triage-agent) | Tool-calling agent for delivery exception tickets with typed tools, policy guardrails checked before every action, and an evaluation of action, reason and tool-call accuracy on labelled tickets | Python | 30 Oct 2026 |
 <!-- PROJECT-INDEX:END -->
 
 ## How every project is laid out
