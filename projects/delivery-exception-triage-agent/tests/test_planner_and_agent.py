@@ -145,7 +145,8 @@ def test_rule_based_planner_on_generated_tickets():
     for s in ("on_time_inquiry", "late_moving", "late_stuck", "failed_bad_address",
               "failed_customer_absent", "unknown_shipment"):
         assert correct[s] == total[s], s
-    assert sum(correct.values()) / len(tickets) > 0.85
+    # Wording-driven scenarios were 97.7% before typo correction (day 2) and are now all right.
+    assert sum(correct.values()) == len(tickets)
 
 
 def test_reship_on_an_unscanned_shipment_ends_as_a_policy_escalation(in_transit_shipment, ticket):
@@ -154,6 +155,27 @@ def test_reship_on_an_unscanned_shipment_ends_as_a_policy_escalation(in_transit_
     result = triage(ticket, {"SHP-00001": unscanned}, planner)
     assert result.blocked_actions == [["reship_without_scan_history"]]
     assert result.resolution.action == "escalate" and result.resolution.reason == "policy_block"
+
+
+def test_eta_promise_on_a_stuck_shipment_ends_as_a_policy_escalation(in_transit_shipment, ticket):
+    # Only the pickup scan, 97 hours before the ticket: the parcel is treated as lost.
+    stuck = replace(in_transit_shipment, scans=in_transit_shipment.scans[:1])
+    planner = ScriptedPlanner([ToolCall("send_eta_update", {"ticket_id": "TKT-00001", "eta_date": "2026-10-29"})])
+    result = triage(ticket, {"SHP-00001": stuck}, planner)
+    assert result.blocked_actions == [["eta_for_stuck_shipment"]]
+    assert result.resolution.reason == "policy_block"
+    # The rule-based planner reships the same shipment instead of promising a date.
+    assert triage(ticket, {"SHP-00001": stuck}, RuleBasedPlanner()).resolution.action == "create_reship"
+
+
+def test_rule_based_planner_on_a_fresh_seed_keeps_actions_right():
+    # Wording typos outside the corrected key words ("neevr") can change the
+    # escalation reason, but every ticket should still get the right action.
+    shipments, tickets = generate(n_tickets=400, seed=11)
+    ledger = ActionLedger()
+    wrong = [t.ticket.ticket_id for t in tickets
+             if triage(t.ticket, shipments, RuleBasedPlanner(), ledger).resolution.action != t.expected.action]
+    assert wrong == []
 
 
 class FailingPlanner:
