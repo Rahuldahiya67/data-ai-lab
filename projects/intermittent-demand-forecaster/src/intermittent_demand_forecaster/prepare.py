@@ -9,9 +9,17 @@ fixes all of this in one place.
 
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 REQUIRED_COLUMNS = ("sku", "week", "demand")
+
+
+def _examples(values: pd.Series, limit: int = 3) -> str:
+    """Up to ``limit`` distinct offending values with their row labels, for error messages."""
+    shown = [f"{v!r} (row {i})" for i, v in values.drop_duplicates().head(limit).items()]
+    more = len(values) - len(shown)
+    return ", ".join(shown) + (f" and {more} more" if more > 0 else "")
 
 
 def prepare_demand(df: pd.DataFrame) -> pd.DataFrame:
@@ -23,8 +31,9 @@ def prepare_demand(df: pd.DataFrame) -> pd.DataFrame:
       present, with zero demand where there were no rows. Trailing zeros
       matter: a part that stopped selling must look like one.
 
-    Raises ``ValueError`` on missing columns, missing values or negative
-    demand.
+    Raises ``ValueError`` on missing columns, missing values, demand that is
+    not a finite non-negative number, or a week that is not a date. The
+    message names the offending values and their rows.
     """
     missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
     if missing:
@@ -33,13 +42,21 @@ def prepare_demand(df: pd.DataFrame) -> pd.DataFrame:
     if data.isna().any().any():
         bad = data.columns[data.isna().any()].tolist()
         raise ValueError(f"missing values in column(s): {', '.join(bad)}")
-    data["demand"] = pd.to_numeric(data["demand"], errors="raise").astype(float)
+    demand = pd.to_numeric(data["demand"], errors="coerce")
+    if demand.isna().any():
+        raise ValueError(f"demand must be numeric, got {_examples(data['demand'][demand.isna()])}")
+    data["demand"] = demand.astype(float)
+    if not np.isfinite(data["demand"]).all():
+        raise ValueError(f"demand must be finite, got {_examples(data['demand'][~np.isfinite(data['demand'])])}")
     if (data["demand"] < 0).any():
         raise ValueError("demand must be non-negative")
     if data.empty:
         return data.astype({"demand": float})
 
-    data["week"] = pd.to_datetime(data["week"]).dt.to_period("W-SUN").dt.start_time
+    weeks = pd.to_datetime(data["week"], errors="coerce")
+    if weeks.isna().any():
+        raise ValueError(f"week must be a date, could not parse {_examples(data['week'][weeks.isna()])}")
+    data["week"] = weeks.dt.to_period("W-SUN").dt.start_time
     data = data.groupby(["sku", "week"], as_index=False, sort=True)["demand"].sum()
 
     last_week = data["week"].max()
