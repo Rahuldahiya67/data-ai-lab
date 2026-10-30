@@ -110,6 +110,22 @@ def test_eta_in_the_past_is_blocked(box):
     assert box.ledger.actions == []
 
 
+def test_eta_for_a_stuck_shipment_is_blocked(in_transit_shipment, ticket):
+    # Last scan 2026-10-24 09:00, ticket at 2026-10-28 10:00: 97 hours of silence.
+    stuck = replace(in_transit_shipment, scans=in_transit_shipment.scans[:1])
+    box = Toolbox({"SHP-00001": stuck}, ticket)
+    obs = box.execute(call("send_eta_update", ticket_id="TKT-00001", eta_date="2026-10-29"))
+    assert obs["blocked"] and obs["violations"] == ["eta_for_stuck_shipment"]
+    assert box.ledger.actions == []
+
+
+def test_eta_for_a_shipment_with_no_scans_is_allowed(in_transit_shipment, ticket):
+    # No scan history is not the same as silent for 72 hours; the reship rule handles that case.
+    box = Toolbox({"SHP-00001": replace(in_transit_shipment, scans=())}, ticket)
+    obs = box.execute(call("send_eta_update", ticket_id="TKT-00001", eta_date="2026-10-29"))
+    assert obs["executed"]
+
+
 def test_reship_is_blocked_while_the_parcel_is_still_moving(box):
     obs = box.execute(call("create_reship", shipment_id="SHP-00001"))
     assert obs["violations"] == ["reship_before_stuck_threshold"]

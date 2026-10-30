@@ -69,4 +69,8 @@ def check_action(name: str, args: dict[str, Any], shipment: Shipment | None, too
             v.append("eta_for_delivered_shipment")
         if args["eta_date"] < today:
             v.append("eta_in_the_past")
+        hours = _hours_since_last_scan(shipment, toolbox)
+        if shipment.status == "in_transit" and hours is not None and hours > STUCK_AFTER_HOURS:
+            # A parcel silent this long is treated as lost; promising a date would mislead the customer.
+            v.append("eta_for_stuck_shipment")
     return v
