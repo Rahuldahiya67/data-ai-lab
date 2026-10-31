@@ -85,3 +85,22 @@ def check_fragment(fragment: str, columns: set[str]) -> list[str]:
     if depth != 0:
         problems.append("unbalanced parentheses")
     return problems
+
+
+def qualify(fragment: str, columns: set[str], alias: str) -> str:
+    """Prefix every column reference in a checked fragment with ``alias.``.
+
+    Joined tables can share column names with the fact table (``distance_km``
+    exists on both shipments and lanes), so bare names in generated SQL would be
+    ambiguous. Call ``check_fragment`` first; this function assumes the fragment
+    is valid.
+    """
+    tokens = tokenize(fragment)
+    out = []
+    for i, (kind, text) in enumerate(tokens):
+        followed_by_paren = i + 1 < len(tokens) and tokens[i + 1] == ("paren", "(")
+        if kind == "ident" and text in columns and not followed_by_paren:
+            out.append(f"{alias}.{text}")
+        else:
+            out.append(text)
+    return " ".join(out)
