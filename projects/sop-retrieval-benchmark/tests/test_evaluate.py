@@ -94,3 +94,20 @@ def test_bm25_on_generated_benchmark_is_reasonable():
     # Keyword questions should mostly be found; paraphrases are harder.
     assert by["lexical"].recall[5] >= 0.8
     assert by["paraphrase"].recall[5] < by["lexical"].recall[5]
+
+
+class OverfetchingRetriever(FixedRetriever):
+    """Ignores k and always returns every chunk."""
+
+    def search(self, query, k=5):
+        return [Hit(c, 1.0) for c in self.chunks]
+
+
+def test_hits_beyond_k_are_ignored():
+    filler = [_c(f"returns-bom-0{i}", "Grading") for i in range(3)]
+    r = OverfetchingRetriever(filler + [_c("returns-del-01", "Return window")])
+    res = evaluate(r, [_q()], k=3)
+    assert res[0].rank is None
+    s = summarise(res, ks=(1, 3))
+    assert s.recall == {1: 0.0, 3: 0.0}
+    assert s.mrr == 0.0

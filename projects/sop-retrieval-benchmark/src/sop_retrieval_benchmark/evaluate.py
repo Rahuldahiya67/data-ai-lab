@@ -55,7 +55,9 @@ def evaluate(retriever: Retriever, questions: Sequence[Question], k: int = 5) ->
         raise ValueError("no questions to evaluate")
     results = []
     for q in questions:
-        hits = retriever.search(q.question, k=k)
+        # Only the top k count. A retriever that returns more than it was asked
+        # for would otherwise get MRR credit (and a rank) beyond k.
+        hits = retriever.search(q.question, k=k)[:k]
         rank = next((i for i, h in enumerate(hits, start=1) if _is_correct(h, q)), None)
         top = hits[0].chunk if hits else None
         confused = (
