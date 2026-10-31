@@ -6,8 +6,8 @@ tables:
     primary_key: shipment_id
     time_column: dispatch_date
     joins:
-      carriers: {on: carrier_id, relationship: many_to_one}
-      lanes: {on: lane_id, relationship: many_to_one}
+      carriers: {key: carrier_id, relationship: many_to_one}
+      lanes: {key: lane_id, relationship: many_to_one}
   carriers:
     primary_key: carrier_id
   lanes:

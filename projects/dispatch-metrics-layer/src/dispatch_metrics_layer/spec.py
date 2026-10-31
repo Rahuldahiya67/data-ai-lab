@@ -41,7 +41,7 @@ class SpecError(ValueError):
 @dataclass(frozen=True)
 class Join:
     target: str
-    on: str
+    key: str
     relationship: str
 
 
@@ -160,11 +160,17 @@ def parse_spec(raw: Any) -> Spec:
         for target, jbody in _as_mapping(body.get("joins"), f"{where}.joins", problems).items():
             jwhere = f"{where}.joins.{target}"
             jbody = _as_mapping(jbody, jwhere, problems)
-            _check_keys(jbody, {"on", "relationship"}, jwhere, problems)
-            on = _opt_str(jbody, "on", jwhere, problems)
+            if True in jbody:
+                problems.append(
+                    f"{jwhere}: YAML reads a bare 'on' key as the boolean true; "
+                    "name the join column with 'key' instead"
+                )
+                jbody = {k: v for k, v in jbody.items() if k is not True}
+            _check_keys(jbody, {"key", "relationship"}, jwhere, problems)
+            key = _opt_str(jbody, "key", jwhere, problems)
             rel = jbody.get("relationship")
-            if on is None:
-                problems.append(f"{jwhere}.on is required")
+            if key is None:
+                problems.append(f"{jwhere}.key is required")
                 continue
             if rel != "many_to_one":
                 problems.append(
@@ -172,7 +178,7 @@ def parse_spec(raw: Any) -> Spec:
                     "other relationships would duplicate fact rows and inflate sums"
                 )
                 continue
-            joins[target] = Join(target=target, on=on, relationship=rel)
+            joins[target] = Join(target=target, key=key, relationship=rel)
         tables[name] = Table(
             name=name,
             primary_key=pk,
@@ -315,12 +321,12 @@ def check_columns(spec: Spec, schema: dict[str, set[str]]) -> None:
         if table.time_column:
             need(name, table.time_column, f"tables.{name}.time_column")
         for target, join in table.joins.items():
-            need(name, join.on, f"tables.{name}.joins.{target}")
-            need(target, join.on, f"tables.{name}.joins.{target}")
-            if join.on != spec.tables[target].primary_key:
+            need(name, join.key, f"tables.{name}.joins.{target}")
+            need(target, join.key, f"tables.{name}.joins.{target}")
+            if join.key != spec.tables[target].primary_key:
                 problems.append(
                     f"tables.{name}.joins.{target}: joins must use the target's primary key "
-                    f"{spec.tables[target].primary_key!r}, got {join.on!r}"
+                    f"{spec.tables[target].primary_key!r}, got {join.key!r}"
                 )
     for name, dim in spec.dimensions.items():
         need(dim.table, dim.column, f"dimensions.{name}")
