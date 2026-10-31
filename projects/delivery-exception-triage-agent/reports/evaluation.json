@@ -1,0 +1,94 @@
+{
+  "planner": "rule-based",
+  "summary": {
+    "tickets": 300,
+    "action_accuracy": 1.0,
+    "resolution_accuracy": 1.0,
+    "tool_precision": 1.0,
+    "tool_recall": 1.0,
+    "tool_errors": 0,
+    "policy_blocks": 0,
+    "planner_errors": 0,
+    "step_budget_exhausted": 0
+  },
+  "by_scenario": {
+    "late_stuck": {
+      "correct": 28,
+      "tickets": 28
+    },
+    "late_moving": {
+      "correct": 60,
+      "tickets": 60
+    },
+    "failed_customer_absent": {
+      "correct": 26,
+      "tickets": 26
+    },
+    "failed_bad_address": {
+      "correct": 26,
+      "tickets": 26
+    },
+    "on_time_inquiry": {
+      "correct": 42,
+      "tickets": 42
+    },
+    "damaged_low_value": {
+      "correct": 33,
+      "tickets": 33
+    },
+    "delivered_thanks": {
+      "correct": 9,
+      "tickets": 9
+    },
+    "damaged_high_value": {
+      "correct": 27,
+      "tickets": 27
+    },
+    "delivered_not_received": {
+      "correct": 33,
+      "tickets": 33
+    },
+    "unknown_shipment": {
+      "correct": 16,
+      "tickets": 16
+    }
+  },
+  "confusion": [
+    {
+      "expected": "close_ticket",
+      "actual": "close_ticket",
+      "count": 9
+    },
+    {
+      "expected": "create_reship",
+      "actual": "create_reship",
+      "count": 28
+    },
+    {
+      "expected": "escalate",
+      "actual": "escalate",
+      "count": 76
+    },
+    {
+      "expected": "issue_refund",
+      "actual": "issue_refund",
+      "count": 33
+    },
+    {
+      "expected": "request_address",
+      "actual": "request_address",
+      "count": 26
+    },
+    {
+      "expected": "schedule_redelivery",
+      "actual": "schedule_redelivery",
+      "count": 26
+    },
+    {
+      "expected": "send_eta_update",
+      "actual": "send_eta_update",
+      "count": 102
+    }
+  ],
+  "mistakes": []
+}
