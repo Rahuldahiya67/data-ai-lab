@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dispatch-metrics-layer"
+version = "0.1.0"
+description = "Defines dispatch KPIs once in YAML and compiles metric requests into DuckDB SQL, so every report computes on-time rate and cost per km the same way."
+requires-python = ">=3.10"
+dependencies = ["duckdb>=1.0", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pandas>=2.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
