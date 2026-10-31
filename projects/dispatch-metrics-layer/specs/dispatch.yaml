@@ -1,0 +1,108 @@
+# Dispatch KPIs, defined once. Every report asks this layer for its numbers.
+fact_table: shipments
+
+tables:
+  shipments:
+    primary_key: shipment_id
+    time_column: dispatch_date
+    joins:
+      carriers: {on: carrier_id, relationship: many_to_one}
+      lanes: {on: lane_id, relationship: many_to_one}
+  carriers:
+    primary_key: carrier_id
+  lanes:
+    primary_key: lane_id
+
+dimensions:
+  carrier: {table: carriers, column: carrier_name, description: Carrier trading name}
+  mode: {table: carriers, column: mode, description: "FTL, LTL or PARCEL"}
+  region: {table: lanes, column: region, description: Lane region}
+  origin_city: {table: lanes, column: origin_city}
+  destination_city: {table: lanes, column: destination_city}
+  status: {table: shipments, column: status, description: "delivered, in_transit or cancelled"}
+
+measures:
+  shipments:
+    agg: count
+    description: All shipments, including cancelled and in transit
+  delivered_shipments:
+    agg: count
+    filter: status = 'delivered'
+  on_time_shipments:
+    agg: count
+    filter: status = 'delivered' AND delivered_date <= promised_date
+  in_full_shipments:
+    agg: count
+    filter: status = 'delivered' AND units_delivered >= units_ordered
+  on_time_in_full_shipments:
+    agg: count
+    filter: status = 'delivered' AND delivered_date <= promised_date AND units_delivered >= units_ordered
+  cancelled_shipments:
+    agg: count
+    filter: status = 'cancelled'
+  freight_cost:
+    agg: sum
+    expr: freight_cost
+    filter: status <> 'cancelled'
+  planned_km:
+    agg: sum
+    expr: distance_km
+    filter: status <> 'cancelled'
+  units_ordered_delivered:
+    agg: sum
+    expr: units_ordered
+    filter: status = 'delivered'
+  units_delivered:
+    agg: sum
+    expr: units_delivered
+    filter: status = 'delivered'
+  active_lanes:
+    agg: count_distinct
+    expr: lane_id
+
+metrics:
+  shipment_count:
+    type: simple
+    measure: shipments
+    description: Shipments dispatched in the period
+  on_time_rate:
+    type: ratio
+    numerator: on_time_shipments
+    denominator: delivered_shipments
+    format: percent
+    description: Share of delivered shipments that arrived on or before the promised date
+  in_full_rate:
+    type: ratio
+    numerator: in_full_shipments
+    denominator: delivered_shipments
+    format: percent
+  otif_rate:
+    type: ratio
+    numerator: on_time_in_full_shipments
+    denominator: delivered_shipments
+    format: percent
+    description: On time and in full, over delivered shipments
+  fill_rate:
+    type: ratio
+    numerator: units_delivered
+    denominator: units_ordered_delivered
+    format: percent
+    description: Units delivered over units ordered, for delivered shipments
+  cancellation_rate:
+    type: ratio
+    numerator: cancelled_shipments
+    denominator: shipments
+    format: percent
+  freight_cost:
+    type: simple
+    measure: freight_cost
+    format: currency
+  cost_per_km:
+    type: ratio
+    numerator: freight_cost
+    denominator: planned_km
+    format: currency
+    description: Freight cost over planned kilometres, excluding cancelled shipments
+  active_lanes:
+    type: simple
+    measure: active_lanes
