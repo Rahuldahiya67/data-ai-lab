@@ -134,6 +134,35 @@ def _feed(raw: Any) -> FeedSpec:
     return FeedSpec(min_rows=min_rows, max_reject_rate=float(rate))
 
 
+def column_check_names(spec: ColumnSpec) -> list[str]:
+    """Names of the per-column checks the validator reports for ``spec``."""
+    names = []
+    if spec.required:
+        names.append(f"{spec.name}.required")
+    if spec.type != "string":
+        names.append(f"{spec.name}.type_{spec.type}")
+    for key in ("allowed", "regex", "min", "max"):
+        if getattr(spec, key) is not None:
+            names.append(f"{spec.name}.{key}")
+    if spec.unique:
+        names.append(f"{spec.name}.unique")
+    return names
+
+
+def _check_rule_names(rules: list[RuleSpec], columns: dict[str, ColumnSpec]) -> None:
+    # The validator keys failing-row masks by check name, so a repeated name
+    # would overwrite an earlier check and its failures would go unreported.
+    taken = {name for spec in columns.values() for name in column_check_names(spec)}
+    for rule in rules:
+        if not isinstance(rule.name, str) or not rule.name.strip():
+            raise ContractError(f"rule names must be non-empty strings, got {rule.name!r}")
+        if rule.name in taken:
+            raise ContractError(
+                f"rule name '{rule.name}' is used more than once or clashes with a column check"
+            )
+        taken.add(rule.name)
+
+
 def parse_contract(raw: dict[str, Any]) -> Contract:
     """Build a :class:`Contract` from an already-loaded mapping."""
     if not isinstance(raw, dict):
@@ -151,6 +180,7 @@ def parse_contract(raw: dict[str, Any]) -> Contract:
     if not isinstance(raw_rules, list):
         raise ContractError("rules must be a list")
     rules = [_rule(r, columns) for r in raw_rules]
+    _check_rule_names(rules, columns)
     return Contract(
         name=str(raw.get("name", "unnamed")),
         version=int(raw.get("version", 1)),

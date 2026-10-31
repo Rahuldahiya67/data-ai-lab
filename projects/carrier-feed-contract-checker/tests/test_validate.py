@@ -180,3 +180,15 @@ def test_non_finite_number_is_rejected_for_int_columns():
     result = validate_frame(pd.DataFrame({"x": ["3", "inf", "3.0", "1e400"]}), contract)
     assert list(result.accepted["x"]) == ["3", "3.0"]
     assert set(result.quarantined["_violations"]) == {"x.type_int"}
+
+
+def test_column_check_names_match_the_validator(contract):
+    # The contract loader uses column_check_names to stop rule names clashing with
+    # column checks, so it must list exactly the checks the validator runs.
+    from carrier_feed_contract_checker.contract import column_check_names
+    from carrier_feed_contract_checker.validate import _check_column, _parse
+
+    for spec in contract.columns.values():
+        raw = pd.Series(["x"], dtype=object)
+        produced = _check_column(raw, _parse(raw, spec), spec)
+        assert sorted(produced) == sorted(column_check_names(spec)), spec.name
