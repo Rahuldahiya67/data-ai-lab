@@ -76,3 +76,26 @@ def test_feed_limits_parse_and_default():
     assert feed.min_rows == 50 and feed.max_reject_rate == 0.0
     raw["feed"] = None
     assert parse_contract(raw).feed.max_reject_rate == 1.0
+
+
+def test_duplicate_rule_names_are_rejected():
+    raw = base()
+    rule = {"name": "x", "type": "compare", "left": "b", "op": ">=", "right": "b"}
+    raw["rules"] = [rule, dict(rule, op="<=")]
+    with pytest.raises(ContractError, match="'x' is used more than once"):
+        parse_contract(raw)
+
+
+def test_rule_name_clashing_with_column_check_is_rejected():
+    raw = base()
+    raw["rules"] = [{"name": "a.required", "type": "required_if", "column": "a", "when_column": "a", "equals": "z"}]
+    with pytest.raises(ContractError, match="clashes with a column check"):
+        parse_contract(raw)
+
+
+@pytest.mark.parametrize("name", ["", "  ", 7])
+def test_rule_name_must_be_a_non_empty_string(name):
+    raw = base()
+    raw["rules"] = [{"name": name, "type": "compare", "left": "b", "op": ">=", "right": "b"}]
+    with pytest.raises(ContractError, match="non-empty strings"):
+        parse_contract(raw)
