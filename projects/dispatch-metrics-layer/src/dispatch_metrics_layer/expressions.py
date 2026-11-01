@@ -44,11 +44,12 @@ def quote_ident(name: str) -> str:
 
 def tokenize(fragment: str) -> list[tuple[str, str]]:
     """Split a fragment into ``(kind, text)`` tokens. Raises ValueError on anything unknown."""
-    if "--" in fragment or "/*" in fragment:
-        raise ValueError("comments are not allowed")
     tokens = []
     pos = 0
     while pos < len(fragment):
+        # Checked per position, so '--' inside a quoted string is still allowed.
+        if fragment.startswith(("--", "/*"), pos):
+            raise ValueError("comments are not allowed")
         m = _TOKEN_RE.match(fragment, pos)
         if m is None:
             raise ValueError(f"unexpected character {fragment[pos]!r} at position {pos}")

@@ -106,6 +106,12 @@ def test_unsafe_fragments_are_rejected(fragment, expected):
     assert any(expected in p for p in problems), problems
 
 
+def test_comment_markers_inside_string_literals_are_allowed():
+    cols = {"status"}
+    assert check_fragment("status = 'a--b' OR status = 'x/*y'", cols) == []
+    assert check_fragment("status = 'a' -- 'b'", cols) == ["comments are not allowed"]
+
+
 def test_safe_fragment_and_qualify():
     cols = {"status", "delivered_date", "promised_date"}
     fragment = "status = 'it''s' AND COALESCE(delivered_date, promised_date) <= promised_date"
