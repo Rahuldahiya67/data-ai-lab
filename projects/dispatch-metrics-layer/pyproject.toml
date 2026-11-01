@@ -12,6 +12,9 @@ dependencies = ["duckdb>=1.0", "PyYAML>=6.0"]
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "pandas>=2.0"]
 
+[project.scripts]
+dispatch-metrics = "dispatch_metrics_layer.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
