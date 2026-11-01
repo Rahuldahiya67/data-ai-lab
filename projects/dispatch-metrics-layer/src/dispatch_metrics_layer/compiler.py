@@ -7,7 +7,11 @@ The query has two levels:
 2. the outer SELECT turns measures into *metrics*. A ratio metric is always
    ``SUM(numerator) / SUM(denominator)`` at the requested grain, never an
    average of per-row or per-group ratios, so "on-time rate by region" and
-   "on-time rate overall" are always consistent with each other.
+   "on-time rate overall" are always consistent with each other. A derived
+   metric is its expression with every referenced metric replaced by that
+   metric's own SQL, so it is also computed from measures at the requested
+   grain. A derived result that is not a finite number (division by zero)
+   is returned as NULL.
 
 Filter values are bound as query parameters, never pasted into the SQL text.
 Every identifier taken from the spec (tables, columns, dimension and metric
@@ -21,7 +25,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
-from .expressions import qualify, quote_ident as q
+from .expressions import qualify, quote_ident as q, substitute
 from .spec import Spec
 
 GRAINS = {"day", "week", "month"}
@@ -124,6 +128,22 @@ def _measure_sql(spec: Spec, name: str, fact_columns: set[str]) -> str:
     return base
 
 
+def metric_sql(spec: Spec, name: str) -> str:
+    """SQL for one metric over the ``ms__<measure>`` columns of the ``agg`` CTE."""
+    metric = spec.metrics[name]
+    if metric.type == "simple":
+        return q("ms__" + metric.measure)  # type: ignore[operator]
+    if metric.type == "ratio":
+        return (
+            f"CAST({q('ms__' + metric.numerator)} AS DOUBLE)"  # type: ignore[operator]
+            f" / NULLIF({q('ms__' + metric.denominator)}, 0)"  # type: ignore[operator]
+        )
+    inner = substitute(metric.expr, {dep: metric_sql(spec, dep) for dep in metric.depends_on})  # type: ignore[arg-type]
+    value = f"CAST(({inner}) AS DOUBLE)"
+    # DuckDB returns inf or nan for x / 0 on doubles; report "no value" instead.
+    return f"CASE WHEN isfinite({value}) THEN {value} END"
+
+
 def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) -> CompiledQuery:
     """Build the SQL for ``request``. ``fact_columns`` are the fact table's column names."""
     validate_request(spec, request)
@@ -144,7 +164,7 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
 
     measure_names: list[str] = []
     for metric_name in request.metrics:
-        for m in spec.metrics[metric_name].measures:
+        for m in spec.measures_for(metric_name):
             if m not in measure_names:
                 measure_names.append(m)
 
@@ -195,14 +215,7 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
 
     outer_parts = [q(name) for _, name in group_cols]
     for metric_name in request.metrics:
-        metric = spec.metrics[metric_name]
-        if metric.type == "simple":
-            outer_parts.append(f"{q('ms__' + metric.measure)} AS {q(metric_name)}")
-        else:
-            outer_parts.append(
-                f"CAST({q('ms__' + metric.numerator)} AS DOUBLE)"
-                f" / NULLIF({q('ms__' + metric.denominator)}, 0) AS {q(metric_name)}"
-            )
+        outer_parts.append(f"{metric_sql(spec, metric_name)} AS {q(metric_name)}")
 
     sql = f"WITH agg AS (\n  {inner}\n)\nSELECT " + ", ".join(outer_parts) + "\nFROM agg"
     if group_cols:

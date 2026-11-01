@@ -97,16 +97,16 @@ def test_only_needed_joins_and_measures_are_compiled(engine):
 def test_sql_keywords_work_as_spec_names(raw_spec, data_dir, engine):
     # 'order' and 'group' are valid lower_snake_case names and SQL keywords.
     raw_spec["dimensions"]["order"] = raw_spec["dimensions"].pop("status")
-    raw_spec["metrics"]["group"] = raw_spec["metrics"].pop("on_time_rate")
+    raw_spec["metrics"]["group"] = raw_spec["metrics"].pop("cancellation_rate")
     keyword_engine = MetricsEngine.from_csv_dir(parse_spec(raw_spec), data_dir)
     got = keyword_engine.query(
         MetricRequest(["group", "shipment_count"], ["order"], filters=[Filter("order", "!=", "x")])
     ).records()
     want = engine.query(
-        MetricRequest(["on_time_rate", "shipment_count"], ["status"], filters=[Filter("status", "!=", "x")])
+        MetricRequest(["cancellation_rate", "shipment_count"], ["status"], filters=[Filter("status", "!=", "x")])
     ).records()
     assert [(r["order"], r["group"], r["shipment_count"]) for r in got] == [
-        (r["status"], r["on_time_rate"], r["shipment_count"]) for r in want
+        (r["status"], r["cancellation_rate"], r["shipment_count"]) for r in want
     ]
 
 

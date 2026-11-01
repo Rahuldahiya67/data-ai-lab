@@ -106,3 +106,20 @@ metrics:
   active_lanes:
     type: simple
     measure: active_lanes
+
+  # Derived metrics: expressions over other metrics, computed at the requested grain.
+  late_rate:
+    type: derived
+    expr: 1 - on_time_rate
+    format: percent
+    description: Share of delivered shipments that arrived after the promised date
+  on_time_not_in_full_rate:
+    type: derived
+    expr: on_time_rate - otif_rate
+    format: percent
+    description: Delivered on time but short; the OTIF points lost to short deliveries alone
+  otif_gap_to_target:
+    type: derived
+    expr: otif_rate - 0.95
+    format: percent
+    description: OTIF minus a 95% service target; negative means below target
