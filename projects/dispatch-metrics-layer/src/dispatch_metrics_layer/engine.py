@@ -4,6 +4,9 @@
 it answers any request it checks the data, not just the spec:
 
 * every column the spec references exists (``spec.check_columns``),
+* the fact table's primary key is unique and never NULL. A re-delivered extract
+  that repeats shipment rows would otherwise inflate every count and sum
+  (``DuplicateKeyError``),
 * every join key is unique in its dimension table. A duplicated ``lane_id`` in
   the lanes table would turn each matching shipment into two rows and silently
   double freight cost, so it is a hard error (``FanOutError``),
@@ -27,6 +30,10 @@ class FanOutError(ValueError):
     """A join key is not unique in its dimension table."""
 
 
+class DuplicateKeyError(ValueError):
+    """The fact table's primary key is duplicated or NULL."""
+
+
 @dataclass(frozen=True)
 class QueryResult:
     columns: list[str]
@@ -43,6 +50,7 @@ class MetricsEngine:
         self.conn = conn
         self.schema = self._read_schema()
         check_columns(spec, self.schema)
+        self._check_fact_key()
         self.orphans = self._check_joins()
 
     @classmethod
@@ -68,6 +76,29 @@ class MetricsEngine:
         for table, column in rows:
             schema.setdefault(table, set()).add(column)
         return schema
+
+    def _check_fact_key(self) -> None:
+        fact = self.spec.fact
+        key = fact.primary_key
+        (nulls,) = self.conn.execute(
+            f"SELECT COUNT(*) FROM {fact.name} WHERE {key} IS NULL"
+        ).fetchone()
+        if nulls:
+            raise DuplicateKeyError(
+                f"primary key {fact.name}.{key} is NULL in {nulls} row(s); "
+                "every fact row needs a key"
+            )
+        dupes = self.conn.execute(
+            f"SELECT {key}, COUNT(*) AS n FROM {fact.name} "
+            f"GROUP BY 1 HAVING COUNT(*) > 1 ORDER BY 1"
+        ).fetchall()
+        if dupes:
+            extra = sum(n - 1 for _, n in dupes)
+            sample = ", ".join(f"{k!r} x{n}" for k, n in dupes[:5])
+            raise DuplicateKeyError(
+                f"primary key {fact.name}.{key} is not unique: {len(dupes)} key(s) repeated, "
+                f"{extra} extra row(s) ({sample}); every count and sum would be inflated"
+            )
 
     def _check_joins(self) -> dict[str, int]:
         fact = self.spec.fact

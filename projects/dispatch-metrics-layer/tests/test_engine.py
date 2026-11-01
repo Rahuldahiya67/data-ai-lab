@@ -4,7 +4,7 @@ import duckdb
 import pytest
 
 from dispatch_metrics_layer.compiler import Filter, MetricRequest, RequestError
-from dispatch_metrics_layer.engine import FanOutError, MetricsEngine
+from dispatch_metrics_layer.engine import DuplicateKeyError, FanOutError, MetricsEngine
 from dispatch_metrics_layer.generator import GeneratorConfig, generate, write_csvs
 
 
@@ -135,6 +135,26 @@ def test_duplicate_dimension_key_is_a_fan_out_error(spec, tmp_path):
 
     with pytest.raises(FanOutError, match=r"lanes\.lane_id is not unique \('L01' x2\)"):
         MetricsEngine.from_csv_dir(spec, _write(tmp_path, dup_lane))
+
+
+def test_duplicate_fact_rows_are_rejected(spec, tmp_path):
+    # A re-delivered extract repeats shipment rows; summing them would inflate every metric.
+    def redeliver(tables):
+        tables["shipments"].extend(dict(row) for row in tables["shipments"][:4])
+
+    with pytest.raises(
+        DuplicateKeyError,
+        match=r"shipments\.shipment_id is not unique: 4 key\(s\) repeated, 4 extra row\(s\) \('S00001' x2",
+    ):
+        MetricsEngine.from_csv_dir(spec, _write(tmp_path, redeliver))
+
+
+def test_null_fact_key_is_rejected(spec, tmp_path):
+    def blank_key(tables):
+        tables["shipments"][7]["shipment_id"] = None
+
+    with pytest.raises(DuplicateKeyError, match=r"shipments\.shipment_id is NULL in 1 row"):
+        MetricsEngine.from_csv_dir(spec, _write(tmp_path, blank_key))
 
 
 def test_orphan_keys_are_counted_and_kept_in_totals(spec, tmp_path):
