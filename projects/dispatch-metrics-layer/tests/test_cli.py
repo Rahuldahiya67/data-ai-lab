@@ -139,3 +139,57 @@ def test_generate_then_check(tmp_path):
     assert code == 0 and "shipments: 120 rows" in out
     code, _, err = run("generate", "--out", str(tmp_path), "--shipments", "0")
     assert code == 2 and "n_shipments must be at least 1" in err
+
+
+def test_format_gap():
+    from dispatch_metrics_layer.cli import format_gap
+
+    assert format_gap(-0.0162, "percent") == "-1.6 pts"
+    assert format_gap(-0.00004, "percent") == "+0.0 pts"
+    assert format_gap(2.5, "currency") == "+2.50"
+    assert format_gap(None, "percent") == "-"
+
+
+def test_reconcile_command(engine, data_dir):
+    from dispatch_metrics_layer.reconcile import reconcile
+
+    code, out, err = run(
+        "reconcile", "--spec", str(SPEC_PATH), "--data", str(data_dir),
+        "-m", "on_time_rate,on_time_rate_dispatched", "--by", "carrier",
+    )
+    assert code == 0, err
+    report = reconcile(engine, ["on_time_rate", "on_time_rate_dispatched"], by="carrier")
+    gap = report.gap_to_baseline("on_time_rate_dispatched") * 100
+    assert f"{report.overall['on_time_rate'] * 100:.1f}%" in out
+    assert f"{gap:+.1f} pts" in out
+    assert "By carrier" in out and "Pooled rate vs unweighted average of carrier rates" in out
+    assert len([line for line in out.splitlines() if line.startswith(("Coastal", "Deccan", "Ganga", "Metro", "Northline", "Swift"))]) == 6
+
+
+def test_reconcile_applies_filters(engine, data_dir):
+    from dispatch_metrics_layer.reconcile import reconcile
+
+    code, out, _ = run(
+        "reconcile", "--spec", str(SPEC_PATH), "--data", str(data_dir),
+        "-m", "on_time_rate,on_time_rate_units", "--where", "mode = FTL",
+    )
+    report = reconcile(
+        engine, ["on_time_rate", "on_time_rate_units"],
+        base=MetricRequest(["on_time_rate"], filters=[Filter("mode", "=", "FTL")]),
+    )
+    assert code == 0
+    assert f"{report.overall['on_time_rate_units'] * 100:.1f}%" in out
+    assert "By " not in out
+
+
+@pytest.mark.parametrize(
+    "argv, message",
+    [
+        (["-m", "on_time_rate"], "at least two metrics"),
+        (["-m", "on_time_rate,otif_rate", "--by", "carrier,region"], "one dimension"),
+        (["-m", "on_time_rate,otif_rate", "--by", "planet"], "unknown dimension"),
+    ],
+)
+def test_reconcile_request_errors(data_dir, argv, message):
+    code, _, err = run("reconcile", "--spec", str(SPEC_PATH), "--data", str(data_dir), *argv)
+    assert code == 2 and message in err

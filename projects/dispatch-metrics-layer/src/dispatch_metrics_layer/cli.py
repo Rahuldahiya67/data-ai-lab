@@ -6,6 +6,8 @@ Subcommands::
     dispatch-metrics check                      # validate spec against the data
     dispatch-metrics query -m on_time_rate,otif_rate --by carrier --grain month \\
         --where "region in North,South" --start 2026-08-01 --format table
+    dispatch-metrics reconcile -m on_time_rate,on_time_rate_dispatched,on_time_rate_units \\
+        --by carrier                            # compare competing definitions
     dispatch-metrics generate --out data        # write the synthetic CSVs
 
 ``--spec`` and ``--data`` default to ``specs/dispatch.yaml`` and ``data/``
@@ -27,7 +29,9 @@ from typing import Any, Sequence
 
 from .compiler import OPERATORS, Filter, MetricRequest, RequestError
 from .engine import DuplicateKeyError, FanOutError, MetricsEngine, QueryResult
+from .expressions import quote_ident
 from .generator import GeneratorConfig, generate, write_csvs
+from .reconcile import ReconciliationReport, reconcile
 from .spec import Spec, SpecError, load_spec
 
 DEFAULT_SPEC = Path("specs/dispatch.yaml")
@@ -107,18 +111,69 @@ def render_table(result: QueryResult, spec: Spec) -> str:
         [format_value(v, formats.get(col, "number")) for col, v in zip(header, row)]
         for row in result.rows
     ]
+    out = _columns(header, body, [col in formats for col in header])
+    if not body:
+        out.append("(no rows)")
+    return "\n".join(out)
+
+
+def format_gap(value: float | None, fmt: str) -> str:
+    """A signed difference: percentage points for percent metrics."""
+    if value is None:
+        return "-"
+    if fmt == "percent":
+        points = round(value * 100, 1) + 0.0  # + 0.0 turns -0.0 into 0.0
+        return f"{points:+.1f} pts"
+    if fmt == "currency":
+        return f"{value:+,.2f}"
+    return f"{value:+,.3f}"
+
+
+def _columns(header: list[str], body: list[list[str]], numeric: list[bool]) -> list[str]:
     widths = [max(len(h), *(len(r[i]) for r in body)) if body else len(h) for i, h in enumerate(header)]
-    numeric = [col in formats for col in header]
 
     def line(cells: list[str]) -> str:
         return "  ".join(
             c.rjust(w) if num else c.ljust(w) for c, w, num in zip(cells, widths, numeric)
         ).rstrip()
 
-    out = [line(header), line(["-" * w for w in widths])]
-    out += [line(r) for r in body]
-    if not body:
-        out.append("(no rows)")
+    return [line(header), line(["-" * w for w in widths])] + [line(r) for r in body]
+
+
+def render_reconciliation(report: ReconciliationReport, spec: Spec) -> str:
+    fmt = {m: spec.metrics[m].format for m in report.metrics}
+    base = report.baseline
+    out = ["Overall"]
+    body = [
+        [m, format_value(report.overall[m], fmt[m]), "baseline" if m == base else format_gap(report.gap_to_baseline(m), fmt[m])]
+        for m in report.metrics
+    ]
+    out += _columns(["definition", "value", f"vs {base}"], body, [False, True, True])
+    if spec.metrics[base].description:
+        out.append(f"baseline: {spec.metrics[base].description}")
+    if report.spread is not None:
+        out.append(f"spread across definitions: {format_gap(report.spread, fmt[base]).lstrip('+')}")
+    if report.by is not None:
+        out += ["", f"By {report.by}"]
+        body = [
+            [format_value(g.group, "number")] + [format_value(g.values[m], fmt[m]) for m in report.metrics]
+            for g in report.groups
+        ]
+        out += _columns([report.by, *report.metrics], body, [False] + [True] * len(report.metrics))
+        if not body:
+            out.append("(no rows)")
+        if report.aggregation:
+            out += ["", f"Pooled rate vs unweighted average of {report.by} rates"]
+            body = [
+                [
+                    c.metric,
+                    format_value(c.pooled, fmt[c.metric]),
+                    format_value(c.average_of_groups, fmt[c.metric]),
+                    format_gap(c.gap, fmt[c.metric]),
+                ]
+                for c in report.aggregation
+            ]
+            out += _columns(["metric", "pooled", "avg of groups", "gap"], body, [False, True, True, True])
     return "\n".join(out)
 
 
@@ -175,7 +230,7 @@ def cmd_check(args: argparse.Namespace, out) -> int:
     spec = load_spec(args.spec)
     engine = MetricsEngine.from_csv_dir(spec, args.data)
     for table in spec.tables:
-        (n,) = engine.conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()
+        (n,) = engine.conn.execute(f"SELECT COUNT(*) FROM {quote_ident(table)}").fetchone()
         print(f"{table}: {n:,} rows", file=out)
     print(
         f"spec OK: {len(spec.metrics)} metrics, {len(spec.dimensions)} dimensions, "
@@ -202,6 +257,19 @@ def cmd_query(args: argparse.Namespace, out) -> int:
         print(f"-- params: {[_jsonable(p) for p in compiled.params]}", file=out)
         return 0
     print(render(engine.query(request), spec, args.format), file=out)
+    return 0
+
+
+def cmd_reconcile(args: argparse.Namespace, out) -> int:
+    spec = load_spec(args.spec)
+    by = _split(args.by)
+    if len(by) > 1:
+        raise UsageError("--by takes one dimension for reconcile")
+    # Filters and dates as for query; reconcile sets the grouping itself.
+    base = build_request(argparse.Namespace(**{**vars(args), "by": None, "grain": None}))
+    engine = MetricsEngine.from_csv_dir(spec, args.data)
+    report = reconcile(engine, base.metrics, by=by[0] if by else None, base=base)
+    print(render_reconciliation(report, spec), file=out)
     return 0
 
 
@@ -247,6 +315,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--format", choices=["table", "csv", "json"], default="table")
     p.add_argument("--sql", action="store_true", help="print the compiled SQL instead of running it")
     p.set_defaults(func=cmd_query)
+
+    p = sub.add_parser("reconcile", help="compare competing definitions of a KPI")
+    common(p)
+    p.add_argument("-m", "--metrics", action="append", required=True,
+                   help="comma-separated metrics; the first is the baseline")
+    p.add_argument("--by", action="append", help="one dimension for the per-group view")
+    p.add_argument("--where", action="append", help="filter, as for query (repeatable)")
+    p.add_argument("--start", help="first date included (YYYY-MM-DD)")
+    p.add_argument("--end", help="first date excluded (YYYY-MM-DD)")
+    p.set_defaults(func=cmd_reconcile)
 
     p = sub.add_parser("generate", help="write the synthetic dispatch CSVs")
     p.add_argument("--out", type=Path, default=DEFAULT_DATA)
