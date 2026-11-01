@@ -38,10 +38,13 @@ class Invoice:
 class RerateLine:
     invoice: Invoice
     status: str
-    expected_amount: float | None
-    difference: float | None  # billed minus expected
+    expected_amount: float | None  # in the rate's currency
+    # Billed minus expected. None when there is no rate, and for a currency
+    # mismatch, where the two amounts are in different currencies.
+    difference: float | None
     rate_per_kg: float | None
     rate_valid_from: datetime | None
+    rate_currency: str | None = None
 
 
 @dataclass
@@ -220,27 +223,41 @@ def rerate(
             lines.append(RerateLine(invoice, "no_rate", None, None, None, None))
             continue
         expected = version.charge(invoice.weight_kg)
-        difference = round(invoice.billed_amount - expected, 2)
+        difference: float | None = round(invoice.billed_amount - expected, 2)
         if invoice.currency != version.currency:
+            # 500 USD billed against 500 INR expected is not "0 difference".
             status = "currency_mismatch"
+            difference = None
         elif abs(difference) <= tolerance:
             status = "ok"
         elif difference > 0:
             status = "overbilled"
         else:
             status = "underbilled"
-        lines.append(RerateLine(invoice, status, expected, difference, version.rate_per_kg, version.valid_from))
+        lines.append(
+            RerateLine(
+                invoice, status, expected, difference, version.rate_per_kg, version.valid_from,
+                rate_currency=version.currency,
+            )
+        )
     return RerateReport(lines=lines, invalid=list(invalid or []))
 
 
 def write_report(report: RerateReport, path: Path) -> None:
-    """Write one row per invoice that needs attention (everything except ``ok``)."""
+    """Write one row per invoice that needs attention (everything except ``ok``).
+
+    ``billed_amount`` is in ``currency`` (the invoice's), ``expected_amount``
+    and ``difference`` in ``rate_currency`` (the contracted rate's). Both
+    currencies are written so a reader never has to guess, and ``difference``
+    is empty for a currency mismatch.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as fh:
         writer = csv.writer(fh)
         writer.writerow(
-            ["invoice_id", "lane_id", "ship_ts", "weight_kg", "billed_amount", "expected_amount",
-             "difference", "status", "rate_per_kg", "rate_valid_from"]
+            ["invoice_id", "lane_id", "ship_ts", "weight_kg", "billed_amount", "currency",
+             "expected_amount", "rate_currency", "difference", "status", "rate_per_kg",
+             "rate_valid_from"]
         )
         for line in report.lines:
             if line.status == "ok":
@@ -248,6 +265,7 @@ def write_report(report: RerateReport, path: Path) -> None:
             inv = line.invoice
             writer.writerow(
                 [inv.invoice_id, inv.lane_id, inv.ship_ts.isoformat(), inv.weight_kg, inv.billed_amount,
-                 line.expected_amount, line.difference, line.status, line.rate_per_kg,
+                 inv.currency, line.expected_amount, line.rate_currency or "", line.difference,
+                 line.status, line.rate_per_kg,
                  line.rate_valid_from.isoformat() if line.rate_valid_from else ""]
             )

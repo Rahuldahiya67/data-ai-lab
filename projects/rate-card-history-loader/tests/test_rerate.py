@@ -43,6 +43,9 @@ def test_statuses_follow_the_rate_valid_on_the_ship_date(priced):
         "ok", "overbilled", "underbilled", "ok", "no_rate", "currency_mismatch", "no_rate",
     ]
     assert report.lines[1].difference == 100.0 and report.lines[2].difference == -100.0
+    mismatch = report.lines[5]
+    assert mismatch.expected_amount == 500.0 and mismatch.rate_currency == "INR"
+    assert mismatch.difference is None  # 500 USD minus 500 INR is not zero
     assert report.overbilled_total == 100.0 and report.underbilled_total == 100.0
     assert report.no_rate_billed_total == 1100.0
 
@@ -119,6 +122,16 @@ def test_report_csv_lists_only_lines_that_need_attention(priced, tmp_path):
     write_report(report, out)
     rows = list(csv.DictReader(out.open()))
     assert [(r["invoice_id"], r["status"]) for r in rows] == [("B", "overbilled"), ("E", "no_rate")]
+
+
+def test_report_csv_states_both_currencies(priced, tmp_path):
+    report = rerate(priced, [inv("B", 10, 50, 600.0), inv("F", 10, 50, 500.0, currency="USD")])
+    out = tmp_path / "report.csv"
+    write_report(report, out)
+    rows = {r["invoice_id"]: r for r in csv.DictReader(out.open())}
+    assert (rows["B"]["currency"], rows["B"]["rate_currency"], rows["B"]["difference"]) == ("INR", "INR", "100.0")
+    assert (rows["F"]["currency"], rows["F"]["rate_currency"], rows["F"]["difference"]) == ("USD", "INR", "")
+    assert rows["F"]["status"] == "currency_mismatch" and rows["F"]["expected_amount"] == "500.0"
 
 
 def test_report_finds_every_planted_billing_error_in_the_synthetic_data(tmp_path):
