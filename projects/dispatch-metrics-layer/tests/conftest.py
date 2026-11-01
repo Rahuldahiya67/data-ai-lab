@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
+import yaml
 
 from dispatch_metrics_layer.engine import MetricsEngine
 from dispatch_metrics_layer.generator import GeneratorConfig, generate, write_csvs
@@ -14,6 +15,12 @@ SPEC_PATH = PROJECT / "specs" / "dispatch.yaml"
 @pytest.fixture(scope="session")
 def spec():
     return load_spec(SPEC_PATH)
+
+
+@pytest.fixture
+def raw_spec():
+    """A fresh, mutable copy of the bundled spec as parsed YAML."""
+    return yaml.safe_load(SPEC_PATH.read_text(encoding="utf-8"))
 
 
 @pytest.fixture(scope="session")

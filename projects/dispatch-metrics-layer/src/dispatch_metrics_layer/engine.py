@@ -23,6 +23,7 @@ from typing import Any
 import duckdb
 
 from .compiler import CompiledQuery, MetricRequest, compile_request
+from .expressions import quote_ident as q
 from .spec import Spec, check_columns
 
 
@@ -63,7 +64,7 @@ class MetricsEngine:
             if not path.is_file():
                 raise FileNotFoundError(f"missing data file for table {name!r}: {path}")
             conn.execute(
-                f"CREATE TABLE {name} AS SELECT * FROM read_csv(?, header = true)",
+                f"CREATE TABLE {q(name)} AS SELECT * FROM read_csv(?, header = true)",
                 [str(path)],
             )
         return cls(spec, conn)
@@ -79,24 +80,24 @@ class MetricsEngine:
 
     def _check_fact_key(self) -> None:
         fact = self.spec.fact
-        key = fact.primary_key
+        key, table = q(fact.primary_key), q(fact.name)
         (nulls,) = self.conn.execute(
-            f"SELECT COUNT(*) FROM {fact.name} WHERE {key} IS NULL"
+            f"SELECT COUNT(*) FROM {table} WHERE {key} IS NULL"
         ).fetchone()
         if nulls:
             raise DuplicateKeyError(
-                f"primary key {fact.name}.{key} is NULL in {nulls} row(s); "
+                f"primary key {fact.name}.{fact.primary_key} is NULL in {nulls} row(s); "
                 "every fact row needs a key"
             )
         dupes = self.conn.execute(
-            f"SELECT {key}, COUNT(*) AS n FROM {fact.name} "
+            f"SELECT {key}, COUNT(*) AS n FROM {table} "
             f"GROUP BY 1 HAVING COUNT(*) > 1 ORDER BY 1"
         ).fetchall()
         if dupes:
             extra = sum(n - 1 for _, n in dupes)
             sample = ", ".join(f"{k!r} x{n}" for k, n in dupes[:5])
             raise DuplicateKeyError(
-                f"primary key {fact.name}.{key} is not unique: {len(dupes)} key(s) repeated, "
+                f"primary key {fact.name}.{fact.primary_key} is not unique: {len(dupes)} key(s) repeated, "
                 f"{extra} extra row(s) ({sample}); every count and sum would be inflated"
             )
 
@@ -104,8 +105,9 @@ class MetricsEngine:
         fact = self.spec.fact
         orphans = {}
         for target, join in fact.joins.items():
+            key = q(join.key)
             dupes = self.conn.execute(
-                f"SELECT {join.key}, COUNT(*) AS n FROM {target} "
+                f"SELECT {key}, COUNT(*) AS n FROM {q(target)} "
                 f"GROUP BY 1 HAVING COUNT(*) > 1 ORDER BY 1 LIMIT 5"
             ).fetchall()
             if dupes:
@@ -115,9 +117,9 @@ class MetricsEngine:
                     f"would duplicate {fact.name} rows and inflate every sum"
                 )
             (missing,) = self.conn.execute(
-                f"SELECT COUNT(*) FROM {fact.name} AS f "
-                f"WHERE f.{join.key} IS NOT NULL AND NOT EXISTS "
-                f"(SELECT 1 FROM {target} AS t WHERE t.{join.key} = f.{join.key})"
+                f"SELECT COUNT(*) FROM {q(fact.name)} AS f "
+                f"WHERE f.{key} IS NOT NULL AND NOT EXISTS "
+                f"(SELECT 1 FROM {q(target)} AS t WHERE t.{key} = f.{key})"
             ).fetchone()
             orphans[target] = missing
         return orphans

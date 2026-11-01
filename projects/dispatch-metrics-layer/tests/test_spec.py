@@ -111,5 +111,6 @@ def test_safe_fragment_and_qualify():
     fragment = "status = 'it''s' AND COALESCE(delivered_date, promised_date) <= promised_date"
     assert check_fragment(fragment, cols) == []
     assert qualify(fragment, cols, "f") == (
-        "f.status = 'it''s' AND COALESCE ( f.delivered_date , f.promised_date ) <= f.promised_date"
+        "f.\"status\" = 'it''s' AND COALESCE ( f.\"delivered_date\" , f.\"promised_date\" )"
+        " <= f.\"promised_date\""
     )

@@ -10,6 +10,9 @@ The query has two levels:
    "on-time rate overall" are always consistent with each other.
 
 Filter values are bound as query parameters, never pasted into the SQL text.
+Every identifier taken from the spec (tables, columns, dimension and metric
+names) is quoted, so a valid spec name that happens to be an SQL keyword, such
+as ``order``, still compiles.
 """
 
 from __future__ import annotations
@@ -18,7 +21,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
-from .expressions import qualify
+from .expressions import qualify, quote_ident as q
 from .spec import Spec
 
 GRAINS = {"day", "week", "month"}
@@ -67,7 +70,7 @@ def _join_alias(table: str) -> str:
 
 def _column_ref(spec: Spec, table: str, column: str) -> str:
     alias = FACT_ALIAS if table == spec.fact_table else _join_alias(table)
-    return f"{alias}.{column}"
+    return f"{alias}.{q(column)}"
 
 
 def validate_request(spec: Spec, request: MetricRequest) -> None:
@@ -133,7 +136,7 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
 
     group_cols: list[tuple[str, str]] = []  # (sql expression, output name)
     if request.grain:
-        time_ref = f"{FACT_ALIAS}.{fact.time_column}"
+        time_ref = f"{FACT_ALIAS}.{q(fact.time_column)}"
         group_cols.append((f"CAST(date_trunc('{request.grain}', {time_ref}) AS DATE)", PERIOD_COLUMN))
     for dim_name in request.dimensions:
         dim = spec.dimensions[dim_name]
@@ -145,23 +148,23 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
             if m not in measure_names:
                 measure_names.append(m)
 
-    select_parts = [f"{expr} AS {name}" for expr, name in group_cols]
-    select_parts += [f"{_measure_sql(spec, m, fact_columns)} AS ms__{m}" for m in measure_names]
+    select_parts = [f"{expr} AS {q(name)}" for expr, name in group_cols]
+    select_parts += [f"{_measure_sql(spec, m, fact_columns)} AS {q('ms__' + m)}" for m in measure_names]
 
-    from_sql = f"{fact.name} AS {FACT_ALIAS}"
+    from_sql = f"{q(fact.name)} AS {FACT_ALIAS}"
     for table in sorted(needed_tables):
         join = fact.joins[table]
         from_sql += (
-            f"\n  LEFT JOIN {table} AS {_join_alias(table)}"
-            f" ON {FACT_ALIAS}.{join.key} = {_join_alias(table)}.{join.key}"
+            f"\n  LEFT JOIN {q(table)} AS {_join_alias(table)}"
+            f" ON {FACT_ALIAS}.{q(join.key)} = {_join_alias(table)}.{q(join.key)}"
         )
 
     where = []
     if request.start:
-        where.append(f"{FACT_ALIAS}.{fact.time_column} >= ?")
+        where.append(f"{FACT_ALIAS}.{q(fact.time_column)} >= ?")
         params.append(request.start)
     if request.end:
-        where.append(f"{FACT_ALIAS}.{fact.time_column} < ?")
+        where.append(f"{FACT_ALIAS}.{q(fact.time_column)} < ?")
         params.append(request.end)
     for flt in request.filters:
         dim = spec.dimensions[flt.dimension]
@@ -182,19 +185,19 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
     if group_cols:
         inner += "\n  GROUP BY " + ", ".join(str(i + 1) for i in range(len(group_cols)))
 
-    outer_parts = [name for _, name in group_cols]
+    outer_parts = [q(name) for _, name in group_cols]
     for metric_name in request.metrics:
         metric = spec.metrics[metric_name]
         if metric.type == "simple":
-            outer_parts.append(f"ms__{metric.measure} AS {metric_name}")
+            outer_parts.append(f"{q('ms__' + metric.measure)} AS {q(metric_name)}")
         else:
             outer_parts.append(
-                f"CAST(ms__{metric.numerator} AS DOUBLE)"
-                f" / NULLIF(ms__{metric.denominator}, 0) AS {metric_name}"
+                f"CAST({q('ms__' + metric.numerator)} AS DOUBLE)"
+                f" / NULLIF({q('ms__' + metric.denominator)}, 0) AS {q(metric_name)}"
             )
 
     sql = f"WITH agg AS (\n  {inner}\n)\nSELECT " + ", ".join(outer_parts) + "\nFROM agg"
     if group_cols:
-        sql += "\nORDER BY " + ", ".join(f"{name} NULLS LAST" for _, name in group_cols)
+        sql += "\nORDER BY " + ", ".join(f"{q(name)} NULLS LAST" for _, name in group_cols)
     columns = [name for _, name in group_cols] + list(request.metrics)
     return CompiledQuery(sql=sql, params=params, columns=columns)

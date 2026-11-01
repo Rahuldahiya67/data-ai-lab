@@ -6,6 +6,7 @@ import pytest
 from dispatch_metrics_layer.compiler import Filter, MetricRequest, RequestError
 from dispatch_metrics_layer.engine import DuplicateKeyError, FanOutError, MetricsEngine
 from dispatch_metrics_layer.generator import GeneratorConfig, generate, write_csvs
+from dispatch_metrics_layer.spec import parse_spec
 
 
 def ref_rates(df):
@@ -90,7 +91,23 @@ def test_only_needed_joins_and_measures_are_compiled(engine):
     assert "JOIN" not in sql
     assert "ms__freight_cost" not in sql
     sql = engine.compile(MetricRequest(["on_time_rate"], filters=[Filter("carrier", "=", "Metro Parcel")])).sql
-    assert "JOIN carriers" in sql and "JOIN lanes" not in sql
+    assert 'JOIN "carriers"' in sql and 'JOIN "lanes"' not in sql
+
+
+def test_sql_keywords_work_as_spec_names(raw_spec, data_dir, engine):
+    # 'order' and 'group' are valid lower_snake_case names and SQL keywords.
+    raw_spec["dimensions"]["order"] = raw_spec["dimensions"].pop("status")
+    raw_spec["metrics"]["group"] = raw_spec["metrics"].pop("on_time_rate")
+    keyword_engine = MetricsEngine.from_csv_dir(parse_spec(raw_spec), data_dir)
+    got = keyword_engine.query(
+        MetricRequest(["group", "shipment_count"], ["order"], filters=[Filter("order", "!=", "x")])
+    ).records()
+    want = engine.query(
+        MetricRequest(["on_time_rate", "shipment_count"], ["status"], filters=[Filter("status", "!=", "x")])
+    ).records()
+    assert [(r["order"], r["group"], r["shipment_count"]) for r in got] == [
+        (r["status"], r["on_time_rate"], r["shipment_count"]) for r in want
+    ]
 
 
 def test_shared_column_names_do_not_clash(engine, frame):

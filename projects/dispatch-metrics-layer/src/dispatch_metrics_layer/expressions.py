@@ -37,6 +37,11 @@ _TOKEN_RE = re.compile(
 )
 
 
+def quote_ident(name: str) -> str:
+    """Quote an identifier for DuckDB so spec names like ``order`` are not read as keywords."""
+    return '"' + name.replace('"', '""') + '"'
+
+
 def tokenize(fragment: str) -> list[tuple[str, str]]:
     """Split a fragment into ``(kind, text)`` tokens. Raises ValueError on anything unknown."""
     if "--" in fragment or "/*" in fragment:
@@ -100,7 +105,7 @@ def qualify(fragment: str, columns: set[str], alias: str) -> str:
     for i, (kind, text) in enumerate(tokens):
         followed_by_paren = i + 1 < len(tokens) and tokens[i + 1] == ("paren", "(")
         if kind == "ident" and text in columns and not followed_by_paren:
-            out.append(f"{alias}.{text}")
+            out.append(f"{alias}.{quote_ident(text)}")
         else:
             out.append(text)
     return " ".join(out)
