@@ -6,7 +6,8 @@ A spec has five parts::
     tables:      # primary keys, the fact table's time column, many-to-one joins
     dimensions:  # name -> table.column that reports can group or filter by
     measures:    # name -> aggregation over the fact table, optional row filter
-    metrics:     # name -> simple (one measure) or ratio (sum / sum)
+    metrics:     # name -> simple (one measure), ratio (sum / sum) or
+                 # derived (an expression over other metrics)
 
 Validation is done in two steps. ``load_spec`` checks the structure and the
 references between parts (no data needed). ``check_columns`` checks that every
@@ -18,7 +19,7 @@ one pass instead of one error at a time.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -26,7 +27,13 @@ import yaml
 
 NAME_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 AGGREGATIONS = {"count", "sum", "count_distinct", "min", "max"}
-METRIC_TYPES = {"simple", "ratio"}
+METRIC_KEYS = {
+    "simple": {"measure"},
+    "ratio": {"numerator", "denominator"},
+    "derived": {"expr"},
+}
+METRIC_TYPES = set(METRIC_KEYS)
+METRIC_COMMON_KEYS = {"type", "format", "description"}
 FORMATS = {"number", "percent", "currency"}
 
 
@@ -79,12 +86,17 @@ class Metric:
     denominator: str | None = None
     format: str = "number"
     description: str = ""
+    expr: str | None = None  # derived metrics only
+    depends_on: tuple[str, ...] = ()  # metrics referenced by a derived expr
 
     @property
     def measures(self) -> list[str]:
+        """Measures this metric reads directly (a derived metric reads none itself)."""
         if self.type == "simple":
             return [self.measure]  # type: ignore[list-item]
-        return [self.numerator, self.denominator]  # type: ignore[list-item]
+        if self.type == "ratio":
+            return [self.numerator, self.denominator]  # type: ignore[list-item]
+        return []
 
 
 @dataclass(frozen=True)
@@ -98,6 +110,23 @@ class Spec:
     @property
     def fact(self) -> Table:
         return self.tables[self.fact_table]
+
+    def measures_for(self, metric_name: str) -> list[str]:
+        """Every measure a metric needs, following derived metrics down to measures."""
+        out: list[str] = []
+        stack = [metric_name]
+        seen: set[str] = set()
+        while stack:
+            name = stack.pop()
+            if name in seen:
+                continue
+            seen.add(name)
+            metric = self.metrics[name]
+            for m in metric.measures:
+                if m not in out:
+                    out.append(m)
+            stack.extend(reversed(metric.depends_on))
+        return out
 
 
 def _as_mapping(value: Any, where: str, problems: list[str]) -> dict:
@@ -252,19 +281,28 @@ def parse_spec(raw: Any) -> Spec:
         if not _check_name(name, where, problems):
             continue
         body = _as_mapping(body, where, problems)
-        _check_keys(
-            body,
-            {"type", "measure", "numerator", "denominator", "format", "description"},
-            where,
-            problems,
-        )
         mtype = body.get("type")
         if mtype not in METRIC_TYPES:
             problems.append(f"{where}.type must be one of {sorted(METRIC_TYPES)}, got {mtype!r}")
             continue
+        # Keys belong to one metric type: 'expr' on a ratio metric is a mistake, not a no-op.
+        _check_keys(body, METRIC_COMMON_KEYS | METRIC_KEYS[mtype], where, problems)
         fmt = body.get("format", "number")
         if fmt not in FORMATS:
             problems.append(f"{where}.format must be one of {sorted(FORMATS)}, got {fmt!r}")
+        if mtype == "derived":
+            expr = _opt_str(body, "expr", where, problems)
+            if expr is None:
+                problems.append(f"{where}.expr is required for a derived metric")
+                continue
+            metrics[name] = Metric(
+                name=name,
+                type=mtype,
+                format=fmt if fmt in FORMATS else "number",
+                description=body.get("description", "") or "",
+                expr=expr,
+            )
+            continue
         needed = ["measure"] if mtype == "simple" else ["numerator", "denominator"]
         refs = {}
         for key in needed:
@@ -282,6 +320,8 @@ def parse_spec(raw: Any) -> Spec:
             **refs,
         )
 
+    _resolve_derived(metrics, problems)
+
     clash = sorted(set(dimensions) & set(metrics))
     if clash:
         problems.append(f"names used for both a dimension and a metric: {clash}")
@@ -291,6 +331,42 @@ def parse_spec(raw: Any) -> Spec:
     if problems:
         raise SpecError(problems)
     return Spec(fact_table, tables, dimensions, measures, metrics)
+
+
+def _resolve_derived(metrics: dict[str, Metric], problems: list[str]) -> None:
+    """Check derived expressions, record what they reference, and reject cycles."""
+    from .expressions import check_fragment, references
+
+    names = set(metrics)
+    for name, metric in list(metrics.items()):
+        if metric.type != "derived":
+            continue
+        where = f"metrics.{name}.expr"
+        found = check_fragment(metric.expr, names)  # type: ignore[arg-type]
+        problems.extend(f"{where}: {p.replace('column', 'metric')}" for p in found)
+        if found:
+            continue
+        deps = tuple(references(metric.expr, names))  # type: ignore[arg-type]
+        if not deps:
+            problems.append(f"{where}: a derived metric must reference at least one metric")
+        metrics[name] = replace(metric, depends_on=deps)
+
+    # Depth-first search for cycles such as a -> b -> a.
+    state: dict[str, int] = {}  # 1 = on the current path, 2 = done
+
+    def visit(name: str, path: list[str]) -> None:
+        state[name] = 1
+        for dep in metrics[name].depends_on:
+            if state.get(dep) == 1:
+                cycle = path[path.index(dep):] + [dep]
+                problems.append(f"metrics: derived metrics form a cycle: {' -> '.join(cycle)}")
+            elif dep not in state:
+                visit(dep, path + [dep])
+        state[name] = 2
+
+    for name in sorted(metrics):
+        if name not in state:
+            visit(name, [name])
 
 
 def load_spec(path: str | Path) -> Spec:

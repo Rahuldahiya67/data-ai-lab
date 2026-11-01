@@ -93,6 +93,30 @@ def check_fragment(fragment: str, columns: set[str]) -> list[str]:
     return problems
 
 
+def references(fragment: str, columns: set[str]) -> list[str]:
+    """Names from ``columns`` that a fragment references, in order of first use."""
+    tokens = tokenize(fragment)
+    out: list[str] = []
+    for i, (kind, text) in enumerate(tokens):
+        followed_by_paren = i + 1 < len(tokens) and tokens[i + 1] == ("paren", "(")
+        if kind == "ident" and text in columns and not followed_by_paren and text not in out:
+            out.append(text)
+    return out
+
+
+def substitute(fragment: str, replacements: dict[str, str]) -> str:
+    """Replace each referenced name with ``(replacement)``. Call ``check_fragment`` first."""
+    tokens = tokenize(fragment)
+    out = []
+    for i, (kind, text) in enumerate(tokens):
+        followed_by_paren = i + 1 < len(tokens) and tokens[i + 1] == ("paren", "(")
+        if kind == "ident" and text in replacements and not followed_by_paren:
+            out.append(f"({replacements[text]})")
+        else:
+            out.append(text)
+    return " ".join(out)
+
+
 def qualify(fragment: str, columns: set[str], alias: str) -> str:
     """Prefix every column reference in a checked fragment with ``alias.``.
 
