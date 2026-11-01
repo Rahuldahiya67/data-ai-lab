@@ -128,7 +128,7 @@ def test_list_and_check(data_dir):
     assert "carrier                    carriers.carrier_name" in out
     code, out, _ = run("check", "--spec", str(SPEC_PATH), "--data", str(data_dir))
     assert code == 0
-    assert "shipments: 1,500 rows" in out and "spec OK: 12 metrics" in out
+    assert "shipments: 1,500 rows" in out and "spec OK: 14 metrics" in out
     assert "warning" not in out
 
 

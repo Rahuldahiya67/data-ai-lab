@@ -59,6 +59,14 @@ measures:
   active_lanes:
     agg: count_distinct
     expr: lane_id
+  dispatched_shipments:
+    agg: count
+    filter: status <> 'cancelled'
+    description: Shipments that left, whether delivered yet or still in transit
+  on_time_units:
+    agg: sum
+    expr: units_delivered
+    filter: status = 'delivered' AND delivered_date <= promised_date
 
 metrics:
   shipment_count:
@@ -106,6 +114,21 @@ metrics:
   active_lanes:
     type: simple
     measure: active_lanes
+
+  # Competing on-time definitions that other reports use. on_time_rate above is
+  # the canonical one; these exist so the reconcile command can show the gap.
+  on_time_rate_dispatched:
+    type: ratio
+    numerator: on_time_shipments
+    denominator: dispatched_shipments
+    format: percent
+    description: On-time deliveries over all non-cancelled shipments; in-transit shipments count as not on time
+  on_time_rate_units:
+    type: ratio
+    numerator: on_time_units
+    denominator: units_delivered
+    format: percent
+    description: Units delivered on time over units delivered; big shipments weigh more
 
   # Derived metrics: expressions over other metrics, computed at the requested grain.
   late_rate:

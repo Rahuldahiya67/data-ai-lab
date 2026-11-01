@@ -25,12 +25,15 @@ def ref_rates(df):
         "freight_cost": live.freight_cost.sum(),
         "cost_per_km": live.freight_cost.sum() / live.distance_km.sum(),
         "active_lanes": df.lane_id.nunique(),
+        "on_time_rate_dispatched": len(on_time) / len(live),
+        "on_time_rate_units": on_time.units_delivered.sum() / delivered.units_delivered.sum(),
     }
 
 
 ALL_METRICS = [
     "shipment_count", "on_time_rate", "in_full_rate", "otif_rate", "fill_rate",
     "cancellation_rate", "freight_cost", "cost_per_km", "active_lanes",
+    "on_time_rate_dispatched", "on_time_rate_units",
 ]
 
 
