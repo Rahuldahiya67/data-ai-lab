@@ -41,7 +41,7 @@ flowchart LR
 3. **Commit order check**. LSN order is the source's order of changes. An event with a later LSN but an earlier commit time than the lane's previous change would close the open version before it started, so it is quarantined. Two changes to one lane at the same instant keep only the highest LSN, since only the final state was ever visible.
 4. **SCD Type 2 merge**. The merge is set-based SQL with window functions, so a batch with several changes to the same lane produces the full chain of versions in one pass. Changes that do not alter any tracked value are counted as no-ops and do not open a version. A delete closes the open version and leaves the lane with no current row. Each batch is applied in one transaction together with its quarantine rows, ledger entries, watermark and `load_log` row.
 5. **Lookups** (`lookup.py`). A version is valid from its commit time (inclusive) to the next change (exclusive). `rate_at` returns the version valid at a moment, or nothing if the lane did not exist or had been withdrawn.
-6. **Re-rating** (`rerate.py`). All invoices are matched to their rate version in one range join, priced with the same `charge()` used by the lookup API (rate x weight, at least the minimum charge), and classed as `ok`, `overbilled`, `underbilled`, `no_rate` or `currency_mismatch`. Money totals are kept per currency.
+6. **Re-rating** (`rerate.py`). All invoices are matched to their rate version in one range join, priced with the same `charge()` used by the lookup API (rate x weight, at least the minimum charge), and classed as `ok`, `overbilled`, `underbilled`, `no_rate` or `currency_mismatch`. Money totals are kept per currency. The `--out` report lists every line that is not `ok` with both the invoice's `currency` and the rate's `rate_currency`; `expected_amount` and `difference` are in the rate's currency, and `difference` is left empty for a currency mismatch because the two amounts cannot be subtracted.
 
 ## How to run it
 
@@ -115,7 +115,7 @@ INR billed with no contracted rate: 44082.84
 
 The invoice generator plants two kinds of error: billing at the rate valid on the invoice date instead of the ship date (`stale_rate`, which shows up as over- or underbilling depending on the direction of the rate change), and billing a lane that had been withdrawn (`no_contract`). The report finds every planted error and flags nothing else; `test_report_finds_every_planted_billing_error_in_the_synthetic_data` checks this against the generator's ground truth, which the report itself never reads.
 
-Tests: 88 passed. The end-to-end tests load the full shuffled, duplicated and replayed stream and compare the dimension with the true history: current rates match the true final state, more than 1,000 point-in-time lookups match, no lane has overlapping or zero-length versions, and the replay is a no-op.
+Tests: 89 passed. The end-to-end tests load the full shuffled, duplicated and replayed stream and compare the dimension with the true history: current rates match the true final state, more than 1,000 point-in-time lookups match, no lane has overlapping or zero-length versions, and the replay is a no-op.
 
 ## Design decisions
 
