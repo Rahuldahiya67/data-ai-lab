@@ -131,3 +131,36 @@ def test_generator_cli_rejects_zero_tickets(tmp_path):
 
     with pytest.raises(SystemExit):
         main(["--out", str(tmp_path), "--tickets", "0"])
+
+
+def _rewrite_second_ticket(tmp_path, mutate):
+    _, tickets = generate(n_tickets=3, seed=1)
+    write_dataset({}, tickets, tmp_path)
+    path = tmp_path / "tickets.jsonl"
+    lines = path.read_text().splitlines()
+    rec = json.loads(lines[1])
+    mutate(rec)
+    lines[1] = json.dumps(rec)
+    path.write_text("\n".join(lines) + "\n")
+    return path
+
+
+@pytest.mark.parametrize(
+    "mutate, message",
+    [
+        (lambda r: r.update(expected_tools="get_shipment"), "must be a list of tool names"),
+        (lambda r: r.update(expected_tools=["get_shipment", "lookup_order"]), "unknown tool 'lookup_order'"),
+        (lambda r: r.update(expected_tools=[None]), "unknown tool None"),
+        (lambda r: r["expected"].update(reason=5), "'reason' must be str"),
+    ],
+)
+def test_load_tickets_rejects_bad_labels(tmp_path, mutate, message):
+    path = _rewrite_second_ticket(tmp_path, mutate)
+    with pytest.raises(DatasetError, match=message) as info:
+        load_tickets(path)
+    assert "line 2" in str(info.value) or "ticket " in str(info.value)
+
+
+def test_expected_tools_may_be_omitted(tmp_path):
+    path = _rewrite_second_ticket(tmp_path, lambda r: r.pop("expected_tools"))
+    assert load_tickets(path)[1].expected_tools == ()

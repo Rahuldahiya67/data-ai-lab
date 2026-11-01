@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from .models import ACTIONS, SHIPMENT_STATUSES, LabelledTicket, Resolution, ScanEvent, Shipment, Ticket
+from .tools import TOOL_SPECS
 
 
 class DatasetError(ValueError):
@@ -148,18 +149,36 @@ def parse_ticket(rec: dict, where: str = "ticket") -> LabelledTicket:
     if amount is not None:
         amount = _require(exp, "amount_inr", float, where + " expected")
     rd = exp.get("redelivery_date")
+    reason = exp.get("reason")
+    if reason is not None and not isinstance(reason, str):
+        raise DatasetError(f"{where} expected: 'reason' must be str, got {reason!r}")
     expected = Resolution(
         action=action,
         amount_inr=amount,
         redelivery_date=_parse_date(rd, "redelivery_date", where) if rd is not None else None,
-        reason=exp.get("reason") or "",
+        reason=reason or "",
     )
     return LabelledTicket(
         ticket=ticket,
         scenario=_require(rec, "scenario", str, where),
         expected=expected,
-        expected_tools=tuple(rec.get("expected_tools", ())),
+        expected_tools=_parse_expected_tools(rec, where),
     )
+
+
+def _parse_expected_tools(rec: dict, where: str) -> tuple[str, ...]:
+    """The labelled tool sequence. Optional, but if present it must be a list of known tool names.
+
+    A bare string would otherwise be split into characters by ``tuple()`` and
+    silently score every ticket's tool recall as zero.
+    """
+    tools = rec.get("expected_tools", [])
+    if not isinstance(tools, list):
+        raise DatasetError(f"{where}: 'expected_tools' must be a list of tool names, got {tools!r}")
+    for name in tools:
+        if not isinstance(name, str) or name not in TOOL_SPECS:
+            raise DatasetError(f"{where}: unknown tool {name!r} in expected_tools (known: {sorted(TOOL_SPECS)})")
+    return tuple(tools)
 
 
 def load_shipments(path: Path) -> dict[str, Shipment]:
