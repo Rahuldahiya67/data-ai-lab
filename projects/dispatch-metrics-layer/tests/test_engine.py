@@ -186,6 +186,29 @@ def test_orphan_keys_are_counted_and_kept_in_totals(spec, tmp_path):
     assert sum(r["shipment_count"] for r in rows) == 200
 
 
+def test_negative_filters_keep_rows_with_a_null_dimension(spec, tmp_path):
+    # Orphan carrier keys give a NULL carrier name. "= X" and "!= X" must still
+    # partition the data, and so must "in" and "not_in".
+    def orphan(tables):
+        for row in tables["shipments"][:5]:
+            row["carrier_id"] = "C99"
+
+    engine = MetricsEngine.from_csv_dir(spec, _write(tmp_path, orphan))
+
+    def count(*filters):
+        (row,) = engine.query(MetricRequest(["shipment_count"], filters=list(filters))).records()
+        return row["shipment_count"]
+
+    total = count()
+    names = [r["carrier"] for r in engine.query(MetricRequest(["shipment_count"], ["carrier"])).records()]
+    first, second = names[0], names[1]
+    assert count(Filter("carrier", "=", first)) + count(Filter("carrier", "!=", first)) == total
+    pair = [first, second]
+    assert count(Filter("carrier", "in", pair)) + count(Filter("carrier", "not_in", pair)) == total
+    # The orphan rows are the ones a plain SQL "!=" would have lost.
+    assert count(Filter("carrier", "not_in", names[:-1])) == 5
+
+
 def test_missing_data_file(spec, tmp_path):
     write_csvs({"carriers": generate(GeneratorConfig(n_shipments=5))["carriers"]}, tmp_path)
     with pytest.raises(FileNotFoundError, match="missing data file for table 'shipments'"):

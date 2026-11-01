@@ -172,9 +172,17 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
         if flt.op in {"in", "not_in"}:
             values = sorted(flt.value, key=str)
             marks = ", ".join("?" for _ in values)
-            keyword = "IN" if flt.op == "in" else "NOT IN"
-            where.append(f"{ref} {keyword} ({marks})")
+            if flt.op == "in":
+                where.append(f"{ref} IN ({marks})")
+            else:
+                # NOT IN is NULL for a NULL dimension (orphan key), which would drop
+                # the row from both "in" and "not_in"; keep the complement exact.
+                where.append(f"({ref} NOT IN ({marks}) OR {ref} IS NULL)")
             params.extend(values)
+        elif flt.op == "!=":
+            # Same reason: "!=" is NULL for NULL, IS DISTINCT FROM is true.
+            where.append(f"{ref} IS DISTINCT FROM ?")
+            params.append(flt.value)
         else:
             where.append(f"{ref} {flt.op} ?")
             params.append(flt.value)
