@@ -80,6 +80,21 @@ class ShipmentState:
 
 @dataclass
 class StreamStats:
+    """Counters for one replay.
+
+    ``accepted``: events processed (not duplicates, not rejected).
+    ``duplicates``: events whose ID was already seen for the shipment.
+    ``invalid``: raw messages that failed validation.
+    ``late``: accepted events whose event time was at or behind the watermark
+    when they arrived. They are still processed; the count shows how many scans
+    the current allowed lateness did not cover. With zero lateness every event
+    that is not a new maximum event time counts.
+    ``out_of_order``: events older than the shipment's latest scan.
+    ``too_late``: events more than ``state_retention`` behind the watermark,
+    rejected to the dead-letter list.
+    ``evicted``: delivered shipments released from state.
+    """
+
     accepted: int = 0
     duplicates: int = 0
     invalid: int = 0
