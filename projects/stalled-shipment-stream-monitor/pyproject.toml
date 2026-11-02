@@ -12,6 +12,9 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
 
+[project.scripts]
+stall-monitor = "stalled_shipment_stream_monitor.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
