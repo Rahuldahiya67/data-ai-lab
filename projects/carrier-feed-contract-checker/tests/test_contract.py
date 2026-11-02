@@ -25,6 +25,8 @@ def test_minimal_contract_parses():
     c = parse_contract(base())
     assert c.columns["b"].min == 0
     assert c.feed.min_rows == 0
+    assert c.version == 1
+    assert c.columns["a"].required is True and c.columns["b"].unique is False
 
 
 @pytest.mark.parametrize(
@@ -53,6 +55,13 @@ def test_minimal_contract_parses():
         (lambda r: r.update(feed={"min_rows": -5}), "non-negative integer"),
         (lambda r: r.update(feed={"min_rows": "100"}), "non-negative integer"),
         (lambda r: r.update(feed={"max_reject_rate": "10%"}), "must be a number"),
+        (lambda r: r["columns"]["a"].update(required="false"), "required must be true or false"),
+        (lambda r: r["columns"]["b"].update(unique="no"), "unique must be true or false"),
+        (lambda r: r["columns"]["b"].update(unique=1), "unique must be true or false"),
+        (lambda r: r["columns"]["c"].update(format=20261017), "format must be a string"),
+        (lambda r: r.update(version="v2"), "version must be a positive integer"),
+        (lambda r: r.update(version=1.9), "version must be a positive integer"),
+        (lambda r: r.update(version=0), "version must be a positive integer"),
     ],
 )
 def test_malformed_contracts_rejected(mutate, message):

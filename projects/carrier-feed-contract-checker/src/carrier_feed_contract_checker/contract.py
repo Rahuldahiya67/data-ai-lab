@@ -62,6 +62,12 @@ def _column(name: str, raw: dict[str, Any]) -> ColumnSpec:
     if unknown:
         raise ContractError(f"column '{name}' has unknown keys: {sorted(unknown)}")
     spec = ColumnSpec(name=name, **raw)
+    for flag in ("required", "unique"):
+        # A quoted "false" is a non-empty string and would switch the check on.
+        if not isinstance(getattr(spec, flag), bool):
+            raise ContractError(
+                f"column '{name}': {flag} must be true or false, got {getattr(spec, flag)!r}"
+            )
     if spec.type not in COLUMN_TYPES:
         raise ContractError(f"column '{name}' has unsupported type '{spec.type}'")
     if (spec.min is not None or spec.max is not None) and spec.type not in {"int", "float"}:
@@ -83,6 +89,8 @@ def _column(name: str, raw: dict[str, Any]) -> ColumnSpec:
             re.compile(spec.regex)
         except re.error as exc:
             raise ContractError(f"column '{name}' has an invalid regex: {exc}") from None
+    if spec.format is not None and not isinstance(spec.format, str):
+        raise ContractError(f"column '{name}': format must be a string, got {spec.format!r}")
     if spec.format is not None and spec.type != "datetime":
         raise ContractError(f"column '{name}': format only applies to datetime columns")
     return spec
@@ -181,9 +189,13 @@ def parse_contract(raw: dict[str, Any]) -> Contract:
         raise ContractError("rules must be a list")
     rules = [_rule(r, columns) for r in raw_rules]
     _check_rule_names(rules, columns)
+    version = raw.get("version", 1)
+    if isinstance(version, bool) or not isinstance(version, int) or version < 1:
+        # int() would turn 1.9 into 1 and fail with a bare ValueError on "v2".
+        raise ContractError(f"version must be a positive integer, got {version!r}")
     return Contract(
         name=str(raw.get("name", "unnamed")),
-        version=int(raw.get("version", 1)),
+        version=version,
         columns=columns,
         rules=rules,
         feed=_feed(raw.get("feed")),
