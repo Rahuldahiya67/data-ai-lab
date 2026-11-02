@@ -1,0 +1,7 @@
+carrier_id,carrier_name,mode
+C01,Northline Freight,FTL
+C02,Swift Roadways,FTL
+C03,Metro Parcel,PARCEL
+C04,Ganga Logistics,LTL
+C05,Deccan Carriers,LTL
+C06,Coastal Express,PARCEL

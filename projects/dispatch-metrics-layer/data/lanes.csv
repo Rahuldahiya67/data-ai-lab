@@ -1,0 +1,13 @@
+lane_id,origin_city,destination_city,region,distance_km
+L01,Delhi,Jaipur,North,281
+L02,Delhi,Lucknow,North,555
+L03,Delhi,Chandigarh,North,244
+L04,Mumbai,Pune,West,149
+L05,Mumbai,Ahmedabad,West,524
+L06,Mumbai,Surat,West,284
+L07,Chennai,Bengaluru,South,346
+L08,Chennai,Hyderabad,South,627
+L09,Bengaluru,Kochi,South,549
+L10,Kolkata,Bhubaneswar,East,441
+L11,Kolkata,Patna,East,584
+L12,Delhi,Mumbai,Cross-region,1415
