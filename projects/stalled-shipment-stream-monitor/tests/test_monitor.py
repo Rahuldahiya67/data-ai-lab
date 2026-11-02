@@ -214,3 +214,37 @@ def test_event_older_than_retention_is_rejected_not_reopened():
 def test_retention_must_be_positive():
     with pytest.raises(ValueError, match="state_retention"):
         StallMonitor(state_retention=timedelta(0))
+
+
+def raw(event_id, shipment, event_type, time, ingest=None):
+    return {"event_id": event_id, "shipment_id": shipment, "event_type": event_type,
+            "event_time": time, "ingest_time": ingest or time, "location": "X"}
+
+
+def test_stall_alert_counts_dead_lettered_scans_for_the_shipment():
+    m = monitor()
+    m.run([
+        raw("1", "A", "OUT_FOR_DELIVERY", "2026-11-02T00:00:00+00:00"),
+        raw("2", "A", "DELIVERED", "2026-11-02 03:00"),  # no offset: dead-lettered
+    ])
+    alerts = m.run([raw("3", "B", "PICKED_UP", "2026-11-02T12:00:00+00:00")])
+    assert [(a.kind, a.shipment_id, a.dead_letters) for a in alerts] == [(AlertKind.STALLED, "A", 1)]
+
+
+def test_dead_letter_without_a_shipment_id_is_not_attributed():
+    m = monitor()
+    m.run([
+        raw("1", "A", "OUT_FOR_DELIVERY", "2026-11-02T00:00:00+00:00"),
+        raw("2", "  ", "DELIVERED", "2026-11-02T03:00:00+00:00"),
+        {"event_id": "4", "shipment_id": None},
+    ])
+    alerts = m.run([raw("3", "B", "PICKED_UP", "2026-11-02T12:00:00+00:00")])
+    assert [(a.shipment_id, a.dead_letters) for a in alerts] == [("A", 0)]
+    assert m.stats.invalid == 2
+
+
+def test_stall_with_no_dead_letters_reports_zero():
+    m = monitor()
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    alerts = m.process(ev("B", "PICKED_UP", 20))
+    assert alerts[0].dead_letters == 0

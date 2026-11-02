@@ -59,6 +59,9 @@ class Alert:
     last_event_time: datetime
     watermark: datetime | None
     raised_at_ingest: datetime
+    # Scans for this shipment rejected by validation. A non-zero count on a
+    # STALLED alert means the missing scan may be in the dead-letter list.
+    dead_letters: int = 0
 
 
 @dataclass
@@ -113,6 +116,7 @@ class StallMonitor:
         self.shipments: dict[str, ShipmentState] = {}
         self.stats = StreamStats()
         self.dead_letters: list[DeadLetter] = []
+        self._dead_letters_by_shipment: dict[str, int] = {}
         self._deadlines: list[tuple[datetime, str, int]] = []
         self._closures: list[tuple[datetime, str, int]] = []
         self._max_event_time: datetime | None = None
@@ -130,6 +134,10 @@ class StallMonitor:
         except InvalidEvent as exc:
             self.stats.invalid += 1
             self.dead_letters.append(DeadLetter(raw=raw, reason=str(exc)))
+            shipment_id = raw.get("shipment_id")
+            if isinstance(shipment_id, str) and shipment_id.strip():
+                key = shipment_id.strip()
+                self._dead_letters_by_shipment[key] = self._dead_letters_by_shipment.get(key, 0) + 1
             return []
         return self.process(event)
 
@@ -222,6 +230,7 @@ class StallMonitor:
                 last_event_time=state.last_event_time,
                 watermark=mark,
                 raised_at_ingest=ingest_time,
+                dead_letters=self._dead_letters_by_shipment.get(shipment_id, 0),
             ))
         return alerts
 
@@ -233,6 +242,7 @@ class StallMonitor:
             if state is None or state.version != version or not state.closed:
                 continue
             del self.shipments[shipment_id]
+            self._dead_letters_by_shipment.pop(shipment_id, None)
             self.stats.evicted += 1
 
 
