@@ -139,3 +139,30 @@ def test_threshold_must_be_positive():
 def test_negative_lateness_is_rejected():
     with pytest.raises(ValueError, match="cannot be negative"):
         StallMonitor(allowed_lateness=timedelta(hours=-1))
+
+
+def test_late_scan_inside_the_threshold_retracts_the_stall():
+    # No lateness, so A is flagged as soon as B's scan moves the watermark.
+    # A's departure at 10h is then uploaded late: the gap was 10h < 12h.
+    m = monitor(lateness_hours=0)
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    assert [a.kind for a in m.process(ev("B", "PICKED_UP", 13))] == [AlertKind.STALLED]
+    alerts = m.process(ev("A", "DEPARTED_HUB", 10, ingest_delay=3.5))
+    assert [a.kind for a in alerts] == [AlertKind.RETRACTED]
+    assert m.open_stalls() == []
+
+
+def test_scan_exactly_at_the_threshold_is_a_retraction():
+    m = monitor(lateness_hours=0)
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    m.process(ev("B", "PICKED_UP", 13))
+    alerts = m.process(ev("A", "DEPARTED_HUB", 12, ingest_delay=2))
+    assert [a.kind for a in alerts] == [AlertKind.RETRACTED]
+
+
+def test_scan_after_a_real_gap_is_still_a_recovery():
+    m = monitor(lateness_hours=0)
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    m.process(ev("B", "PICKED_UP", 13))
+    alerts = m.process(ev("A", "DEPARTED_HUB", 12.5))
+    assert [a.kind for a in alerts] == [AlertKind.RECOVERED]

@@ -31,8 +31,16 @@ DEFAULT_ALLOWED_LATENESS = timedelta(hours=4)
 
 
 class AlertKind(str, Enum):
+    """``STALLED``: no scan for longer than the stage threshold.
+
+    ``RECOVERED``: a stalled shipment scanned again after a real gap.
+    ``RETRACTED``: a late-arriving scan shows the gap never exceeded the
+    threshold, so the earlier ``STALLED`` alert was a false alarm.
+    """
+
     STALLED = "STALLED"
     RECOVERED = "RECOVERED"
+    RETRACTED = "RETRACTED"
 
 
 @dataclass(frozen=True)
@@ -134,8 +142,9 @@ class StallMonitor:
             self.stats.out_of_order += 1
         else:
             if state.stalled:
+                within = event.event_time <= state.last_event_time + self.thresholds[state.stage]
                 alerts.append(Alert(
-                    kind=AlertKind.RECOVERED,
+                    kind=AlertKind.RETRACTED if within else AlertKind.RECOVERED,
                     shipment_id=event.shipment_id,
                     stage=event.stage,
                     location=event.location,
