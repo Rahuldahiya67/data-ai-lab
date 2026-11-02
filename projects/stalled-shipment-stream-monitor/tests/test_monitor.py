@@ -166,3 +166,51 @@ def test_scan_after_a_real_gap_is_still_a_recovery():
     m.process(ev("B", "PICKED_UP", 13))
     alerts = m.process(ev("A", "DEPARTED_HUB", 12.5))
     assert [a.kind for a in alerts] == [AlertKind.RECOVERED]
+
+
+def test_delivered_shipment_is_evicted_after_the_retention():
+    m = StallMonitor(allowed_lateness=timedelta(hours=2), state_retention=timedelta(hours=24))
+    m.process(ev("A", "PICKED_UP", 0))
+    m.process(ev("A", "DELIVERED", 5))
+    m.process(ev("B", "PICKED_UP", 30))  # watermark 28h < 5h + 24h
+    assert "A" in m.shipments
+    m.process(ev("B", "ARRIVED_HUB", 32))  # watermark 30h > 29h
+    assert "A" not in m.shipments
+    assert m.stats.evicted == 1
+
+
+def test_open_shipments_are_never_evicted():
+    m = StallMonitor(allowed_lateness=timedelta(hours=2), state_retention=timedelta(hours=1))
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    for h in range(10, 100, 10):
+        m.process(ev("B", "PICKED_UP", h, event_id=f"B{h}"))
+    assert "A" in m.shipments
+    assert m.open_stalls() == ["A"]
+
+
+def test_duplicate_within_retention_is_still_caught():
+    m = StallMonitor(allowed_lateness=timedelta(hours=2), state_retention=timedelta(hours=24))
+    m.process(ev("A", "DELIVERED", 0, event_id="X"))
+    m.process(ev("B", "PICKED_UP", 20))
+    m.process(ev("A", "DELIVERED", 0, event_id="X", ingest_delay=20))
+    assert m.stats.duplicates == 1
+
+
+def test_event_older_than_retention_is_rejected_not_reopened():
+    m = StallMonitor(allowed_lateness=timedelta(hours=2), state_retention=timedelta(hours=24))
+    m.process(ev("A", "PICKED_UP", 0, event_id="A1"))
+    m.process(ev("A", "DELIVERED", 3, event_id="A2"))
+    m.process(ev("B", "PICKED_UP", 40))  # A evicted
+    assert "A" not in m.shipments
+    # A very late copy of A's pickup must not bring A back as an open shipment.
+    alerts = m.process(ev("A", "PICKED_UP", 0, event_id="A1", ingest_delay=41))
+    alerts += m.process(ev("B", "ARRIVED_HUB", 60))
+    assert alerts == []
+    assert "A" not in m.shipments
+    assert m.stats.too_late == 1
+    assert "behind the watermark" in m.dead_letters[-1].reason
+
+
+def test_retention_must_be_positive():
+    with pytest.raises(ValueError, match="state_retention"):
+        StallMonitor(state_retention=timedelta(0))

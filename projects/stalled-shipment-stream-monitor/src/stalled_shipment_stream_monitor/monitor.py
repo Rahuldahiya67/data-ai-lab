@@ -9,6 +9,12 @@ threshold for its current stage past its latest scan.
 Deadlines are kept in a min-heap, so each event costs O(log n) instead of a
 scan over every open shipment. Heap entries carry a version number; an entry
 whose version no longer matches the shipment's state is stale and skipped.
+
+State stays bounded by the number of open shipments: once the watermark is more
+than ``state_retention`` past a delivered shipment's last scan, its state and
+event IDs are released. Any event older than ``watermark - state_retention`` is
+rejected as too late, so a very late duplicate cannot re-create an evicted
+shipment and raise a false stall.
 """
 
 from __future__ import annotations
@@ -28,6 +34,7 @@ DEFAULT_THRESHOLDS: dict[Stage, timedelta] = {
     Stage.OUT_FOR_DELIVERY: timedelta(hours=8),
 }
 DEFAULT_ALLOWED_LATENESS = timedelta(hours=4)
+DEFAULT_STATE_RETENTION = timedelta(hours=24)
 
 
 class AlertKind(str, Enum):
@@ -61,6 +68,7 @@ class ShipmentState:
     last_event_time: datetime
     version: int = 0
     stalled: bool = False
+    event_ids: set[str] = field(default_factory=set)
 
     @property
     def closed(self) -> bool:
@@ -74,6 +82,8 @@ class StreamStats:
     invalid: int = 0
     late: int = 0
     out_of_order: int = 0
+    too_late: int = 0
+    evicted: int = 0
 
 
 @dataclass
@@ -86,6 +96,7 @@ class DeadLetter:
 class StallMonitor:
     thresholds: dict[Stage, timedelta] = field(default_factory=lambda: dict(DEFAULT_THRESHOLDS))
     allowed_lateness: timedelta = DEFAULT_ALLOWED_LATENESS
+    state_retention: timedelta = DEFAULT_STATE_RETENTION
 
     def __post_init__(self) -> None:
         open_stages = [s for s in Stage if s is not Stage.DELIVERED]
@@ -97,11 +108,13 @@ class StallMonitor:
                 raise ValueError(f"threshold for {stage.value} must be positive")
         if self.allowed_lateness < timedelta(0):
             raise ValueError("allowed_lateness cannot be negative")
+        if self.state_retention <= timedelta(0):
+            raise ValueError("state_retention must be positive")
         self.shipments: dict[str, ShipmentState] = {}
         self.stats = StreamStats()
         self.dead_letters: list[DeadLetter] = []
-        self._seen_ids: set[str] = set()
         self._deadlines: list[tuple[datetime, str, int]] = []
+        self._closures: list[tuple[datetime, str, int]] = []
         self._max_event_time: datetime | None = None
 
     @property
@@ -121,24 +134,33 @@ class StallMonitor:
         return self.process(event)
 
     def process(self, event: TrackingEvent) -> list[Alert]:
-        if event.event_id in self._seen_ids:
+        state = self.shipments.get(event.shipment_id)
+        if state is not None and event.event_id in state.event_ids:
             self.stats.duplicates += 1
             return []
-        self._seen_ids.add(event.event_id)
-        self.stats.accepted += 1
 
         mark = self.watermark
+        if mark is not None and event.event_time < mark - self.state_retention:
+            self.stats.too_late += 1
+            self.dead_letters.append(DeadLetter(
+                raw=_event_row(event),
+                reason=f"event_time is more than {self.state_retention} behind the watermark",
+            ))
+            return []
+
+        self.stats.accepted += 1
         if mark is not None and event.event_time <= mark:
             self.stats.late += 1
 
         alerts: list[Alert] = []
-        state = self.shipments.get(event.shipment_id)
         if state is None:
             state = ShipmentState(event.stage, event.location, event.event_time)
+            state.event_ids.add(event.event_id)
             self.shipments[event.shipment_id] = state
             self._schedule(event.shipment_id, state)
         elif event.event_time < state.last_event_time:
             # An older scan arriving late does not move the shipment backwards.
+            state.event_ids.add(event.event_id)
             self.stats.out_of_order += 1
         else:
             if state.stalled:
@@ -157,11 +179,13 @@ class StallMonitor:
             state.location = event.location
             state.last_event_time = event.event_time
             state.version += 1
+            state.event_ids.add(event.event_id)
             self._schedule(event.shipment_id, state)
 
         if self._max_event_time is None or event.event_time > self._max_event_time:
             self._max_event_time = event.event_time
         alerts.extend(self._expire(event.ingest_time))
+        self._evict()
         return alerts
 
     def run(self, raws: Iterable[Mapping[str, object]]) -> list[Alert]:
@@ -175,6 +199,8 @@ class StallMonitor:
 
     def _schedule(self, shipment_id: str, state: ShipmentState) -> None:
         if state.closed:
+            release = state.last_event_time + self.state_retention
+            heapq.heappush(self._closures, (release, shipment_id, state.version))
             return
         deadline = state.last_event_time + self.thresholds[state.stage]
         heapq.heappush(self._deadlines, (deadline, shipment_id, state.version))
@@ -198,3 +224,24 @@ class StallMonitor:
                 raised_at_ingest=ingest_time,
             ))
         return alerts
+
+    def _evict(self) -> None:
+        mark = self.watermark
+        while self._closures and self._closures[0][0] < mark:
+            _, shipment_id, version = heapq.heappop(self._closures)
+            state = self.shipments.get(shipment_id)
+            if state is None or state.version != version or not state.closed:
+                continue
+            del self.shipments[shipment_id]
+            self.stats.evicted += 1
+
+
+def _event_row(event: TrackingEvent) -> dict[str, str]:
+    return {
+        "event_id": event.event_id,
+        "shipment_id": event.shipment_id,
+        "event_type": event.event_type,
+        "event_time": event.event_time.isoformat(),
+        "ingest_time": event.ingest_time.isoformat(),
+        "location": event.location,
+    }
