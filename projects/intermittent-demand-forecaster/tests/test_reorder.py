@@ -133,3 +133,27 @@ def test_numpy_integer_lead_time_is_accepted(demand):
     best = select_best(backtest(demand, holdout=20))
     out = reorder_points(demand, best, lead_time=np.int64(3))
     assert (out["lead_time_weeks"] == 3).all()
+
+
+def _best(**overrides):
+    row = {"sku": "A", "demand_class": "smooth", "method": "naive", "selected_by": "metric", "rmse": 1.0}
+    row.update(overrides)
+    return pd.DataFrame([row])
+
+
+@pytest.mark.parametrize("check", [reorder_points, service_check])
+@pytest.mark.parametrize(
+    "best, message",
+    [
+        (_best(method="holt"), "unknown method"),
+        (_best(rmse=float("nan")), "rmse must be a finite number"),
+        (_best(rmse=-1.0), "rmse must be a finite number"),
+        (_best(rmse="n/a"), "rmse must be a finite number"),
+        (_best(sku="B"), "no demand data for SKU"),
+        (pd.concat([_best(), _best(rmse=2.0)]), "more than one row"),
+        (_best().drop(columns="rmse"), "missing columns: rmse"),
+    ],
+)
+def test_bad_selection_table_is_rejected_with_a_clear_message(check, best, message):
+    with pytest.raises(ValueError, match=message):
+        check(_frame([1, 0, 2, 0, 3, 0, 1, 0, 2, 0]), best)
