@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 import sys
 from datetime import timedelta
 from pathlib import Path
@@ -18,15 +19,25 @@ ALERT_FIELDS = ("kind", "shipment_id", "stage", "location", "last_event_time",
                 "watermark", "raised_at_ingest", "dead_letters")
 
 
+def _finite_hours(value: str) -> float:
+    try:
+        hours = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not a number of hours: {value}") from None
+    if not math.isfinite(hours):
+        raise argparse.ArgumentTypeError(f"hours must be a finite number: {value}")
+    return hours
+
+
 def _non_negative_hours(value: str) -> float:
-    hours = float(value)
+    hours = _finite_hours(value)
     if hours < 0:
         raise argparse.ArgumentTypeError(f"hours cannot be negative: {value}")
     return hours
 
 
 def _positive_hours(value: str) -> float:
-    hours = float(value)
+    hours = _finite_hours(value)
     if hours <= 0:
         raise argparse.ArgumentTypeError(f"hours must be positive: {value}")
     return hours

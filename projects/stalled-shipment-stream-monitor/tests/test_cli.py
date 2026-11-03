@@ -56,3 +56,17 @@ def test_zero_retention_is_rejected_by_the_parser(capsys):
     with pytest.raises(SystemExit):
         main(["run", str(SAMPLE / "events.csv"), "--retention", "0"])
     assert "must be positive" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("value", ["inf", "nan", "-inf"])
+def test_non_finite_hours_are_rejected_by_the_parser(value, capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(["run", str(SAMPLE / "events.csv"), f"--retention={value}"])
+    assert exc.value.code == 2
+    assert "finite" in capsys.readouterr().err
+
+
+def test_non_numeric_lateness_names_the_value(capsys):
+    with pytest.raises(SystemExit):
+        main(["score", str(SAMPLE / "events.csv"), str(SAMPLE / "stalls.csv"), "--lateness", "four"])
+    assert "not a number of hours: four" in capsys.readouterr().err
