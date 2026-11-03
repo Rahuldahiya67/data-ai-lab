@@ -68,7 +68,24 @@ def test_false_alerts_are_split_by_cause():
     ]
     s = score(alerts, [], DEFAULT_THRESHOLDS, T0 + 50 * H, 0 * H)
     assert (s.false_alerts, s.retracted, s.false_with_dead_letters) == (3, 1, 1)
+    assert s.unexplained == 1  # Z: neither retracted nor carrying dead letters
     assert s.precision == 0.0
+
+
+def test_a_false_alert_with_both_causes_is_not_counted_twice_as_unexplained():
+    alerts = [
+        alert(AlertKind.STALLED, "X", 0, 13, dead_letters=2),
+        alert(AlertKind.RETRACTED, "X", 10, 14),
+    ]
+    s = score(alerts, [], DEFAULT_THRESHOLDS, T0 + 50 * H, 0 * H)
+    assert (s.false_alerts, s.retracted, s.false_with_dead_letters, s.unexplained) == (1, 1, 1, 0)
+
+
+def test_sample_false_alerts_at_four_hours_by_cause():
+    # Two false stalls have a dead-lettered scan tied to the shipment; the other
+    # two lost their DELIVERED scan to a blank shipment ID, so it cannot be tied.
+    (s,) = sweep(SAMPLE / "events.csv", SAMPLE / "stalls.csv", [4])
+    assert (s.false_alerts, s.retracted, s.false_with_dead_letters, s.unexplained) == (4, 0, 2, 2)
 
 
 def test_empty_inputs_do_not_divide_by_zero():

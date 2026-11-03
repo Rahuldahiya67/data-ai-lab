@@ -7,6 +7,8 @@ separately and left out of recall, because no setting could have flagged them.
 
 False alerts are broken down into those later retracted by a late scan and
 those on shipments with dead-lettered scans, the two causes seen on the sample.
+The rest are reported as unexplained. A malformed scan with a blank shipment ID
+cannot be tied to its shipment, so a false alert it causes lands there.
 
 Detection delay is measured from the moment the stall became real (last scan
 plus stage threshold) to the ingest time of the event that raised the alert.
@@ -64,6 +66,7 @@ class Score:
     false_alerts: int
     retracted: int
     false_with_dead_letters: int
+    unexplained: int
     due: int
     detected: int
     not_due: int
@@ -120,13 +123,15 @@ def score(
         for sid in sorted(detected)
     )
     false_ids = set(stalled) - set(planted)
+    with_dead_letters = {sid for sid in false_ids if stalled[sid].dead_letters}
     return Score(
         allowed_lateness=allowed_lateness,
         alerts=len(stalled),
         true_alerts=len(true_ids),
         false_alerts=len(false_ids),
         retracted=len(false_ids & retracted),
-        false_with_dead_letters=sum(1 for sid in false_ids if stalled[sid].dead_letters),
+        false_with_dead_letters=len(with_dead_letters),
+        unexplained=len(false_ids - retracted - with_dead_letters),
         due=len(due),
         detected=len(detected),
         not_due=len(planted) - len(due),
@@ -152,7 +157,7 @@ def sweep(events_path: Path, truth_path: Path, lateness_hours: Sequence[float]) 
 
 
 def format_table(scores: Sequence[Score]) -> str:
-    header = ("lateness_h", "alerts", "false", "retracted", "dead_letter", "precision", "recall",
+    header = ("lateness_h", "alerts", "false", "retracted", "dead_letter", "unexplained", "precision", "recall",
               "due", "not_due", "median_delay_h", "p90_delay_h")
     lines = [" | ".join(header), " | ".join("---" for _ in header)]
     for s in scores:
@@ -162,6 +167,7 @@ def format_table(scores: Sequence[Score]) -> str:
             str(s.false_alerts),
             str(s.retracted),
             str(s.false_with_dead_letters),
+            str(s.unexplained),
             f"{s.precision:.3f}",
             f"{s.recall:.3f}",
             str(s.due),
