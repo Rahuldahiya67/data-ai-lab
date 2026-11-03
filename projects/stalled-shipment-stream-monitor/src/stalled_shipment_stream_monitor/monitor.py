@@ -231,6 +231,8 @@ class StallMonitor:
     def _expire(self, ingest_time: datetime) -> list[Alert]:
         mark = self.watermark
         alerts: list[Alert] = []
+        if mark is None:
+            return alerts
         while self._deadlines and self._deadlines[0][0] < mark:
             _, shipment_id, version = heapq.heappop(self._deadlines)
             # With a retention shorter than a stage threshold, a delivered
@@ -253,6 +255,8 @@ class StallMonitor:
 
     def _evict(self) -> None:
         mark = self.watermark
+        if mark is None:
+            return
         while self._closures and self._closures[0][0] < mark:
             _, shipment_id, version = heapq.heappop(self._closures)
             state = self.shipments.get(shipment_id)

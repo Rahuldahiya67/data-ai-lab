@@ -42,6 +42,9 @@ CITIES = ["Delhi", "Gurugram", "Noida", "Jaipur", "Lucknow", "Chandigarh", "Agra
 
 STALL_FIELDS = ("shipment_id", "stalled_after", "last_event_time", "resumed_at")
 
+# One CSV row, field name -> value, as written to disk.
+Row = dict[str, str]
+
 
 @dataclass(frozen=True)
 class GeneratorConfig:
@@ -86,15 +89,15 @@ def _fmt(ts: datetime) -> str:
     return ts.isoformat(timespec="seconds")
 
 
-def generate(config: GeneratorConfig = GeneratorConfig()) -> tuple[list[dict], list[dict]]:
+def generate(config: GeneratorConfig = GeneratorConfig()) -> tuple[list[Row], list[Row]]:
     """Return (events in ingest order, ground-truth stalls)."""
     rng = random.Random(config.seed)
     horizon = START + timedelta(days=config.days)
     # Leave the last day for journeys to play out.
     start_span = (config.days - 1) * 24.0
 
-    rows: list[tuple[datetime, int, dict]] = []
-    stalls: list[dict] = []
+    rows: list[tuple[datetime, int, Row]] = []
+    stalls: list[Row] = []
     seq = 0
 
     for n in range(1, config.shipments + 1):
@@ -151,7 +154,7 @@ def generate(config: GeneratorConfig = GeneratorConfig()) -> tuple[list[dict], l
     return [r[2] for r in rows], stalls
 
 
-def _corrupt(rng: random.Random, row: dict) -> dict:
+def _corrupt(rng: random.Random, row: Row) -> Row:
     kind = rng.choice(["timestamp", "event_type", "shipment_id"])
     bad = dict(row)
     if kind == "timestamp":
@@ -163,7 +166,7 @@ def _corrupt(rng: random.Random, row: dict) -> dict:
     return bad
 
 
-def write_csv(path: Path, rows: list[dict], fields: tuple[str, ...]) -> None:
+def write_csv(path: Path, rows: list[Row], fields: tuple[str, ...]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(fields))
