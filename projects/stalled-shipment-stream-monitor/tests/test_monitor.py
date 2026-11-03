@@ -248,3 +248,16 @@ def test_stall_with_no_dead_letters_reports_zero():
     m.process(ev("A", "ARRIVED_HUB", 0))
     alerts = m.process(ev("B", "PICKED_UP", 20))
     assert alerts[0].dead_letters == 0
+
+
+def test_retention_shorter_than_threshold_does_not_crash_on_released_shipment():
+    # A is delivered 1h after reaching the hub. With 1h retention it is
+    # released long before its old 12h hub deadline comes off the heap.
+    m = StallMonitor(allowed_lateness=timedelta(0), state_retention=timedelta(hours=1))
+    m.process(ev("A", "ARRIVED_HUB", 0))
+    m.process(ev("A", "DELIVERED", 1))
+    m.process(ev("B", "PICKED_UP", 3))  # watermark 3h: A released
+    assert "A" not in m.shipments
+    assert m.process(ev("B", "ARRIVED_HUB", 13)) == []  # watermark past A's old deadline
+    assert m.stats.evicted == 1
+    assert m.open_stalls() == []

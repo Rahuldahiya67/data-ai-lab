@@ -233,8 +233,10 @@ class StallMonitor:
         alerts: list[Alert] = []
         while self._deadlines and self._deadlines[0][0] < mark:
             _, shipment_id, version = heapq.heappop(self._deadlines)
-            state = self.shipments[shipment_id]
-            if version != state.version or state.closed or state.stalled:
+            # With a retention shorter than a stage threshold, a delivered
+            # shipment can be released before its old deadline entry pops.
+            state = self.shipments.get(shipment_id)
+            if state is None or version != state.version or state.closed or state.stalled:
                 continue
             state.stalled = True
             alerts.append(Alert(
