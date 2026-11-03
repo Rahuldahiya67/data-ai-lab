@@ -15,6 +15,7 @@ Main portfolio: [rahuldahiya67.github.io](https://rahuldahiya67.github.io)
 | [Rate Card History Loader](projects/rate-card-history-loader) | Loads an at-least-once CDC stream of carrier rate changes into an SCD Type 2 table with a watermark, ledger and quarantine, then re-rates invoices at the rate valid on the ship date | Python, DuckDB | 29 Oct 2026 |
 | [Delivery Exception Triage Agent](projects/delivery-exception-triage-agent) | Tool-calling agent for delivery exception tickets with typed tools, policy guardrails checked before every action, and an evaluation of action, reason and tool-call accuracy on labelled tickets | Python | 30 Oct 2026 |
 | [Dispatch Metrics Layer](projects/dispatch-metrics-layer) | Defines dispatch KPIs once in YAML, compiles any request into checked DuckDB SQL, and reconciles competing on-time definitions on the same data | Python, DuckDB, PyYAML | 1 Nov 2026 |
+| [Stalled Shipment Stream Monitor](projects/stalled-shipment-stream-monitor) | Flags shipments that stop scanning from a late, out-of-order, duplicated tracking stream using an event-time watermark, retracts false alarms, and scores allowed lateness against detection delay | Python | 3 Nov 2026 |
 <!-- PROJECT-INDEX:END -->
 
 ## How every project is laid out
