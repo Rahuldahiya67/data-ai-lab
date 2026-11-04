@@ -167,7 +167,7 @@ What this shows:
 - **Measures carry their own filters** (`COUNT(*) FILTER (WHERE ...)`) instead of the query having a single WHERE, so `on_time_rate` and `cancellation_rate` can be computed in the same pass even though one excludes cancelled shipments and the other counts them.
 - **Derived metrics are expanded into SQL, not computed in Python.** `late_rate = 1 - on_time_rate` is evaluated from measures at the requested grain, and a result that is not a finite number (division by zero) comes back as NULL.
 - **Expressions are restricted.** Measure expressions and filters may only reference fact-table columns and a small set of SQL keywords and functions; anything else, including `;` and comments, is rejected when the spec loads, not when a report runs.
-- **Joins are many-to-one and checked.** Only the dimension tables a request needs are joined, and the engine proves each join key is unique before the first query. Orphan keys are reported by `check` and appear under an empty dimension value; they still count in totals.
+- **Joins are many-to-one and checked.** Only the dimension tables a request needs are joined, and the engine proves each join key is unique before the first query. Orphan keys are reported by `check` and appear under an empty dimension value; they still count in totals. In the Python API, a filter value of `None` selects them (`Filter("carrier", "=", None)`, or `None` inside an `in` / `not_in` list), so a filter on the empty group returns the same rows the grouped result shows there.
 - **DuckDB in memory over CSVs** keeps the project runnable with no server. The compiler only emits standard SQL plus `FILTER` and `date_trunc`, so pointing the engine at a warehouse is a connection change, not a rewrite.
 
 ## Limitations
