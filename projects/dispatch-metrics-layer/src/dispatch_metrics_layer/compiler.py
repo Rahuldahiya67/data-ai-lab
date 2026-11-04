@@ -14,6 +14,10 @@ The query has two levels:
    is returned as NULL.
 
 Filter values are bound as query parameters, never pasted into the SQL text.
+A filter value of ``None`` means "the dimension is missing" (for example an
+orphan carrier key): ``= None`` and ``in [..., None]`` select those rows, and
+``!= None`` and ``not_in [..., None]`` exclude them, matching how grouped
+results show them as ``None``.
 Every identifier taken from the spec (tables, columns, dimension and metric
 names) is quoted, so a valid spec name that happens to be an SQL keyword, such
 as ``order``, still compiles.
@@ -107,6 +111,11 @@ def validate_request(spec: Spec, request: MetricRequest) -> None:
                 problems.append(f"filter {flt.dimension} {flt.op} needs a non-empty list of values")
         elif isinstance(flt.value, (list, tuple, set, frozenset)):
             problems.append(f"filter {flt.dimension} {flt.op} needs a single value, not a list")
+        elif flt.value is None and flt.op not in {"=", "!="}:
+            problems.append(
+                f"filter {flt.dimension} {flt.op} cannot compare with None; "
+                "use '=' or '!=' to select rows where the dimension is missing"
+            )
     if problems:
         raise RequestError("; ".join(problems))
 
@@ -190,15 +199,29 @@ def compile_request(spec: Spec, request: MetricRequest, fact_columns: set[str]) 
         dim = spec.dimensions[flt.dimension]
         ref = _column_ref(spec, dim.table, dim.column)
         if flt.op in {"in", "not_in"}:
-            values = sorted(flt.value, key=str)
+            # None in the list stands for "dimension missing" (an orphan key). SQL
+            # never matches NULL with IN, so it is handled with IS NULL instead.
+            wants_null = any(v is None for v in flt.value)
+            values = sorted((v for v in flt.value if v is not None), key=str)
             marks = ", ".join("?" for _ in values)
             if flt.op == "in":
-                where.append(f"{ref} IN ({marks})")
+                parts = [f"{ref} IN ({marks})"] if values else []
+                if wants_null:
+                    parts.append(f"{ref} IS NULL")
+                where.append(parts[0] if len(parts) == 1 else "(" + " OR ".join(parts) + ")")
+            elif wants_null:
+                parts = [f"{ref} NOT IN ({marks})"] if values else []
+                parts.append(f"{ref} IS NOT NULL")
+                where.append(parts[0] if len(parts) == 1 else "(" + " AND ".join(parts) + ")")
             else:
                 # NOT IN is NULL for a NULL dimension (orphan key), which would drop
                 # the row from both "in" and "not_in"; keep the complement exact.
                 where.append(f"({ref} NOT IN ({marks}) OR {ref} IS NULL)")
             params.extend(values)
+        elif flt.op == "=" and flt.value is None:
+            # "= NULL" matches nothing; the grouped output shows orphans as None,
+            # so filtering on None must return those same rows.
+            where.append(f"{ref} IS NULL")
         elif flt.op == "!=":
             # Same reason: "!=" is NULL for NULL, IS DISTINCT FROM is true.
             where.append(f"{ref} IS DISTINCT FROM ?")
