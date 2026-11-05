@@ -63,6 +63,20 @@ def test_question_gold_reference_checked(files, tmp_path):
     assert load_questions(p)[0].gold_section == "Nope"
 
 
+@pytest.mark.parametrize("field", ["site_code", "topic"])
+def test_question_must_match_gold_document_site_and_topic(files, tmp_path, field):
+    dp, qp, docs, questions = files
+    gold = next(d for d in docs if d.doc_id == questions[0].gold_doc_id)
+    other = next(getattr(d, field) for d in docs if getattr(d, field) != getattr(gold, field))
+    bad = questions[0].to_dict() | {field: other}
+    p = tmp_path / "q.jsonl"
+    _write(p, [bad])
+    with pytest.raises(DataValidationError, match=f"{field} '{other}' does not match gold document"):
+        load_questions(p, docs)
+    # Without a corpus there is nothing to compare against, so it loads.
+    assert getattr(load_questions(p)[0], field) == other
+
+
 def test_bad_style_and_empty_file(files, tmp_path):
     _, _, _, questions = files
     p = tmp_path / "q.jsonl"

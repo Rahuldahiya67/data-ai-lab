@@ -93,9 +93,16 @@ def load_documents(path: str | Path) -> list[Document]:
 
 
 def load_questions(path: str | Path, documents: list[Document] | None = None) -> list[Question]:
-    """Load questions; if documents are given, check every gold reference exists."""
+    """Load questions; if documents are given, check every gold reference.
+
+    The gold document must exist and contain the gold section, and the
+    question's ``site_code`` and ``topic`` must be the gold document's. Both are
+    used in scoring (site confusion compares topics; per-topic summaries group
+    on it), so a mislabelled question would be scored against the wrong rule
+    without any error.
+    """
     path = Path(path)
-    sections_by_doc = {d.doc_id: {s.heading for s in d.sections} for d in documents} if documents is not None else None
+    docs_by_id = {d.doc_id: d for d in documents} if documents is not None else None
     out: list[Question] = []
     seen: set[str] = set()
     for lineno, row in _read_jsonl(path):
@@ -106,13 +113,20 @@ def load_questions(path: str | Path, documents: list[Document] | None = None) ->
         seen.add(row["qid"])
         if row["style"] not in QUESTION_STYLES:
             raise DataValidationError(f"{where}: style must be one of {QUESTION_STYLES}, got '{row['style']}'")
-        if sections_by_doc is not None:
-            if row["gold_doc_id"] not in sections_by_doc:
+        if docs_by_id is not None:
+            gold = docs_by_id.get(row["gold_doc_id"])
+            if gold is None:
                 raise DataValidationError(f"{where}: gold_doc_id '{row['gold_doc_id']}' is not in the corpus")
-            if row["gold_section"] not in sections_by_doc[row["gold_doc_id"]]:
+            if row["gold_section"] not in {s.heading for s in gold.sections}:
                 raise DataValidationError(
-                    f"{where}: gold_section '{row['gold_section']}' is not a section of '{row['gold_doc_id']}'"
+                    f"{where}: gold_section '{row['gold_section']}' is not a section of '{gold.doc_id}'"
                 )
+            for field in ("site_code", "topic"):
+                if row[field] != getattr(gold, field):
+                    raise DataValidationError(
+                        f"{where}: {field} '{row[field]}' does not match gold document "
+                        f"'{gold.doc_id}' ({field} '{getattr(gold, field)}')"
+                    )
         out.append(Question(**{f: row[f] for f in QUESTION_FIELDS}))
     return out
 
