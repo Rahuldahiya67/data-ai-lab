@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stalled-shipment-stream-monitor"
+version = "0.1.0"
+description = "Flags stalled shipments from an out-of-order, duplicated carrier tracking stream using an event-time watermark and stage-specific stall thresholds."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "mypy>=1.8"]
+
+[project.scripts]
+stall-monitor = "stalled_shipment_stream_monitor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
