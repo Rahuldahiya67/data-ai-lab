@@ -135,6 +135,7 @@ def test_empty_selection_returns_no_groups(engine):
         ({"metrics": ["on_time_rate"], "filters": [Filter("region", "in", [])]}, "non-empty list"),
         ({"metrics": ["on_time_rate"], "filters": [Filter("region", "like", "N%")]}, "filter operator"),
         ({"metrics": ["on_time_rate"], "filters": [Filter("region", "=", ["North"])]}, "single value"),
+        ({"metrics": ["on_time_rate"], "filters": [Filter("region", ">", None)]}, "cannot compare with None"),
     ],
 )
 def test_bad_requests(engine, request_kwargs, message):
@@ -210,6 +211,31 @@ def test_negative_filters_keep_rows_with_a_null_dimension(spec, tmp_path):
     assert count(Filter("carrier", "in", pair)) + count(Filter("carrier", "not_in", pair)) == total
     # The orphan rows are the ones a plain SQL "!=" would have lost.
     assert count(Filter("carrier", "not_in", names[:-1])) == 5
+
+
+def test_none_filters_select_the_rows_grouped_under_none(spec, tmp_path):
+    # Grouped output shows orphan carrier keys as carrier=None. Filtering on None
+    # must return exactly those rows; plain SQL "= NULL" / "IN (NULL)" would match
+    # nothing, and "NOT IN (..., NULL)" would drop every row with a carrier.
+    def orphan(tables):
+        for row in tables["shipments"][:5]:
+            row["carrier_id"] = "C99"
+
+    engine = MetricsEngine.from_csv_dir(spec, _write(tmp_path, orphan))
+
+    def count(*filters):
+        (row,) = engine.query(MetricRequest(["shipment_count"], filters=list(filters))).records()
+        return row["shipment_count"]
+
+    total = count()
+    first = engine.query(MetricRequest(["shipment_count"], ["carrier"])).records()[0]["carrier"]
+    assert count(Filter("carrier", "=", None)) == 5
+    assert count(Filter("carrier", "!=", None)) == total - 5
+    assert count(Filter("carrier", "in", [None])) == 5
+    assert count(Filter("carrier", "not_in", [None])) == total - 5
+    with_first = count(Filter("carrier", "=", first))
+    assert count(Filter("carrier", "in", [first, None])) == with_first + 5
+    assert count(Filter("carrier", "not_in", [first, None])) == total - with_first - 5
 
 
 def test_missing_data_file(spec, tmp_path):
