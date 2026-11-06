@@ -107,3 +107,10 @@ def test_write_dataset_round_trips(tmp_path):
     back = pd.read_csv(ship_path)
     assert len(back) == 20 * 8
     assert pd.read_csv(truth_path).empty
+
+
+def test_unit_bug_shows_up_as_a_reject_rate_spike(data):
+    shipments, _ = data
+    rates = {w: validate(g).reject_rate for w, g in shipments.groupby("week")}
+    quiet = max(rate for w, rate in rates.items() if not 17 <= w <= 18)
+    assert min(rates[17], rates[18]) > 3 * quiet
