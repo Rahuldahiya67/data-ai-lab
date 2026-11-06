@@ -90,7 +90,7 @@ What the table says:
 
 The late upload delay in the generator tops out at 4 hours, which is why the `late` counter is 0 at 4 h. On a real feed the allowed lateness would be picked from the observed distribution of ingest delay minus event time.
 
-Tests: 79 passed, covering validation, the watermark and threshold logic, retractions, eviction, dead-letter attribution, scoring, the CLI and an end-to-end replay that checks the committed sample data matches the generator.
+Tests: 84 passed, covering validation, the watermark and threshold logic, retractions, eviction, dead-letter attribution, scoring and ground-truth file checks, the CLI and an end-to-end replay that checks the committed sample data matches the generator.
 
 ## Design decisions
 
@@ -111,5 +111,5 @@ src/stalled_shipment_stream_monitor/
   scoring.py    precision, recall over due stalls, detection delay, lateness sweep
   cli.py        stall-monitor generate | run | score
 data/           sample stream (events.csv) and planted stalls (stalls.csv)
-tests/          79 tests
+tests/          84 tests
 ```
