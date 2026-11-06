@@ -37,17 +37,38 @@ class PlantedStall:
     resumed_at: datetime | None
 
 
+TRUTH_COLUMNS = ("shipment_id", "stalled_after", "last_event_time")
+
+
 def load_truth(path: Path) -> list[PlantedStall]:
-    """Read ``stalls.csv`` as written by the generator."""
+    """Read ``stalls.csv`` as written by the generator.
+
+    ``resumed_at`` is optional. A file without the required columns, or with a
+    row that is short or has a blank shipment ID, raises ``ValueError`` naming
+    the file and line, so the CLI reports it instead of crashing.
+    """
     stalls = []
     with Path(path).open(newline="", encoding="utf-8") as fh:
-        for row in csv.DictReader(fh):
+        reader = csv.DictReader(fh)
+        header = [name.strip() for name in reader.fieldnames or []]
+        missing = [c for c in TRUTH_COLUMNS if c not in header]
+        if missing:
+            raise ValueError(f"{path}: missing column(s) {', '.join(missing)}; "
+                             f"expected {', '.join(TRUTH_COLUMNS)}[, resumed_at]")
+        reader.fieldnames = header
+        for row in reader:
+            line = reader.line_num
+            if any(row.get(c) is None for c in TRUTH_COLUMNS):
+                raise ValueError(f"{path}: line {line} has fewer fields than the header")
+            shipment_id = row["shipment_id"].strip()
+            if not shipment_id:
+                raise ValueError(f"{path}: line {line} has a blank shipment_id")
             event_type = row["stalled_after"].strip().upper()
             if event_type not in EVENT_STAGE:
                 raise ValueError(f"{path}: unknown stalled_after value {row['stalled_after']!r}")
-            resumed = row.get("resumed_at", "").strip()
+            resumed = (row.get("resumed_at") or "").strip()
             stalls.append(PlantedStall(
-                shipment_id=row["shipment_id"].strip(),
+                shipment_id=shipment_id,
                 stage=EVENT_STAGE[event_type],
                 last_event_time=parse_timestamp(row["last_event_time"], "last_event_time"),
                 resumed_at=parse_timestamp(resumed, "resumed_at") if resumed else None,

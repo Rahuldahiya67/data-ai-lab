@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -136,3 +137,27 @@ def test_sweep_on_sample_shows_the_lateness_trade_off():
 def test_sweep_needs_a_lateness_value():
     with pytest.raises(ValueError, match="at least one"):
         sweep(SAMPLE / "events.csv", SAMPLE / "stalls.csv", [])
+
+
+@pytest.mark.parametrize(
+    "content, message",
+    [
+        ("shipment,stage\nA,PICKED_UP\n", "missing column(s) shipment_id, stalled_after, last_event_time"),
+        ("", "missing column(s)"),
+        ("shipment_id,stalled_after,last_event_time,resumed_at\nA,PICKED_UP\n", "line 2 has fewer fields"),
+        ("shipment_id,stalled_after,last_event_time\n  ,PICKED_UP,2026-11-02T00:00:00+00:00\n",
+         "line 2 has a blank shipment_id"),
+    ],
+)
+def test_load_truth_reports_malformed_files(tmp_path, content, message):
+    bad = tmp_path / "bad.csv"
+    bad.write_text(content)
+    with pytest.raises(ValueError, match=re.escape(message)):
+        load_truth(bad)
+
+
+def test_load_truth_accepts_a_file_without_resumed_at(tmp_path):
+    path = tmp_path / "truth.csv"
+    path.write_text(" shipment_id , stalled_after,last_event_time\nA,PICKED_UP,2026-11-02T00:00:00+00:00\n")
+    [stall] = load_truth(path)
+    assert stall.shipment_id == "A" and stall.resumed_at is None
